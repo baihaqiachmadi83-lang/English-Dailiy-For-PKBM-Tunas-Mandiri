@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Hasil Quiz Simple Present Tense">
+
+    <title>Hasil Quiz | E-Modul Simple Present</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📚</text></svg>">
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/responsive.css">
+</head>
+
+<body>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="navbar-container">
+            <a href="../index.html" class="navbar-brand">
+                <span>📚</span>
+                <span>E-Modul Simple Present</span>
+            </a>
+
+            <button class="navbar-toggle" id="navbarToggle" aria-label="Toggle navigation">
+                ☰
+            </button>
+
+            <ul class="navbar-menu" id="navbarMenu">
+                <li><a href="../index.html">Beranda</a></li>
+                <li><a href="material.html">Materi</a></li>
+                <li><a href="practice.html">Latihan</a></li>
+                <li><a href="quiz.html" class="active">Quiz</a></li>
+                <li>
+                    <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+                        <span id="themeIcon">🌙</span>
+                    </button>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Results Content -->
+    <main class="results-container">
+        <div class="container">
+
+            <!-- Result Header -->
+            <div class="result-header">
+                <h1 id="resultTitle">🎉 Quiz Selesai!</h1>
+                <p id="resultSubtitle">Berikut adalah hasil quiz kamu</p>
+            </div>
+
+            <!-- Score Display -->
+            <section class="score-section">
+                <div class="score-card">
+                    <div class="score-circle-large">
+                        <div class="circle-progress" id="circleProgress">
+                            <svg width="200" height="200">
+                                <circle cx="100" cy="100" r="90" fill="none" stroke="#e5e7eb" stroke-width="12">
+                                </circle>
+                                <circle cx="100" cy="100" r="90" fill="none" stroke="url(#gradient)" stroke-width="12"
+                                    stroke-linecap="round" id="progressCircle"
+                                    style="stroke-dasharray: 565; stroke-dashoffset: 565; transform: rotate(-90deg); transform-origin: center;">
+                                </circle>
+                                <defs>
+                                    <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                        <stop offset="0%" style="stop-color:#6366f1;stop-opacity:1" />
+                                        <stop offset="100%" style="stop-color:#8b5cf6;stop-opacity:1" />
+                                    </linearGradient>
+                                </defs>
+                            </svg>
+                            <div class="score-text">
+                                <div class="score-value" id="scoreValue">0</div>
+                                <div class="score-label">/ 100</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="score-details">
+                        <div class="detail-item">
+                            <span class="detail-icon">✅</span>
+                            <span class="detail-text">Benar: <strong id="correctAnswers">0</strong></span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-icon">❌</span>
+                            <span class="detail-text">Salah: <strong id="wrongAnswers">0</strong></span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-icon">📊</span>
+                            <span class="detail-text">Persentase: <strong id="percentage">0%</strong></span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Result Message -->
+            <section class="message-section">
+                <div id="resultMessage"></div>
+            </section>
+
+            <!-- Action Buttons -->
+            <section class="actions-section">
+                <div class="action-group">
+                    <a href="../index.html" class="btn btn-outline">🏠 Kembali ke Beranda</a>
+                    <a href="material.html" class="btn btn-secondary">📖 Review Materi</a>
+                    <button class="btn btn-primary" onclick="retryQuiz()">🔄 Ulangi Quiz</button>
+                </div>
+            </section>
+
+            <!-- Progress Summary -->
+            <section class="summary-section">
+                <div class="card">
+                    <div class="card-header">
+                        <h3>📈 Ringkasan Progress Pembelajaran</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="progress-summary">
+                            <div class="summary-item">
+                                <div class="summary-icon">📖</div>
+                                <div class="summary-content">
+                                    <h4>Materi</h4>
+                                    <p id="materialStatus">Belum selesai</p>
+                                </div>
+                            </div>
+                            <div class="summary-item">
+                                <div class="summary-icon">✏️</div>
+                                <div class="summary-content">
+                                    <h4>Latihan</h4>
+                                    <p id="practiceStatus">Belum dikerjakan</p>
+                                </div>
+                            </div>
+                            <div class="summary-item">
+                                <div class="summary-icon">🎯</div>
+                                <div class="summary-content">
+                                    <h4>Quiz</h4>
+                                    <p id="quizStatus">Baru saja selesai!</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="overall-progress">
+                            <div class="progress-label">
+                                <span>Progress Keseluruhan</span>
+                                <span id="overallPercent">0%</span>
+                            </div>
+                            <div class="progress">
+                                <div class="progress-bar" id="overallProgressBar" style="width: 0%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-info">
+                    <h3>📚 E-Modul Simple Present</h3>
+                    <p>Platform pembelajaran bahasa Inggris interaktif untuk menguasai Simple Present Tense.</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="../index.html">Beranda</a></li>
+                        <li><a href="material.html">Materi</a></li>
+                        <li><a href="practice.html">Latihan</a></li>
+                        <li><a href="quiz.html">Quiz</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 E-Modul Simple Present. Made with ❤️ for learning.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="../js/main.js"></script>
+    <script src="../js/result.js"></script>
+
+</body>
+
+</html>

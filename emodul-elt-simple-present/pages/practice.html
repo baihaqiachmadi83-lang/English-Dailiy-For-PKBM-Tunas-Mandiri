@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Latihan Soal - Simple Present Tense | E-Modul</title>
+    <link rel="icon" type="image/svg+xml"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📚</text></svg>">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/responsive.css">
+    <link rel="stylesheet" href="../css/dragdrop-styles.css">
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="navbar-container">
+            <a href="../index.html" class="navbar-brand">
+                <span>📚</span>
+                <span>E-Modul Simple Present</span>
+            </a>
+            <button class="navbar-toggle" id="navbarToggle" aria-label="Toggle navigation">☰</button>
+            <ul class="navbar-menu" id="navbarMenu">
+                <li><a href="../index.html">Beranda</a></li>
+                <li><a href="material.html">Materi</a></li>
+                <li><a href="practice.html" class="active">Latihan</a></li>
+                <li><a href="quiz.html">Quiz</a></li>
+                <li>
+                    <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+                        <span id="themeIcon">🌙</span>
+                    </button>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Header -->
+    <div class="practice-header">
+        <div class="container">
+            <h1>✏️ Latihan Interaktif</h1>
+            <p>Pilih tipe latihan yang kamu suka!</p>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container" style="padding: var(--spacing-xl) 0;">
+
+        <!-- Exercise Tabs -->
+        <div class="exercise-tabs">
+            <button class="tab-btn active" onclick="switchExercise('multiple-choice')">
+                🎯 Multiple Choice
+            </button>
+            <button class="tab-btn" onclick="switchExercise('fill-blanks')">
+                ✍️ Fill in the Blanks
+            </button>
+            <button class="tab-btn" onclick="switchExercise('drag-drop')">
+                🎮 Drag & Drop
+            </button>
+        </div>
+
+        <!-- Exercise 1: Multiple Choice -->
+        <div id="multiple-choice" class="exercise-section active">
+            <div class="section-card">
+                <h2 class="section-title">
+                    <span>🎯</span>
+                    <span>Multiple Choice Game</span>
+                </h2>
+                <p>Pilih jawaban yang benar! Kumpulkan streak untuk bonus poin! 🔥</p>
+
+                <div id="mc-questions"></div>
+            </div>
+        </div>
+
+        <!-- Exercise 2: Fill in the Blanks -->
+        <div id="fill-blanks" class="exercise-section">
+            <div class="section-card">
+                <h2 class="section-title">
+                    <span>✍️</span>
+                    <span>Fill in the Blanks - Dina's Day</span>
+                </h2>
+                <p>Lengkapi cerita di bawah dengan verb yang tepat!</p>
+
+                <div class="story-container" id="fill-story"></div>
+
+                <div class="feedback" id="fill-feedback"></div>
+
+                <div class="action-buttons">
+                    <button class="btn btn-secondary" onclick="showFillHints()">💡 Lihat Hints</button>
+                    <button class="btn btn-primary" onclick="checkFillBlanks()">✓ Cek Jawaban</button>
+                    <button class="btn btn-success" onclick="completeFillBlanks()" id="fill-complete-btn"
+                        style="display:none;">
+                        🎉 Selesai!
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Exercise 3: Drag & Drop -->
+        <div id="drag-drop" class="exercise-section">
+            <div class="section-card">
+                <h2 class="section-title">
+                    <span>🎮</span>
+                    <span>Drag & Drop Sentence Builder</span>
+                </h2>
+                <p>Susun kata-kata menjadi kalimat yang benar dengan drag & drop!</p>
+
+                <div class="dragdrop-container" id="dd-container"></div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-info">
+                    <h3>📚 E-Modul Simple Present Tense</h3>
+                    <p>Platform pembelajaran interaktif untuk siswa SMP</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="../index.html">Beranda</a></li>
+                        <li><a href="material.html">Materi</a></li>
+                        <li><a href="practice.html">Latihan</a></li>
+                        <li><a href="quiz.html">Quiz</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 E-Modul ELT Simple Present. Made with ❤️</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="../js/main.js"></script>
+    <script src="../js/practice.js"></script>
+</body>
+
+</html>

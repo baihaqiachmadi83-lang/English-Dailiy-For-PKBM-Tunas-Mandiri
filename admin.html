@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Panel Admin — E-Module PKBM Tunas Mandiri</title>
+  <meta name="description" content="Panel administrasi PKBM Tunas Mandiri untuk mengelola data siswa dan laporan keaktifan." />
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    body { padding-bottom: 80px; }
+    .two-col { display: grid; grid-template-columns: 1fr; gap: 1rem; }
+    @media (min-width: 640px) { .two-col { grid-template-columns: 1fr 1fr; } }
+
+    /* Clock-based chart */
+    .time-chart {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 4px;
+      padding: 1rem 0;
+    }
+    .time-slot {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+    }
+    .time-dot {
+      width: 12px; height: 12px;
+      border-radius: 50%;
+      background: var(--gray-200);
+      border: 2px solid transparent;
+      transition: var(--transition);
+    }
+    .time-dot.low    { background: #dbeafe; border-color: #93c5fd; }
+    .time-dot.mid    { background: #fef3c7; border-color: var(--yellow-hover); }
+    .time-dot.high   { background: var(--navy); border-color: var(--navy-light); }
+    .time-dot.peak   { background: var(--yellow); border-color: #d97706; width:16px; height:16px; }
+    .time-slot span  { font-size: 0.6rem; font-weight: 700; color: var(--gray-400); }
+
+    /* Admin user list */
+    .user-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 11px 0;
+      border-bottom: 1.5px solid var(--gray-200);
+    }
+    .user-item:last-child { border-bottom: none; }
+    .user-ava {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      background: var(--navy);
+      color: var(--white);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.9rem;
+      flex-shrink: 0;
+    }
+
+    /* Activity heatmap */
+    .heatmap { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
+    .heat-cell {
+      aspect-ratio: 1;
+      border-radius: 4px;
+      background: var(--gray-200);
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .heat-cell:hover { transform: scale(1.2); }
+    .heat-cell.l1 { background: #dbeafe; }
+    .heat-cell.l2 { background: #93c5fd; }
+    .heat-cell.l3 { background: var(--navy-light); }
+    .heat-cell.l4 { background: var(--navy); }
+    .heat-cell.l5 { background: var(--yellow); }
+
+    .info-box {
+      background: linear-gradient(135deg, var(--navy), var(--navy-light));
+      color: var(--white);
+      border-radius: var(--radius-lg);
+      padding: 1.25rem;
+      margin-bottom: 1rem;
+    }
+    .info-box h3 { color: var(--yellow); margin-bottom: 6px; font-size: 1rem; }
+    .info-box p  { font-size: 0.82rem; color: rgba(255,255,255,0.8); margin: 0; }
+
+    /* Form success animation */
+    .form-success {
+      display: none;
+      text-align: center;
+      padding: 2rem 1rem;
+      animation: fadeIn 0.4s ease;
+    }
+    .form-success.show { display: block; }
+    @keyframes fadeIn { from { opacity:0; transform:scale(0.9); } to { opacity:1; transform:scale(1); } }
+    .success-icon { font-size: 3rem; margin-bottom: 1rem; display: block; }
+  </style>
+</head>
+<body class="page-wrapper">
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="navbar-inner">
+      <div class="navbar-brand">
+        <div class="navbar-logo">📚</div>
+        <div>
+          <div class="navbar-title">Tunas Mandiri</div>
+          <div class="navbar-subtitle">Panel Admin</div>
+        </div>
+      </div>
+      <div class="navbar-user">
+        <span class="navbar-role-badge">Admin</span>
+        <div class="navbar-avatar">⚙️</div>
+      </div>
+    </div>
+  </nav>
+
+  <main class="main-content">
+    <div class="container">
+
+      <!-- TABS -->
+      <div class="tabs">
+        <button class="tab-btn active" onclick="switchTab('dasbor')">🏠 Dasbor</button>
+        <button class="tab-btn" onclick="switchTab('registrasi')">➕ Registrasi</button>
+        <button class="tab-btn" onclick="switchTab('keaktifan')">📈 Laporan</button>
+        <button class="tab-btn" onclick="switchTab('pengguna')">👥 Pengguna</button>
+      </div>
+
+      <!-- ===== TAB: DASBOR ADMIN ===== -->
+      <div class="tab-panel active" id="tab-dasbor">
+
+        <div class="hero-banner mb-2">
+          <span class="hero-emoji">⚙️</span>
+          <h1>Panel Kontrol Sistem</h1>
+          <p>Kelola semua data dan pantau keaktifan PKBM Tunas Mandiri dari satu tempat.</p>
+        </div>
+
+        <div class="stats-grid mb-2">
+          <div class="stat-card">
+            <div class="stat-icon">👥</div>
+            <div class="stat-value">42</div>
+            <div class="stat-label">Total Pengguna</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">🎓</div>
+            <div class="stat-value">38</div>
+            <div class="stat-label">Siswa Terdaftar</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">👩‍🏫</div>
+            <div class="stat-value">3</div>
+            <div class="stat-label">Guru Aktif</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">📊</div>
+            <div class="stat-value">85%</div>
+            <div class="stat-label">Keaktifan</div>
+          </div>
+        </div>
+
+        <!-- System Status -->
+        <div class="card mb-2">
+          <h3 class="mb-2">🟢 Status Sistem</h3>
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:10px;background:var(--green-soft);border-radius:var(--radius-md)">
+              <span style="font-size:0.88rem;font-weight:600;color:#15803D">🌐 Server Utama</span>
+              <span class="badge badge-green">Online</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:10px;background:var(--green-soft);border-radius:var(--radius-md)">
+              <span style="font-size:0.88rem;font-weight:600;color:#15803D">☁️ Google Antigravity</span>
+              <span class="badge badge-green">Terhubung</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:10px;background:var(--green-soft);border-radius:var(--radius-md)">
+              <span style="font-size:0.88rem;font-weight:600;color:#15803D">🗄️ Database</span>
+              <span class="badge badge-green">Normal</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:10px;background:var(--yellow-soft);border-radius:var(--radius-md)">
+              <span style="font-size:0.88rem;font-weight:600;color:#92400E">📦 Penyimpanan</span>
+              <span class="badge badge-orange">72% Terpakai</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="card">
+          <h3 class="mb-2">⚡ Aksi Cepat</h3>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+            <button class="btn btn-navy" onclick="switchTab('registrasi')">➕ Daftarkan Siswa</button>
+            <button class="btn btn-primary" onclick="switchTab('keaktifan')">📈 Lihat Laporan</button>
+            <button class="btn btn-outline" onclick="showToast('📤 Mengekspor data ke Excel...')">📤 Ekspor Data</button>
+            <button class="btn btn-outline" onclick="showToast('🔔 Mengirim pengumuman ke semua pengguna...')">🔔 Kirim Pengumuman</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== TAB: REGISTRASI ===== -->
+      <div class="tab-panel" id="tab-registrasi">
+        <div class="section-header">
+          <h2>➕ Registrasi Siswa Baru</h2>
+          <p>Daftarkan siswa Paket C baru ke sistem e-module</p>
+        </div>
+
+        <!-- Form -->
+        <div class="card">
+          <div id="regForm">
+            <div class="two-col">
+              <div class="form-group">
+                <label class="form-label">Nama Lengkap *</label>
+                <input class="form-control" id="namaLengkap" type="text" placeholder="Contoh: Muhammad Ridwan" />
+              </div>
+              <div class="form-group">
+                <label class="form-label">NIK (Nomor Induk) *</label>
+                <input class="form-control" id="nik" type="text" placeholder="16 digit NIK" maxlength="16" />
+              </div>
+            </div>
+            <div class="two-col">
+              <div class="form-group">
+                <label class="form-label">Nomor HP / WhatsApp *</label>
+                <input class="form-control" id="nohp" type="tel" placeholder="08xxxxxxxxxx" />
+              </div>
+              <div class="form-group">
+                <label class="form-label">Jenis Kelamin</label>
+                <select class="form-control form-select" id="jenkel">
+                  <option value="">Pilih...</option>
+                  <option>Laki-laki</option>
+                  <option>Perempuan</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Alamat Lengkap</label>
+              <textarea class="form-control" id="alamat" rows="2" placeholder="Jl. ..."></textarea>
+            </div>
+            <div class="two-col">
+              <div class="form-group">
+                <label class="form-label">Pekerjaan Saat Ini</label>
+                <select class="form-control form-select" id="pekerjaan">
+                  <option>Buruh/Karyawan</option>
+                  <option>Pedagang/Wirausaha</option>
+                  <option>Ibu Rumah Tangga</option>
+                  <option>Petani/Nelayan</option>
+                  <option>Tidak Bekerja</option>
+                  <option>Lainnya</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Kelas / Kelompok</label>
+                <select class="form-control form-select" id="kelas">
+                  <option>Paket C — Kelompok A</option>
+                  <option>Paket C — Kelompok B</option>
+                  <option>Paket C — Kelompok C</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Username untuk Login *</label>
+              <input class="form-control" id="username" type="text" placeholder="Contoh: ridwan2025" />
+            </div>
+            <div class="two-col">
+              <div class="form-group">
+                <label class="form-label">Kata Sandi *</label>
+                <input class="form-control" id="password" type="password" placeholder="Min. 8 karakter" />
+              </div>
+              <div class="form-group">
+                <label class="form-label">Konfirmasi Kata Sandi *</label>
+                <input class="form-control" id="password2" type="password" placeholder="Ulangi kata sandi" />
+              </div>
+            </div>
+            <div style="background:var(--yellow-soft);border-radius:var(--radius-md);padding:12px 14px;margin-bottom:1rem;border-left:4px solid var(--yellow-hover)">
+              <p style="font-size:0.82rem;color:var(--navy);font-weight:600;margin:0">
+                ⚠️ Pastikan nomor HP aktif. Data login akan dikirim ke siswa melalui WhatsApp.
+              </p>
+            </div>
+            <div style="display:flex;gap:8px">
+              <button class="btn btn-primary" style="flex:2" onclick="doRegister()">🎓 Daftarkan Siswa</button>
+              <button class="btn btn-outline" style="flex:1" onclick="resetForm()">🔄 Reset</button>
+            </div>
+          </div>
+
+          <!-- Success State -->
+          <div class="form-success" id="regSuccess">
+            <span class="success-icon">🎉</span>
+            <h3 style="color:var(--navy)">Siswa Berhasil Didaftarkan!</h3>
+            <p style="margin-bottom:1.25rem">Data login telah dikirim via WhatsApp ke nomor yang terdaftar.</p>
+            <div style="background:var(--yellow-soft);border-radius:var(--radius-md);padding:14px;margin-bottom:1.25rem;text-align:left">
+              <strong style="color:var(--navy);display:block;margin-bottom:6px">📋 Ringkasan Data:</strong>
+              <div id="regSummary" style="font-size:0.85rem;color:var(--gray-600)"></div>
+            </div>
+            <button class="btn btn-navy btn-full" onclick="newRegistration()">➕ Daftarkan Siswa Lain</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== TAB: KEAKTIFAN LAPORAN ===== -->
+      <div class="tab-panel" id="tab-keaktifan">
+        <div class="section-header">
+          <h2>📈 Laporan Keaktifan</h2>
+          <p>Analisis pola belajar siswa untuk strategi pengajaran yang lebih efektif</p>
+        </div>
+
+        <!-- Waktu Paling Aktif -->
+        <div class="card mb-2">
+          <h3 class="mb-1">🕐 Pola Waktu Belajar Siswa</h3>
+          <p style="font-size:0.82rem;margin-bottom:1rem">Jam berapa siswa paling sering mengakses e-module</p>
+
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <div>
+              <div style="display:flex;justify-content:space-between;margin-bottom:6px;align-items:center">
+                <span style="font-size:0.85rem;font-weight:600">🌅 Pagi (05.00 – 09.00)</span>
+                <span class="badge badge-orange">32% Siswa</span>
+              </div>
+              <div class="progress-track"><div class="progress-fill" style="width:32%;background:linear-gradient(90deg,#F97316,#FBBF24)"></div></div>
+            </div>
+            <div>
+              <div style="display:flex;justify-content:space-between;margin-bottom:6px;align-items:center">
+                <span style="font-size:0.85rem;font-weight:600">☀️ Siang (10.00 – 14.00)</span>
+                <span class="badge badge-navy">18% Siswa</span>
+              </div>
+              <div class="progress-track"><div class="progress-fill" style="width:18%;background:linear-gradient(90deg,var(--navy-light),var(--navy))"></div></div>
+            </div>
+            <div>
+              <div style="display:flex;justify-content:space-between;margin-bottom:6px;align-items:center">
+                <span style="font-size:0.85rem;font-weight:600">🌆 Sore (15.00 – 18.00)</span>
+                <span class="badge badge-green">20% Siswa</span>
+              </div>
+              <div class="progress-track"><div class="progress-fill" style="width:20%;background:linear-gradient(90deg,#22C55E,#4ADE80)"></div></div>
+            </div>
+            <div>
+              <div style="display:flex;justify-content:space-between;margin-bottom:6px;align-items:center">
+                <span style="font-size:0.85rem;font-weight:600">🌙 Malam (19.00 – 23.00) ⭐ Puncak</span>
+                <span class="badge badge-yellow">56% Siswa</span>
+              </div>
+              <div class="progress-track"><div class="progress-fill" style="width:75%;background:linear-gradient(90deg,var(--yellow),#f59e0b)"></div></div>
+            </div>
+          </div>
+
+          <div style="margin-top:1rem;background:linear-gradient(135deg,var(--navy),var(--navy-light));color:white;border-radius:var(--radius-md);padding:14px">
+            <p style="font-size:0.83rem;color:rgba(255,255,255,0.9);margin:0">
+              💡 <strong>Insight:</strong> Mayoritas siswa Paket C belajar pada <strong style="color:var(--yellow)">malam hari</strong> (19.00–23.00) karena aktivitas kerja di siang hari. Rekomendasikan sesi live/tatap muka antara pukul <strong style="color:var(--yellow)">19.00–21.00</strong>.
+            </p>
+          </div>
+        </div>
+
+        <!-- Grafik Mingguan -->
+        <div class="card mb-2">
+          <h3 class="mb-1">📊 Tren Keaktifan 4 Minggu</h3>
+          <p style="font-size:0.82rem;margin-bottom:1rem">Jumlah sesi login aktif per minggu</p>
+          <div class="chart-wrapper">
+            <div class="chart-bars" style="height:160px">
+              <div class="chart-bar-group">
+                <div class="chart-bar" style="height:55%"><span class="chart-bar-value">156</span></div>
+              </div>
+              <div class="chart-bar-group">
+                <div class="chart-bar" style="height:70%"><span class="chart-bar-value">198</span></div>
+              </div>
+              <div class="chart-bar-group">
+                <div class="chart-bar" style="height:85%"><span class="chart-bar-value">240</span></div>
+              </div>
+              <div class="chart-bar-group">
+                <div class="chart-bar" style="height:95%; background:linear-gradient(180deg,var(--yellow),#f59e0b)"><span class="chart-bar-value">268</span></div>
+              </div>
+            </div>
+            <div class="chart-labels">
+              <div class="chart-label">Minggu 1</div>
+              <div class="chart-label">Minggu 2</div>
+              <div class="chart-label">Minggu 3</div>
+              <div class="chart-label">Minggu 4</div>
+            </div>
+          </div>
+          <p style="text-align:center;font-size:0.78rem;color:var(--green);font-weight:700;margin-top:8px">📈 Tren naik +72% dalam 4 minggu terakhir!</p>
+        </div>
+
+        <!-- Heatmap Aktivitas -->
+        <div class="card mb-2">
+          <h3 class="mb-1">🗓️ Heatmap Aktivitas (28 Hari)</h3>
+          <p style="font-size:0.82rem;margin-bottom:1rem">Intensitas belajar per hari — warna lebih gelap = lebih aktif</p>
+          <div class="heatmap" id="heatmap"></div>
+          <div style="display:flex;gap:6px;align-items:center;margin-top:10px;flex-wrap:wrap">
+            <span style="font-size:0.72rem;color:var(--gray-400)">Kurang</span>
+            <div style="width:12px;height:12px;border-radius:3px;background:var(--gray-200)"></div>
+            <div style="width:12px;height:12px;border-radius:3px;background:#dbeafe"></div>
+            <div style="width:12px;height:12px;border-radius:3px;background:#93c5fd"></div>
+            <div style="width:12px;height:12px;border-radius:3px;background:var(--navy-light)"></div>
+            <div style="width:12px;height:12px;border-radius:3px;background:var(--yellow)"></div>
+            <span style="font-size:0.72rem;color:var(--gray-400)">Sangat Aktif</span>
+          </div>
+        </div>
+
+        <!-- Download Laporan -->
+        <div class="card">
+          <h3 class="mb-2">📥 Unduh Laporan</h3>
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <button class="btn btn-navy btn-full" onclick="showToast('📄 Mengunduh laporan PDF...')">
+              📄 Unduh Laporan PDF Bulanan
+            </button>
+            <button class="btn btn-outline btn-full" onclick="showToast('📊 Mengekspor ke Excel...')">
+              📊 Ekspor Data ke Excel
+            </button>
+            <button class="btn btn-outline btn-full" onclick="showToast('📧 Mengirim laporan ke email...')">
+              📧 Kirim Laporan ke Email Kepala Sekolah
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== TAB: PENGGUNA ===== -->
+      <div class="tab-panel" id="tab-pengguna">
+        <div class="section-header">
+          <h2>👥 Manajemen Pengguna</h2>
+          <p>Kelola akun siswa, guru, dan admin sistem</p>
+        </div>
+
+        <div class="tabs" style="margin-bottom:1rem">
+          <button class="tab-btn active" onclick="filterUsers('semua')">Semua (42)</button>
+          <button class="tab-btn" onclick="filterUsers('siswa')">Siswa (38)</button>
+          <button class="tab-btn" onclick="filterUsers('guru')">Guru (3)</button>
+          <button class="tab-btn" onclick="filterUsers('admin')">Admin (1)</button>
+        </div>
+
+        <div class="card">
+          <div style="display:flex;gap:8px;margin-bottom:1rem">
+            <input class="form-control" type="text" placeholder="🔍 Cari pengguna..." style="padding:10px 14px" />
+            <button class="btn btn-navy btn-sm" onclick="showToast('➕ Form tambah pengguna...')">➕ Tambah</button>
+          </div>
+
+          <div id="userListAdmin">
+            <!-- Filled by JS -->
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- BOTTOM NAV -->
+  <nav class="bottom-nav">
+    <div class="bottom-nav-item active" onclick="switchTab('dasbor')">
+      <span class="nav-icon">🏠</span>Dasbor
+    </div>
+    <div class="bottom-nav-item" onclick="switchTab('registrasi')">
+      <span class="nav-icon">➕</span>Daftar
+    </div>
+    <div class="bottom-nav-item" onclick="switchTab('keaktifan')">
+      <span class="nav-icon">📈</span>Laporan
+    </div>
+    <div class="bottom-nav-item" onclick="switchTab('pengguna')">
+      <span class="nav-icon">👥</span>Pengguna
+    </div>
+    <div class="bottom-nav-item" onclick="window.location.href='index.html'">
+      <span class="nav-icon">🚪</span>Keluar
+    </div>
+  </nav>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    /* ===== TABS ===== */
+    function switchTab(name) {
+      document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.bottom-nav-item').forEach(n => n.classList.remove('active'));
+      document.getElementById('tab-' + name).classList.add('active');
+      const map = { dasbor:0, registrasi:1, keaktifan:2, pengguna:3 };
+      if (map[name] !== undefined) {
+        document.querySelectorAll('.tab-btn')[map[name]].classList.add('active');
+        document.querySelectorAll('.bottom-nav-item')[map[name]].classList.add('active');
+      }
+    }
+
+    /* ===== TOAST ===== */
+    function showToast(msg) {
+      const t = document.getElementById('toast');
+      t.textContent = msg;
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 3000);
+    }
+
+    /* ===== REGISTER ===== */
+    function doRegister() {
+      const nama = document.getElementById('namaLengkap').value.trim();
+      const nik  = document.getElementById('nik').value.trim();
+      const hp   = document.getElementById('nohp').value.trim();
+      const user = document.getElementById('username').value.trim();
+      const pw1  = document.getElementById('password').value;
+      const pw2  = document.getElementById('password2').value;
+      if (!nama || !nik || !hp || !user || !pw1) {
+        showToast('⚠️ Mohon isi semua kolom yang wajib diisi (*)'); return;
+      }
+      if (pw1 !== pw2) {
+        showToast('⚠️ Kata sandi tidak cocok. Periksa kembali!'); return;
+      }
+      if (nik.length !== 16) {
+        showToast('⚠️ NIK harus 16 digit.'); return;
+      }
+      // Show success
+      document.getElementById('regForm').style.display = 'none';
+      document.getElementById('regSuccess').classList.add('show');
+      document.getElementById('regSummary').innerHTML = `
+        Nama: <strong>${nama}</strong><br>
+        NIK: <strong>${nik}</strong><br>
+        No. HP: <strong>${hp}</strong><br>
+        Username: <strong>${user}</strong><br>
+        Kelas: <strong>${document.getElementById('kelas').value}</strong>
+      `;
+      showToast('✅ Siswa baru berhasil didaftarkan!');
+    }
+
+    function resetForm() {
+      document.querySelectorAll('#regForm input, #regForm textarea').forEach(f => f.value = '');
+    }
+
+    function newRegistration() {
+      document.getElementById('regForm').style.display = 'block';
+      document.getElementById('regSuccess').classList.remove('show');
+      resetForm();
+    }
+
+    /* ===== HEATMAP ===== */
+    const levels = ['','l1','l2','l3','l4','l5'];
+    const hm = document.getElementById('heatmap');
+    const pattern = [0,1,2,2,3,4,5,3,2,4,5,3,2,1,0,2,3,4,5,4,3,2,4,5,3,2,1,2];
+    pattern.forEach(l => {
+      const cell = document.createElement('div');
+      cell.className = 'heat-cell' + (levels[l] ? ' ' + levels[l] : '');
+      cell.title = `${l * 3} sesi belajar`;
+      hm.appendChild(cell);
+    });
+
+    /* ===== USER LIST ===== */
+    const users = [
+      { name: 'Siti Aminah', role: 'siswa', status: 'Aktif', avatar: '😊' },
+      { name: 'Ahmad Fauzi', role: 'siswa', status: 'Aktif', avatar: '🙂' },
+      { name: 'Budi Santoso', role: 'siswa', status: 'Aktif', avatar: '😄' },
+      { name: 'Rina Wulandari', role: 'siswa', status: 'Aktif', avatar: '🙃' },
+      { name: 'Joko Prasetyo', role: 'siswa', status: 'Aktif', avatar: '😐' },
+      { name: 'Bambang Wijaya', role: 'siswa', status: 'Tidak Aktif', avatar: '😕' },
+      { name: 'Bu Dewi Rahma', role: 'guru', status: 'Aktif', avatar: '👩‍🏫' },
+      { name: 'Pak Andi Kurnia', role: 'guru', status: 'Aktif', avatar: '👨‍🏫' },
+      { name: 'Bu Sri Lestari', role: 'guru', status: 'Aktif', avatar: '👩‍🏫' },
+      { name: 'Admin PKBM', role: 'admin', status: 'Aktif', avatar: '⚙️' },
+    ];
+    let currentFilter = 'semua';
+    const roleLabel = { siswa:'🎓 Siswa', guru:'👩‍🏫 Guru', admin:'⚙️ Admin' };
+    const roleBadge = { siswa:'badge-navy', guru:'badge-green', admin:'badge-yellow' };
+
+    function renderUsers(filter) {
+      const listEl = document.getElementById('userListAdmin');
+      const filtered = filter === 'semua' ? users : users.filter(u => u.role === filter);
+      listEl.innerHTML = filtered.map(u => `
+        <div class="user-item">
+          <div class="user-ava" style="background:${u.role==='guru'?'#15803D':u.role==='admin'?'#92400E':'var(--navy)'}">${u.avatar}</div>
+          <div style="flex:1">
+            <strong style="font-size:0.88rem;color:var(--navy);display:block">${u.name}</strong>
+            <small style="color:var(--gray-400)">${u.status}</small>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px">
+            <span class="badge ${roleBadge[u.role]}">${roleLabel[u.role]}</span>
+            <div style="display:flex;gap:4px">
+              <button class="btn btn-sm btn-outline" style="padding:4px 8px;" onclick="showToast('✏️ Edit ${u.name}...')">✏️</button>
+              <button class="btn btn-sm" style="background:var(--red-soft);color:#B91C1C;border:none;padding:4px 8px;border-radius:6px" onclick="showToast('🗑️ Konfirmasi hapus ${u.name}?')">🗑️</button>
+            </div>
+          </div>
+        </div>`).join('');
+    }
+
+    function filterUsers(filter) {
+      currentFilter = filter;
+      document.querySelectorAll('#tab-pengguna .tab-btn').forEach(b => b.classList.remove('active'));
+      event.target.classList.add('active');
+      renderUsers(filter);
+    }
+
+    renderUsers('semua');
+  </script>
+</body>
+</html>

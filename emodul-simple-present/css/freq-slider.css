@@ -1,0 +1,392 @@
+/* ====================================
+   FREQUENCY ADVERB SLIDER — INTERACTIVE
+   ==================================== */
+
+/* === Wrapper === */
+.freq-slider-wrapper {
+    margin-top: var(--space-2xl);
+    border-radius: var(--radius-2xl);
+    padding: var(--space-xl) var(--space-2xl);
+    /* Background will be driven by JS via CSS variable */
+    --freq-opacity: 0;
+    background:
+        linear-gradient(
+            135deg,
+            rgba(37, 99, 235, var(--freq-opacity)) 0%,
+            rgba(99, 102, 241, calc(var(--freq-opacity) * 0.8)) 100%
+        ),
+        linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+    border: 2px solid rgba(37, 99, 235, 0.2);
+    box-shadow: 0 8px 32px rgba(37, 99, 235, 0.12), 0 2px 8px rgba(0,0,0,0.06);
+    position: relative;
+    overflow: hidden;
+    transition: background 0.5s ease, border-color 0.5s ease, box-shadow 0.5s ease;
+}
+
+[data-theme="dark"] .freq-slider-wrapper {
+    background:
+        linear-gradient(
+            135deg,
+            rgba(37, 99, 235, calc(var(--freq-opacity) * 0.7)) 0%,
+            rgba(99, 102, 241, calc(var(--freq-opacity) * 0.5)) 100%
+        ),
+        linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+    border-color: rgba(99, 102, 241, 0.35);
+}
+
+.freq-slider-wrapper::after {
+    content: '';
+    position: absolute;
+    bottom: -60px;
+    left: -60px;
+    width: 200px;
+    height: 200px;
+    background: radial-gradient(circle, rgba(37,99,235,0.15) 0%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+    transition: opacity 0.5s ease;
+}
+
+/* === Header === */
+.freq-slider-header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    margin-bottom: var(--space-xs);
+    flex-wrap: wrap;
+}
+
+.freq-icon { font-size: 1.5rem; }
+
+.freq-slider-header h3 {
+    margin-bottom: 0;
+    font-size: 1.25rem;
+    color: var(--primary-dark);
+    transition: color 0.4s ease;
+}
+
+/* Header text gets lighter at high opacity (contrast) */
+.freq-slider-wrapper.freq-high .freq-slider-header h3 { color: #fff; }
+.freq-slider-wrapper.freq-high .freq-subtitle { color: rgba(255,255,255,0.85); }
+
+.freq-title-hl {
+    background: linear-gradient(90deg, #2563eb, #6366f1);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    transition: all 0.4s ease;
+}
+
+.freq-slider-wrapper.freq-high .freq-title-hl {
+    background: linear-gradient(90deg, #bfdbfe, #e0e7ff);
+    -webkit-background-clip: text;
+    background-clip: text;
+}
+
+.freq-badge {
+    display: inline-block;
+    background: linear-gradient(135deg, #2563eb 0%, #6366f1 100%);
+    color: #fff;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 3px 10px;
+    border-radius: var(--radius-full);
+    margin-left: 4px;
+    vertical-align: middle;
+    box-shadow: 0 2px 8px rgba(37,99,235,0.3);
+}
+
+.freq-subtitle {
+    color: var(--text-secondary);
+    font-size: 0.97rem;
+    margin-bottom: var(--space-lg);
+    transition: color 0.4s ease;
+}
+
+/* === Sentence Box === */
+.freq-sentence-box {
+    background: rgba(255, 255, 255, 0.88);
+    border-radius: var(--radius-xl);
+    padding: 1rem 2rem;
+    margin-bottom: var(--space-xl);
+    display: flex;
+    align-items: baseline;
+    gap: 0.45rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    font-size: 2rem;
+    font-weight: 800;
+    box-shadow: 0 4px 20px rgba(37,99,235,0.12);
+    border: 1.5px solid rgba(37,99,235,0.12);
+    transition: box-shadow 0.4s ease, border-color 0.4s ease;
+    backdrop-filter: blur(6px);
+}
+
+[data-theme="dark"] .freq-sentence-box {
+    background: rgba(15, 23, 42, 0.75);
+}
+
+.freq-slider-wrapper.freq-high .freq-sentence-box {
+    box-shadow: 0 6px 28px rgba(37,99,235,0.35);
+    border-color: rgba(255,255,255,0.35);
+}
+
+.freq-pronoun { color: var(--primary-color); }
+
+.freq-adverb {
+    display: inline-block;
+    color: #2563eb;
+    position: relative;
+    transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.2s ease;
+    transform-origin: bottom center;
+}
+
+/* Swap animation */
+.freq-adverb.swap-out {
+    opacity: 0;
+    transform: translateY(-10px) scale(0.85);
+}
+
+.freq-adverb.swap-in {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+}
+
+.freq-rest {
+    color: var(--text-secondary);
+    font-size: 1.4rem;
+    font-weight: 500;
+}
+
+/* Color of adverb changes per step */
+.freq-adverb[data-step="0"] { color: #6b7280; }  /* Never  - gray */
+.freq-adverb[data-step="1"] { color: #3b82f6; }  /* Seldom - light blue */
+.freq-adverb[data-step="2"] { color: #2563eb; }  /* Sometimes - blue */
+.freq-adverb[data-step="3"] { color: #1d4ed8; }  /* Often - deep blue */
+.freq-adverb[data-step="4"] { color: #1e40af; }  /* Always - darkest blue */
+
+/* === Slider Track === */
+.freq-track-wrap {
+    position: relative;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+/* Custom filled track underlay */
+.freq-track-fill {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 8px;
+    background: linear-gradient(90deg, #93c5fd, #2563eb);
+    border-radius: var(--radius-full);
+    width: 0%;
+    transition: width 0.3s ease;
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* Range input — cross-browser */
+.freq-slider {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 8px;
+    border-radius: var(--radius-full);
+    background: var(--gray-200);
+    outline: none;
+    cursor: pointer;
+    position: relative;
+    z-index: 2;
+    background: transparent;
+}
+
+[data-theme="dark"] .freq-slider { background: transparent; }
+
+/* Webkit thumb */
+.freq-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #2563eb 0%, #6366f1 100%);
+    cursor: grab;
+    box-shadow: 0 2px 12px rgba(37,99,235,0.5), 0 0 0 4px rgba(37,99,235,0.15);
+    transition: transform 0.18s ease, box-shadow 0.18s ease;
+    border: 3px solid #fff;
+}
+
+.freq-slider::-webkit-slider-thumb:hover {
+    transform: scale(1.18);
+    box-shadow: 0 4px 20px rgba(37,99,235,0.6), 0 0 0 6px rgba(37,99,235,0.15);
+    cursor: grabbing;
+}
+
+.freq-slider::-webkit-slider-thumb:active {
+    cursor: grabbing;
+    transform: scale(1.28);
+}
+
+/* Firefox thumb */
+.freq-slider::-moz-range-thumb {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #2563eb 0%, #6366f1 100%);
+    cursor: grab;
+    box-shadow: 0 2px 12px rgba(37,99,235,0.5);
+    border: 3px solid #fff;
+}
+
+/* Firefox track */
+.freq-slider::-moz-range-track {
+    height: 8px;
+    border-radius: var(--radius-full);
+    background: var(--gray-200);
+}
+
+/* Webkit track */
+.freq-slider::-webkit-slider-runnable-track {
+    height: 8px;
+    border-radius: var(--radius-full);
+    background: rgba(0,0,0,0.08);
+}
+
+[data-theme="dark"] .freq-slider::-webkit-slider-runnable-track {
+    background: rgba(255,255,255,0.1);
+}
+
+/* === Step Labels === */
+.freq-labels {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: var(--space-lg);
+    padding: 0 2px;
+}
+
+.freq-label {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    text-align: center;
+    flex: 1;
+    transition: color 0.3s ease, transform 0.3s ease, font-size 0.3s ease;
+    cursor: default;
+    user-select: none;
+}
+
+.freq-label.active-label {
+    color: #2563eb;
+    font-size: 0.88rem;
+    transform: translateY(-2px);
+}
+
+.freq-slider-wrapper.freq-high .freq-label {
+    color: rgba(255,255,255,0.65);
+}
+
+.freq-slider-wrapper.freq-high .freq-label.active-label {
+    color: #fff;
+}
+
+/* === Frequency Meter Row === */
+.freq-meter-row {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    margin-bottom: var(--space-md);
+}
+
+.freq-meter-label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    white-space: nowrap;
+    transition: color 0.4s ease;
+    min-width: 5.5rem;
+}
+
+.freq-slider-wrapper.freq-high .freq-meter-label {
+    color: rgba(255,255,255,0.8);
+}
+
+.freq-meter-track {
+    flex: 1;
+    height: 10px;
+    background: rgba(0,0,0,0.1);
+    border-radius: var(--radius-full);
+    overflow: hidden;
+}
+
+[data-theme="dark"] .freq-meter-track {
+    background: rgba(255,255,255,0.1);
+}
+
+.freq-meter-bar {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, #93c5fd, #2563eb, #4f46e5);
+    border-radius: var(--radius-full);
+    transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.freq-meter-pct {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: #2563eb;
+    min-width: 2.8rem;
+    text-align: right;
+    transition: color 0.4s ease;
+}
+
+.freq-slider-wrapper.freq-high .freq-meter-pct {
+    color: #bfdbfe;
+}
+
+/* === Translation Hint === */
+.freq-translation {
+    text-align: center;
+    font-size: 0.93rem;
+    color: var(--text-secondary);
+    padding: 0.4rem 1rem;
+    background: rgba(255,255,255,0.5);
+    border-radius: var(--radius-lg);
+    display: inline-block;
+    width: 100%;
+    box-sizing: border-box;
+    transition: background 0.4s ease, color 0.4s ease;
+    backdrop-filter: blur(4px);
+}
+
+[data-theme="dark"] .freq-translation {
+    background: rgba(0,0,0,0.25);
+}
+
+.freq-slider-wrapper.freq-high .freq-translation {
+    background: rgba(255,255,255,0.18);
+    color: rgba(255,255,255,0.9);
+}
+
+.freq-translation em {
+    font-style: normal;
+    font-weight: 700;
+    color: #2563eb;
+    transition: color 0.4s ease;
+}
+
+.freq-slider-wrapper.freq-high .freq-translation em {
+    color: #bfdbfe;
+}
+
+/* === Responsive === */
+@media (max-width: 600px) {
+    .freq-slider-wrapper { padding: var(--space-lg) var(--space-md); }
+    .freq-sentence-box { font-size: 1.4rem; padding: 0.75rem 1rem; }
+    .freq-rest { font-size: 1rem; }
+    .freq-label { font-size: 0.68rem; }
+}

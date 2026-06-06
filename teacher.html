@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard Guru — E-Module PKBM Tunas Mandiri</title>
+  <meta name="description" content="Dashboard insight untuk guru memantau perkembangan dan memberikan feedback kepada siswa." />
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    body { padding-bottom: 80px; }
+
+    .difficulty-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 0;
+      border-bottom: 1.5px solid var(--gray-200);
+    }
+    .difficulty-row:last-child { border-bottom: none; }
+    .difficulty-row .topic { font-size: 0.85rem; font-weight: 600; color: var(--navy); width: 120px; flex-shrink: 0; }
+    .difficulty-row .pct-label { font-size: 0.78rem; font-weight: 700; width: 38px; text-align: right; flex-shrink: 0; }
+
+    .student-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 0;
+      border-bottom: 1.5px solid var(--gray-200);
+    }
+    .student-row:last-child { border-bottom: none; }
+    .student-avatar {
+      width: 38px; height: 38px;
+      border-radius: 50%;
+      background: var(--navy);
+      color: var(--white);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem;
+      flex-shrink: 0;
+    }
+    .student-info { flex: 1; }
+    .student-info strong { font-size: 0.88rem; color: var(--navy); display: block; }
+    .student-info small { font-size: 0.75rem; color: var(--gray-400); }
+
+    .video-upload-area {
+      border: 2.5px dashed var(--gray-200);
+      border-radius: var(--radius-lg);
+      padding: 2rem 1rem;
+      text-align: center;
+      cursor: pointer;
+      transition: var(--transition);
+      margin-bottom: 1rem;
+    }
+    .video-upload-area:hover {
+      border-color: var(--navy-light);
+      background: var(--gray-100);
+    }
+    .video-upload-area .upload-icon { font-size: 2.5rem; display: block; margin-bottom: 8px; }
+
+    .notification-dot {
+      width: 8px; height: 8px;
+      background: var(--red);
+      border-radius: 50%;
+      display: inline-block;
+      margin-left: 5px;
+      vertical-align: middle;
+      animation: pulse 1.5s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.6; transform: scale(1.4); }
+    }
+
+    /* Mini calendar strip */
+    .cal-strip { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 4px; }
+    .cal-day {
+      flex-shrink: 0;
+      width: 46px;
+      text-align: center;
+      padding: 8px 4px;
+      border-radius: var(--radius-md);
+      background: var(--gray-100);
+      border: 1.5px solid var(--gray-200);
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .cal-day:hover { border-color: var(--navy-light); }
+    .cal-day.active { background: var(--navy); border-color: var(--navy); color: var(--white); }
+    .cal-day .cal-date { font-size: 1rem; font-weight: 800; }
+    .cal-day .cal-label { font-size: 0.6rem; font-weight: 600; text-transform: uppercase; opacity: 0.7; }
+    .cal-day .cal-dot { width: 5px; height: 5px; background: var(--yellow); border-radius: 50%; margin: 3px auto 0; }
+  </style>
+</head>
+<body class="page-wrapper">
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="navbar-inner">
+      <div class="navbar-brand">
+        <div class="navbar-logo">📚</div>
+        <div>
+          <div class="navbar-title">Tunas Mandiri</div>
+          <div class="navbar-subtitle">Dashboard Guru</div>
+        </div>
+      </div>
+      <div class="navbar-user">
+        <span class="navbar-role-badge">Guru</span>
+        <div class="navbar-avatar">👩‍🏫</div>
+      </div>
+    </div>
+  </nav>
+
+  <main class="main-content">
+    <div class="container">
+
+      <!-- TABS -->
+      <div class="tabs">
+        <button class="tab-btn active" onclick="switchTab('analisis')">📊 Analisis</button>
+        <button class="tab-btn" onclick="switchTab('siswa')">👥 Data Siswa</button>
+        <button class="tab-btn" onclick="switchTab('modul-guru')">📁 Manajemen Modul</button>
+        <button class="tab-btn" onclick="switchTab('feedback')">💬 E-Feedback <span class="notification-dot"></span></button>
+      </div>
+
+      <!-- ===== TAB: ANALISIS ===== -->
+      <div class="tab-panel active" id="tab-analisis">
+
+        <!-- Hero -->
+        <div class="hero-banner" style="margin-bottom:1.5rem">
+          <span class="hero-emoji">📊</span>
+          <h1>Selamat Pagi, Bu Dewi!</h1>
+          <p>Ada <strong style="color:var(--yellow)">3 siswa</strong> yang butuh perhatian lebih hari ini. Pantau perkembangan mereka sekarang.</p>
+        </div>
+
+        <!-- Stats Kelas -->
+        <div class="stats-grid mb-2">
+          <div class="stat-card">
+            <div class="stat-icon">👥</div>
+            <div class="stat-value">18</div>
+            <div class="stat-label">Jumlah Siswa</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">📈</div>
+            <div class="stat-value">72%</div>
+            <div class="stat-label">Rata-rata Kelas</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">✅</div>
+            <div class="stat-value">12</div>
+            <div class="stat-label">Aktif Hari Ini</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">⚠️</div>
+            <div class="stat-value">3</div>
+            <div class="stat-label">Perlu Bantuan</div>
+          </div>
+        </div>
+
+        <!-- Analisis Kesulitan -->
+        <div class="card mb-2">
+          <div class="section-header">
+            <h3>🔍 Analisis Kesulitan Siswa</h3>
+            <p>Topik yang paling sulit dikuasai oleh siswa kelas Anda</p>
+          </div>
+          <div>
+            <div class="difficulty-row">
+              <span class="topic">Kalimat Tanya</span>
+              <div class="difficulty-bar-track">
+                <div class="difficulty-bar-fill" style="width:85%;background:linear-gradient(90deg,#EF4444,#F97316)"></div>
+              </div>
+              <span class="pct-label" style="color:#B91C1C">85%</span>
+              <span class="badge badge-red">Sangat Sulit</span>
+            </div>
+            <div class="difficulty-row">
+              <span class="topic">Kalimat Negatif</span>
+              <div class="difficulty-bar-track">
+                <div class="difficulty-bar-fill" style="width:68%;background:linear-gradient(90deg,#F97316,#FBBF24)"></div>
+              </div>
+              <span class="pct-label" style="color:#C2410C">68%</span>
+              <span class="badge badge-orange">Cukup Sulit</span>
+            </div>
+            <div class="difficulty-row">
+              <span class="topic">Penggunaan S/ES</span>
+              <div class="difficulty-bar-track">
+                <div class="difficulty-bar-fill" style="width:52%;background:linear-gradient(90deg,#FBBF24,#22C55E)"></div>
+              </div>
+              <span class="pct-label" style="color:#92400E">52%</span>
+              <span class="badge badge-orange">Sedang</span>
+            </div>
+            <div class="difficulty-row">
+              <span class="topic">Kalimat Positif</span>
+              <div class="difficulty-bar-track">
+                <div class="difficulty-bar-fill" style="width:28%;background:linear-gradient(90deg,#22C55E,#4ADE80)"></div>
+              </div>
+              <span class="pct-label" style="color:#15803D">28%</span>
+              <span class="badge badge-green">Mudah Dikuasai</span>
+            </div>
+            <div class="difficulty-row">
+              <span class="topic">Verb Agreement</span>
+              <div class="difficulty-bar-track">
+                <div class="difficulty-bar-fill" style="width:45%;background:linear-gradient(90deg,#FBBF24,#22C55E)"></div>
+              </div>
+              <span class="pct-label" style="color:#78350F">45%</span>
+              <span class="badge badge-orange">Sedang</span>
+            </div>
+          </div>
+          <div style="margin-top:1rem; padding:10px 12px; background:var(--yellow-soft); border-radius:var(--radius-md); border-left:4px solid var(--yellow-hover)">
+            <p style="font-size:0.83rem;color:var(--navy);font-weight:600">💡 <strong>Rekomendasi:</strong> Fokuskan sesi tatap muka minggu depan pada Kalimat Tanya (Interrogative) karena tingkat kesulitan tertinggi (85%).</p>
+          </div>
+        </div>
+
+        <!-- Grafik Aktivitas Kelas -->
+        <div class="card">
+          <h3 class="mb-1">📈 Aktivitas Belajar Kelas (7 Hari)</h3>
+          <p style="font-size:0.82rem;margin-bottom:1rem">Jumlah sesi belajar aktif per hari</p>
+          <div class="chart-wrapper">
+            <div class="chart-bars">
+              <div class="chart-bar-group"><div class="chart-bar" style="height:50%"><span class="chart-bar-value">9</span></div></div>
+              <div class="chart-bar-group"><div class="chart-bar" style="height:75%"><span class="chart-bar-value">13</span></div></div>
+              <div class="chart-bar-group"><div class="chart-bar" style="height:55%"><span class="chart-bar-value">10</span></div></div>
+              <div class="chart-bar-group"><div class="chart-bar" style="height:90%; background:linear-gradient(180deg,var(--yellow),#f59e0b)"><span class="chart-bar-value">16</span></div></div>
+              <div class="chart-bar-group"><div class="chart-bar" style="height:70%"><span class="chart-bar-value">12</span></div></div>
+              <div class="chart-bar-group"><div class="chart-bar" style="height:40%"><span class="chart-bar-value">7</span></div></div>
+              <div class="chart-bar-group"><div class="chart-bar" style="height:30%"><span class="chart-bar-value">5</span></div></div>
+            </div>
+            <div class="chart-labels">
+              <div class="chart-label">Sen</div>
+              <div class="chart-label">Sel</div>
+              <div class="chart-label">Rab</div>
+              <div class="chart-label">Kam</div>
+              <div class="chart-label">Jum</div>
+              <div class="chart-label">Sab</div>
+              <div class="chart-label">Min</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== TAB: DATA SISWA ===== -->
+      <div class="tab-panel" id="tab-siswa">
+        <div class="section-header">
+          <h2>👥 Data Siswa</h2>
+          <p>Pantau perkembangan setiap siswa secara individual</p>
+        </div>
+
+        <!-- Filter -->
+        <div style="display:flex;gap:8px;margin-bottom:1rem;flex-wrap:wrap">
+          <select class="form-control form-select" style="max-width:180px;padding:10px 14px">
+            <option>Semua Siswa</option>
+            <option>Perlu Bantuan</option>
+            <option>Aktif Hari Ini</option>
+            <option>Tidak Aktif</option>
+          </select>
+          <input class="form-control" type="text" placeholder="🔍 Cari siswa..." style="max-width:200px;padding:10px 14px" />
+        </div>
+
+        <div class="card">
+          <div id="studentList">
+            <!-- Generated by JS -->
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== TAB: MANAJEMEN MODUL ===== -->
+      <div class="tab-panel" id="tab-modul-guru">
+        <div class="section-header">
+          <h2>📁 Manajemen Modul</h2>
+          <p>Perbarui materi, unggah video, dan kelola konten pembelajaran</p>
+        </div>
+
+        <!-- Upload Video -->
+        <div class="card mb-2">
+          <h3 class="mb-2">🎬 Unggah Video Penjelasan Baru</h3>
+          <div class="video-upload-area" onclick="showToast('📁 Pilih file video dari perangkat Anda...')">
+            <span class="upload-icon">📹</span>
+            <p style="font-weight:600;color:var(--navy);margin-bottom:4px">Klik untuk memilih video</p>
+            <small style="color:var(--gray-400)">Format: MP4, MOV, AVI — Maks 500MB</small>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Judul Video</label>
+            <input class="form-control" type="text" placeholder="Contoh: Penjelasan Kalimat Tanya (Interrogative)" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Tautkan ke Modul</label>
+            <select class="form-control form-select">
+              <option>Modul 3 — Kegiatan Belanja & Pasar</option>
+              <option>Modul 4 — Kehidupan di Rumah</option>
+              <option>Modul 5 — Layanan Publik & Kesehatan</option>
+            </select>
+          </div>
+          <button class="btn btn-navy btn-full" onclick="showToast('✅ Video berhasil diunggah ke Google Antigravity!')">
+            ☁️ Unggah ke Google Antigravity
+          </button>
+        </div>
+
+        <!-- Daftar Modul Existing -->
+        <div class="card">
+          <h3 class="mb-2">📚 Daftar Modul Aktif</h3>
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <div style="background:var(--gray-100);border-radius:var(--radius-md);padding:14px;border:1.5px solid var(--gray-200)">
+              <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px">
+                <div>
+                  <strong style="color:var(--navy);display:block">📅 Modul 1 — Rutinitas Harian</strong>
+                  <small style="color:var(--gray-400)">15 soal · Diperbarui: 5 Maret 2025</small>
+                </div>
+                <span class="badge badge-green">Aktif</span>
+              </div>
+              <div style="display:flex;gap:6px;flex-wrap:wrap">
+                <button class="btn btn-outline btn-sm" onclick="showToast('✏️ Mode edit modul dibuka...')">✏️ Edit</button>
+                <button class="btn btn-sm" style="background:var(--orange-soft);color:#C2410C;border:1.5px solid #fed7aa" onclick="showToast('👁️ Preview modul sebagai siswa...')">👁 Preview</button>
+                <button class="btn btn-sm btn-success" onclick="showToast('📊 Laporan soal modul 1 dibuka...')">📊 Laporan</button>
+              </div>
+            </div>
+
+            <div style="background:var(--gray-100);border-radius:var(--radius-md);padding:14px;border:1.5px solid var(--gray-200)">
+              <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px">
+                <div>
+                  <strong style="color:var(--navy);display:block">💼 Modul 2 — Dunia Kerja</strong>
+                  <small style="color:var(--gray-400)">12 soal · Diperbarui: 2 Maret 2025</small>
+                </div>
+                <span class="badge badge-green">Aktif</span>
+              </div>
+              <div style="display:flex;gap:6px;flex-wrap:wrap">
+                <button class="btn btn-outline btn-sm" onclick="showToast('✏️ Mode edit modul dibuka...')">✏️ Edit</button>
+                <button class="btn btn-sm" style="background:var(--orange-soft);color:#C2410C;border:1.5px solid #fed7aa" onclick="showToast('👁️ Preview modul sebagai siswa...')">👁 Preview</button>
+                <button class="btn btn-sm btn-success" onclick="showToast('📊 Laporan soal modul 2 dibuka...')">📊 Laporan</button>
+              </div>
+            </div>
+
+            <div style="background:var(--gray-100);border-radius:var(--radius-md);padding:14px;border:1.5px solid var(--gray-200)">
+              <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px">
+                <div>
+                  <strong style="color:var(--navy);display:block">🛒 Modul 3 — Kegiatan Belanja & Pasar</strong>
+                  <small style="color:var(--gray-400)">10 soal · Sedang berjalan</small>
+                </div>
+                <span class="badge badge-orange">Sedang Berjalan</span>
+              </div>
+              <div style="display:flex;gap:6px;flex-wrap:wrap">
+                <button class="btn btn-outline btn-sm" onclick="showToast('✏️ Mode edit modul dibuka...')">✏️ Edit</button>
+                <button class="btn btn-sm" style="background:var(--orange-soft);color:#C2410C;border:1.5px solid #fed7aa" onclick="showToast('👁️ Preview modul sebagai siswa...')">👁 Preview</button>
+                <button class="btn btn-sm btn-success" onclick="showToast('📊 Laporan soal modul 3 dibuka...')">📊 Laporan</button>
+              </div>
+            </div>
+          </div>
+
+          <button class="btn btn-primary btn-full mt-2" onclick="showToast('➕ Form pembuatan modul baru dibuka!')">
+            ➕ Tambah Modul Baru
+          </button>
+        </div>
+      </div>
+
+      <!-- ===== TAB: E-FEEDBACK ===== -->
+      <div class="tab-panel" id="tab-feedback">
+        <div class="section-header">
+          <h2>💬 E-Feedback</h2>
+          <p>Berikan apresiasi dan koreksi personal untuk setiap siswa</p>
+        </div>
+
+        <!-- Feedback Form -->
+        <div class="card mb-2">
+          <h3 class="mb-2">✍️ Kirim Feedback Baru</h3>
+          <div class="form-group">
+            <label class="form-label">Pilih Siswa</label>
+            <select class="form-control form-select">
+              <option>Budi Santoso</option>
+              <option>Siti Aminah</option>
+              <option>Ahmad Fauzi</option>
+              <option>Rina Wulandari</option>
+              <option>Joko Prasetyo</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Jenis Feedback</label>
+            <div style="display:flex;gap:8px;margin-top:4px;flex-wrap:wrap">
+              <label style="display:flex;align-items:center;gap:6px;font-size:0.88rem;cursor:pointer">
+                <input type="radio" name="fbtype" value="aprs" checked /> 👏 Apresiasi
+              </label>
+              <label style="display:flex;align-items:center;gap:6px;font-size:0.88rem;cursor:pointer">
+                <input type="radio" name="fbtype" value="koreks" /> ✏️ Koreksi
+              </label>
+              <label style="display:flex;align-items:center;gap:6px;font-size:0.88rem;cursor:pointer">
+                <input type="radio" name="fbtype" value="saran" /> 💡 Saran
+              </label>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Pesan Feedback</label>
+            <textarea class="form-control" rows="4" placeholder="Contoh: Budi, kamu sudah sangat baik dalam kalimat positif. Coba latihan lebih banyak untuk kalimat tanya ya!"></textarea>
+          </div>
+          <button class="btn btn-primary btn-full" onclick="sendFeedback()">
+            📨 Kirim Feedback
+          </button>
+        </div>
+
+        <!-- Riwayat Feedback -->
+        <div class="card">
+          <h3 class="mb-2">📋 Riwayat Feedback Terkirim</h3>
+
+          <div class="feedback-item positive">
+            <div class="feedback-header">
+              <strong>Kepada: Budi Santoso</strong>
+              <span class="badge badge-green">👏 Apresiasi</span>
+            </div>
+            <p class="feedback-body">"Budi, kemajuanmu pekan ini luar biasa! Skor kuis naik dari 70% menjadi 85%. Pertahankan semangatmu ya!"</p>
+            <small style="color:var(--gray-400);display:block;margin-top:4px">Dikirim 12 Mar 2025, 09.15</small>
+          </div>
+
+          <div class="feedback-item negative">
+            <div class="feedback-header">
+              <strong>Kepada: Joko Prasetyo</strong>
+              <span class="badge badge-orange">✏️ Koreksi</span>
+            </div>
+            <p class="feedback-body">"Joko, perhatikan penggunaan 'does not' untuk subjek He/She/It. Kualitas jawabanmu akan meningkat pesat jika kamu lebih teliti di bagian ini."</p>
+            <small style="color:var(--gray-400);display:block;margin-top:4px">Dikirim 11 Mar 2025, 14.30</small>
+          </div>
+
+          <div class="feedback-item">
+            <div class="feedback-header">
+              <strong>Kepada: Rina Wulandari</strong>
+              <span class="badge badge-navy">💡 Saran</span>
+            </div>
+            <p class="feedback-body">"Rina, coba latihan kalimat tanya setiap hari selama 10 menit. Gunakan template: 'Do/Does + Subjek + Verb?' Semangat!"</p>
+            <small style="color:var(--gray-400);display:block;margin-top:4px">Dikirim 10 Mar 2025, 16.00</small>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- BOTTOM NAV -->
+  <nav class="bottom-nav">
+    <div class="bottom-nav-item active" onclick="switchTab('analisis')">
+      <span class="nav-icon">📊</span>Analisis
+    </div>
+    <div class="bottom-nav-item" onclick="switchTab('siswa')">
+      <span class="nav-icon">👥</span>Siswa
+    </div>
+    <div class="bottom-nav-item" onclick="switchTab('modul-guru')">
+      <span class="nav-icon">📁</span>Modul
+    </div>
+    <div class="bottom-nav-item" onclick="switchTab('feedback')">
+      <span class="nav-icon">💬</span>Feedback
+    </div>
+    <div class="bottom-nav-item" onclick="window.location.href='index.html'">
+      <span class="nav-icon">🚪</span>Keluar
+    </div>
+  </nav>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    /* ===== TAB ===== */
+    function switchTab(name) {
+      document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.bottom-nav-item').forEach(n => n.classList.remove('active'));
+      document.getElementById('tab-' + name).classList.add('active');
+      const map = { analisis:0, siswa:1, 'modul-guru':2, feedback:3 };
+      if (map[name] !== undefined) {
+        document.querySelectorAll('.tab-btn')[map[name]].classList.add('active');
+        document.querySelectorAll('.bottom-nav-item')[map[name]].classList.add('active');
+      }
+    }
+
+    /* ===== STUDENT LIST ===== */
+    const students = [
+      { name: 'Siti Aminah', status: 'Aktif', score: 95, needs: false, avatar: '😊' },
+      { name: 'Ahmad Fauzi', status: 'Aktif', score: 88, needs: false, avatar: '🙂' },
+      { name: 'Budi Santoso', status: 'Aktif', score: 85, needs: false, avatar: '😄' },
+      { name: 'Rina Wulandari', status: 'Aktif', score: 78, needs: false, avatar: '🙃' },
+      { name: 'Joko Prasetyo', status: 'Aktif', score: 72, needs: false, avatar: '😐' },
+      { name: 'Dewi Lestari', status: 'Aktif', score: 65, needs: true, avatar: '😐' },
+      { name: 'Bambang Wijaya', status: 'Tidak aktif', score: 48, needs: true, avatar: '😕' },
+      { name: 'Sumiati', status: 'Tidak aktif', score: 35, needs: true, avatar: '😟' },
+    ];
+
+    const listEl = document.getElementById('studentList');
+    students.forEach(s => {
+      const badgeClass = s.needs ? 'badge-red' : (s.score >= 80 ? 'badge-green' : 'badge-orange');
+      const badgeText = s.needs ? '⚠️ Perlu Bantuan' : (s.score >= 80 ? '✅ Baik' : '⚡ Berkembang');
+      listEl.innerHTML += `
+        <div class="student-row">
+          <div class="student-avatar">${s.avatar}</div>
+          <div class="student-info">
+            <strong>${s.name}</strong>
+            <small>${s.status} · Skor: ${s.score}/100</small>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px">
+            <span class="badge ${badgeClass}">${badgeText}</span>
+            <button class="btn btn-sm btn-outline" onclick="showToast('💬 Buka feedback untuk ${s.name}...')">Feedback</button>
+          </div>
+        </div>`;
+    });
+
+    /* ===== TOAST ===== */
+    function showToast(msg) {
+      const t = document.getElementById('toast');
+      t.textContent = msg;
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 3000);
+    }
+
+    /* ===== FEEDBACK ===== */
+    function sendFeedback() {
+      showToast('✅ Feedback berhasil dikirim ke siswa!');
+    }
+  </script>
+</body>
+</html>

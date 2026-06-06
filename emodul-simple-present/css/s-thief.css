@@ -1,0 +1,392 @@
+/* ====================================
+   S-THIEF — NEGATIVE TRANSFORMATION
+   ==================================== */
+
+/* ─── Wrapper ─── */
+.sthief-wrapper {
+    margin-top: var(--space-2xl);
+    background: linear-gradient(135deg, #fafaf9 0%, #f5f3ff 50%, #faf0ff 100%);
+    border: 2px solid #ddd6fe;
+    border-radius: var(--radius-2xl);
+    padding: var(--space-xl) var(--space-2xl);
+    box-shadow: 0 8px 32px rgba(124, 58, 237, 0.10), 0 2px 8px rgba(0,0,0,0.06);
+    position: relative;
+    overflow: visible; /* allow flying-s to go outside */
+}
+
+[data-theme="dark"] .sthief-wrapper {
+    background: linear-gradient(135deg, #1c1917 0%, #1e1b4b 60%, #2d1b69 100%);
+    border-color: #5b21b6;
+}
+
+/* Decorative thief silhouette */
+.sthief-wrapper::after {
+    content: '🦹';
+    position: absolute;
+    top: -12px;
+    right: 24px;
+    font-size: 1.8rem;
+    opacity: 0.15;
+    pointer-events: none;
+}
+
+/* ─── Header ─── */
+.sthief-header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    margin-bottom: var(--space-xs);
+    flex-wrap: wrap;
+}
+
+.sthief-icon { font-size: 1.5rem; }
+
+.sthief-header h3 {
+    margin-bottom: 0;
+    font-size: 1.25rem;
+    color: var(--text-color);
+}
+
+.sthief-title-hl {
+    background: linear-gradient(90deg, #7c3aed, #db2777);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.sthief-badge {
+    display: inline-block;
+    background: linear-gradient(135deg, #7c3aed 0%, #db2777 100%);
+    color: #fff;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 3px 10px;
+    border-radius: var(--radius-full);
+    box-shadow: 0 2px 8px rgba(124,58,237,0.35);
+}
+
+.sthief-subtitle {
+    color: var(--text-secondary);
+    font-size: 0.97rem;
+    margin-bottom: var(--space-lg);
+}
+
+/* ─── Stage (sentence container) ─── */
+.sthief-stage {
+    position: relative;    /* anchor for the flying-s */
+    min-height: 110px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: var(--space-lg);
+}
+
+/* ─── Phase containers ─── */
+.sthief-phase {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    width: 100%;
+}
+
+/* ─── Sentence display ─── */
+.sthief-sentence {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.35rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    font-size: 2rem;
+    font-weight: 800;
+    padding: 0.9rem 2rem;
+    border-radius: var(--radius-xl);
+    background: #fff;
+    box-shadow: 0 4px 18px rgba(124,58,237,0.10);
+    border: 1.5px solid #e9d5ff;
+    transition: box-shadow 0.4s ease;
+}
+
+[data-theme="dark"] .sthief-sentence {
+    background: var(--gray-800);
+    border-color: #5b21b6;
+}
+
+/* Subject */
+.st-subject { color: var(--primary-color); }
+
+/* Positive verb parts */
+.st-verb-pos {
+    display: inline-flex;
+    align-items: baseline;
+    position: relative;
+}
+
+.st-eat { color: #059669; }
+
+/* The 's' that will be stolen */
+.st-s-origin {
+    display: inline-block;
+    color: #dc2626;
+    font-weight: 900;
+    position: relative;
+    transition: opacity 0.2s ease;
+    /* glow to hint it will move */
+    text-shadow: 0 0 8px rgba(220,38,38,0.5);
+}
+
+/* Pulsing hint on the origin 's' */
+@keyframes st-s-hint {
+    0%, 100% { text-shadow: 0 0 4px rgba(220,38,38,0.3); }
+    50%       { text-shadow: 0 0 16px rgba(220,38,38,0.9); transform: scale(1.15); }
+}
+
+.st-s-origin.hinting {
+    animation: st-s-hint 0.8s ease-in-out 2;
+}
+
+/* Negative parts */
+.st-do-waiting {
+    color: #7c3aed;
+    position: relative;
+}
+
+.st-not-appear,
+.st-not {
+    color: #b91c1c;
+    font-style: italic;
+}
+
+/* "not" slides in from left */
+.st-not-appear {
+    opacity: 0;
+    transform: translateX(-12px);
+    transition: opacity 0.4s ease 0.2s, transform 0.4s ease 0.2s;
+}
+
+.st-not-appear.visible {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.st-eat-bare { color: #059669; }
+
+/* does (phase 2) */
+.st-does {
+    color: #7c3aed;
+    position: relative;
+}
+
+/* The stolen 'es' bounces in */
+.st-s-stolen {
+    display: inline-block;
+    color: #dc2626;
+    font-weight: 900;
+    animation: st-s-land 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+    text-shadow: 0 0 10px rgba(220,38,38,0.5);
+}
+
+@keyframes st-s-land {
+    0%   { transform: scale(0) rotate(-90deg); opacity: 0; }
+    70%  { transform: scale(1.3) rotate(5deg);  opacity: 1; }
+    100% { transform: scale(1) rotate(0deg);   opacity: 1; }
+}
+
+/* Rest text */
+.st-rest { color: var(--text-secondary); font-size: 1.3rem; font-weight: 500; }
+
+/* ─── Flying 's' ─── */
+.st-flying-s {
+    position: fixed;        /* JS will set via transform, so fixed keeps it above everything */
+    display: block;
+    font-size: 2rem;
+    font-weight: 900;
+    color: #dc2626;
+    text-shadow: 0 0 12px rgba(220,38,38,0.7), 0 0 24px rgba(220,38,38,0.4);
+    pointer-events: none;
+    opacity: 0;
+    z-index: 9999;
+    user-select: none;
+    /* transition applied by JS to trigger animation */
+}
+
+.st-flying-s.visible {
+    opacity: 1;
+}
+
+/* ─── Phase labels ─── */
+.st-label {
+    font-size: 0.82rem;
+    font-weight: 600;
+    padding: 0.3rem 1rem;
+    border-radius: var(--radius-full);
+    background: var(--gray-100);
+    color: var(--text-secondary);
+    letter-spacing: 0.02em;
+}
+
+.st-label-pos {
+    background: #d1fae5;
+    color: #065f46;
+    border: 1px solid #6ee7b7;
+}
+
+.st-label-neg {
+    background: #fee2e2;
+    color: #991b1b;
+    border: 1px solid #fca5a5;
+}
+
+/* Animating phase label — pulse */
+.sthief-phase .st-label:not(.st-label-pos):not(.st-label-neg) {
+    animation: st-pulse-label 0.9s ease-in-out infinite;
+    background: #fef3c7;
+    color: #92400e;
+    border: 1px solid #fcd34d;
+}
+
+@keyframes st-pulse-label {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0.6; }
+}
+
+/* Animating sentence shake */
+.st-animating {
+    box-shadow: 0 4px 18px rgba(220,38,38,0.2);
+    border-color: #fca5a5;
+}
+
+/* ─── Action Buttons ─── */
+.sthief-actions {
+    display: flex;
+    gap: 0.75rem;
+    justify-content: center;
+    margin-bottom: var(--space-md);
+    flex-wrap: wrap;
+}
+
+.sthief-btn {
+    font-family: inherit;
+    font-size: 1rem;
+    font-weight: 700;
+    padding: 0.65rem 1.8rem;
+    border-radius: var(--radius-full);
+    border: none;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.25s ease;
+    letter-spacing: 0.02em;
+}
+
+.neg-btn {
+    background: linear-gradient(135deg, #7c3aed 0%, #db2777 100%);
+    color: #fff;
+    box-shadow: 0 4px 16px rgba(124,58,237,0.4);
+}
+
+.neg-btn:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 22px rgba(124,58,237,0.55);
+}
+
+.neg-btn:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.reset-btn {
+    background: var(--gray-100);
+    color: var(--text-color);
+    border: 2px solid var(--gray-300);
+    box-shadow: var(--shadow-sm);
+}
+
+[data-theme="dark"] .reset-btn {
+    background: var(--gray-700);
+    border-color: var(--gray-600);
+    color: var(--gray-100);
+}
+
+.reset-btn:hover {
+    background: var(--gray-200);
+    transform: translateY(-2px);
+}
+
+/* ─── Thief Pop-up ─── */
+.st-popup {
+    margin-top: var(--space-sm);
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    animation: st-popup-enter 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+@keyframes st-popup-enter {
+    0%   { transform: scale(0.7) translateY(16px); opacity: 0; }
+    70%  { transform: scale(1.04) translateY(-3px); opacity: 1; }
+    100% { transform: scale(1) translateY(0); opacity: 1; }
+}
+
+.st-popup-inner {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.9rem;
+    background: linear-gradient(135deg, #fdf4ff 0%, #fce7f3 50%, #ede9fe 100%);
+    border: 2px solid #c084fc;
+    border-radius: var(--radius-xl);
+    padding: var(--space-md) var(--space-lg);
+    box-shadow: 0 4px 20px rgba(192,132,252,0.3);
+}
+
+[data-theme="dark"] .st-popup-inner {
+    background: linear-gradient(135deg, #4a044e 0%, #3b0764 100%);
+    border-color: #a855f7;
+}
+
+.st-popup-thief {
+    font-size: 2.2rem;
+    flex-shrink: 0;
+    animation: st-thief-wiggle 1s ease-in-out infinite 0.5s;
+}
+
+@keyframes st-thief-wiggle {
+    0%, 100% { transform: rotate(-5deg); }
+    50%       { transform: rotate(10deg) translateX(4px); }
+}
+
+.st-popup-text {
+    font-size: 1rem;
+    line-height: 1.7;
+    color: var(--text-color);
+}
+
+[data-theme="dark"] .st-popup-text { color: #e9d5ff; }
+
+.st-popup-text strong { color: #7c3aed; }
+[data-theme="dark"] .st-popup-text strong { color: #c4b5fd; }
+
+.st-popup-s {
+    display: inline-block;
+    color: #dc2626;
+    font-weight: 900;
+    font-size: 1.1em;
+    animation: st-s-bounce 0.8s ease-in-out infinite 0.8s;
+}
+
+@keyframes st-s-bounce {
+    0%, 100% { transform: translateY(0) scale(1); }
+    50%       { transform: translateY(-4px) scale(1.15); }
+}
+
+/* ─── Responsive ─── */
+@media (max-width: 600px) {
+    .sthief-wrapper { padding: var(--space-lg) var(--space-md); }
+    .sthief-sentence { font-size: 1.4rem; padding: 0.7rem 1rem; }
+    .st-rest { font-size: 1rem; }
+    .st-flying-s { font-size: 1.4rem; }
+}

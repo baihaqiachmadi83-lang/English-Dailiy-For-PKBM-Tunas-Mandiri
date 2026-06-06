@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Materi Interaktif: Dunia Kerja — E-Module PKBM</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    /* Menggunakan style yang sama dengan material.html */
+    body { padding-bottom: 2rem; background: var(--gray-100); }
+    .top-bar {
+      background: var(--navy); color: var(--white);
+      padding: 1rem; position: sticky; top: 0; z-index: 100;
+      display: flex; align-items: center; gap: 1rem;
+      box-shadow: var(--shadow-md);
+    }
+    .back-btn {
+      color: var(--white); background: rgba(255,255,255,0.1);
+      border-radius: 50%; width: 36px; height: 36px;
+      display: flex; align-items: center; justify-content: center;
+      text-decoration: none; font-size: 1.2rem; transition: var(--transition);
+    }
+    .back-btn:hover { background: rgba(255,255,255,0.2); }
+    
+    .learning-section {
+      background: var(--white); border-radius: var(--radius-xl);
+      padding: 1.5rem; margin-bottom: 1.5rem;
+      box-shadow: var(--shadow-sm); border: 1.5px solid var(--gray-200);
+      position: relative; overflow: hidden;
+    }
+    .section-idx {
+      position: absolute; top: -15px; right: -15px;
+      font-size: 5rem; font-weight: 800; color: var(--gray-100);
+      line-height: 1; z-index: 0; pointer-events: none;
+    }
+    .learning-content { position: relative; z-index: 1; }
+    
+    .interactive-box {
+      background: var(--navy); color: var(--white);
+      border-radius: var(--radius-lg); padding: 1.25rem;
+      margin: 1.25rem 0; cursor: pointer; transition: var(--transition);
+      display: flex; flex-direction: column; align-items: center; text-align: center;
+    }
+    .interactive-box:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); background: var(--navy-light); }
+    .interactive-box .emoji { font-size: 3rem; margin-bottom: 10px; }
+    .interactive-box .eng { font-size: 1.2rem; font-weight: 700; color: var(--yellow); margin-bottom: 4px; }
+    .interactive-box .ind { font-size: 0.9rem; color: rgba(255,255,255,0.8); }
+    
+    .formula-card {
+      background: var(--yellow-soft); border: 2px dashed var(--yellow-hover);
+      border-radius: var(--radius-md); padding: 1rem; text-align: center;
+      margin-bottom: 1rem;
+    }
+    .formula-card strong { color: var(--navy); font-size: 1.1rem; }
+    
+    /* Subject Drag Area */
+    .drag-container {
+      display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center;
+      margin: 1.5rem 0;
+    }
+    .drop-zone {
+      border: 3px dashed var(--gray-400); border-radius: var(--radius-md);
+      padding: 1.5rem 1rem; text-align: center; min-width: 140px;
+      min-height: 120px; background: var(--gray-100);
+      transition: var(--transition);
+    }
+    .drop-zone.active { border-color: var(--navy); background: var(--navy-light); color: white; }
+    .drop-zone.correct { border-color: var(--green); background: var(--green-soft); }
+    .drop-zone.wrong { border-color: var(--red); background: var(--red-soft); }
+    
+    .drag-item {
+      background: var(--white); color: var(--navy); font-weight: 700;
+      padding: 10px 16px; border-radius: 20px; border: 2px solid var(--navy);
+      cursor: grab; display: inline-block; margin: 4px;
+      box-shadow: 0 4px 0 var(--navy); transition: transform 0.1s;
+    }
+    .drag-item:active { cursor: grabbing; transform: translateY(4px); box-shadow: 0 0 0 var(--navy); }
+    
+    .flip-card {
+      background-color: transparent; width: 100%; height: 120px;
+      perspective: 1000px; margin-bottom: 1rem;
+    }
+    .flip-card-inner {
+      position: relative; width: 100%; height: 100%; text-align: center;
+      transition: transform 0.6s; transform-style: preserve-3d; cursor: pointer;
+    }
+    .flip-card.flipped .flip-card-inner { transform: rotateY(180deg); }
+    .flip-card-front, .flip-card-back {
+      position: absolute; width: 100%; height: 100%; backface-visibility: hidden;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      border-radius: var(--radius-md); border: 2px solid var(--gray-200);
+    }
+    .flip-card-front { background-color: var(--white); color: var(--navy); }
+    .flip-card-back { background-color: var(--navy); color: var(--yellow); transform: rotateY(180deg); }
+  </style>
+</head>
+<body>
+
+  <div class="top-bar">
+    <a href="student.html" class="back-btn">⬅</a>
+    <div>
+      <div style="font-size:0.75rem; color:var(--yellow); font-weight:700">MODUL 2</div>
+      <div style="font-weight:800">Dunia Kerja (Professions)</div>
+    </div>
+  </div>
+
+  <main class="container" style="margin-top:1.5rem">
+
+    <!-- Section 1: Konsep Dasar -->
+    <section class="learning-section">
+      <div class="section-idx">1</div>
+      <div class="learning-content">
+        <h2 style="color:var(--navy); margin-bottom:8px">Menceritakan Pekerjaan 💼</h2>
+        <p>Simple Present Tense sangat berguna untuk menceritakan <strong>profesimu atau pekerjaan orang lain</strong>. Kenapa? Karena pekerjaan adalah rutinitas sehari-hari!</p>
+        
+        <div style="background:var(--gray-100); border-left: 4px solid var(--yellow); padding: 1rem; border-radius: var(--radius-md); margin: 1rem 0;">
+          <h4 style="color:var(--navy); margin-bottom:4px">🧑‍🍳 Analogi Memasak</h4>
+          <p style="font-size: 0.9rem; margin:0">Seorang koki (chef) memasak hari ini, kemarin, dan kemungkinan besar besok. Itulah sebabnya kita pakai Present Tense. <em>"A chef cooks food"</em>.</p>
+        </div>
+
+        <div class="interactive-box" onclick="playAudio('I work as an admin in a small company')">
+          <div class="emoji">🏢</div>
+          <div class="eng">"I work as an admin in a small company"</div>
+          <div class="ind">(Saya bekerja sebagai admin di perusahaan kecil)</div>
+          <small style="margin-top:8px; opacity:0.7">👉 Klik kotak ini untuk mendengar pengucapannya!</small>
+        </div>
+      </div>
+    </section>
+
+    <!-- VIDEO PEMBELAJARAN -->
+    <section class="learning-section" style="padding:1.25rem">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
+        <div style="background:#FF0000;border-radius:8px;padding:6px 10px;color:white;font-size:0.8rem;font-weight:800">▶ YouTube</div>
+        <div>
+          <div style="font-weight:800;color:var(--navy);font-size:0.95rem">Video: DO, DOES, DON'T, DOESN'T</div>
+          <div style="font-size:0.78rem;color:var(--gray-600)">Kalimat Negatif & Tanya Simple Present — oleh engVid</div>
+        </div>
+      </div>
+      <div style="position:relative;padding-bottom:56.25%;height:0;border-radius:var(--radius-md);overflow:hidden;background:#000">
+        <iframe
+          src="https://www.youtube.com/embed/MF4mDLHagSU"
+          title="DO, DOES, DON'T, DOESN'T - Present Simple Questions and Negatives"
+          style="position:absolute;top:0;left:0;width:100%;height:100%;border:none"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen loading="lazy">
+        </iframe>
+      </div>
+      <p style="font-size:0.8rem;color:var(--gray-500);margin-top:8px;text-align:center">💡 Pelajari cara bertanya dan menyangkal dalam bahasa Inggris!</p>
+    </section>
+
+    <!-- Section 2: Kalimat Tanya & Penyangkalan Kerja -->
+    <section class="learning-section">
+      <div class="section-idx">2</div>
+      <div class="learning-content">
+        <h2 style="color:var(--navy); margin-bottom:8px">Bertanya & Menyangkal 🗣️</h2>
+        <p>Bagaimana cara bertanya tentang pekerjaan orang lain atau bilang kita "tidak" melakukan pekerjaan itu?</p>
+
+        <div style="margin-top: 1.5rem;">
+          <h4 style="color:#B91C1C; margin-bottom:6px">❌ Menyangkal (Negatif)</h4>
+          <p style="font-size:0.9rem; color:var(--gray-600)">Ingat kata <strong>don't</strong> atau <strong>doesn't</strong>!</p>
+          <div class="interactive-box" style="background:#FEE2E2; color:#B91C1C; border:1px solid #EF4444" onclick="playAudio('My friend does not work on Sundays')">
+            <div class="emoji" style="font-size:2rem">🛋️</div>
+            <div class="eng" style="color:#991B1B">"My friend DOES NOT (doesn't) work on Sundays"</div>
+            <div class="ind" style="color:#B91C1C">(Temanku tidak bekerja di hari Minggu)</div>
+          </div>
+        </div>
+
+        <div style="margin-top: 1.5rem;">
+          <h4 style="color:#C2410C; margin-bottom:6px">❓ Bertanya (Interrogative)</h4>
+          <p style="font-size:0.9rem; color:var(--gray-600)">Pindahkan <strong>Do / Does</strong> ke paling depan.</p>
+          <div class="interactive-box" style="background:#FFEDD5; color:#C2410C; border:1px solid #F97316" onclick="playAudio('Do you work here?')">
+            <div class="emoji" style="font-size:2rem">🤝</div>
+            <div class="eng" style="color:#9A3412">"DO you work here?"</div>
+            <div class="ind" style="color:#C2410C">(Apakah kamu bekerja di sini?)</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 3: Profesi + S/ES -->
+    <section class="learning-section">
+      <div class="section-idx">3</div>
+      <div class="learning-content">
+        <h2 style="color:var(--navy); margin-bottom:8px">Ingat Aturan S / ES! 👑</h2>
+        <p>Jika kamu menceritakan pekerjaan <strong>Orang Lain (Satu Orang)</strong> seperti bos, teman, atau pelanggan, <strong>WAJIB tambahkan s/es</strong> di kata kerjanya.</p>
+        
+        <h4 style="margin-top:1.5rem; text-align:center">Tebak Perubahannya! (Klik Kartu) 👇</h4>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:1rem">
+          <div class="flip-card" onclick="this.classList.toggle('flipped')">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <span style="font-size:2rem">🛒</span>
+                <strong>The Seller (Penjual)</strong>
+                <small>sell (menjual)</small>
+              </div>
+              <div class="flip-card-back">
+                <span style="font-size:1.5rem">sells</span>
+                <small>The seller sells fresh fruits</small>
+              </div>
+            </div>
+          </div>
+          <div class="flip-card" onclick="this.classList.toggle('flipped')">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <span style="font-size:2rem">📦</span>
+                <strong>My Boss (Bosku)</strong>
+                <small>check (memeriksa)</small>
+              </div>
+              <div class="flip-card-back">
+                <span style="font-size:1.5rem">checks</span>
+                <small>My boss checks the goods</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 4: Mini Game -->
+    <section class="learning-section">
+      <div class="section-idx">4</div>
+      <div class="learning-content">
+        <h2 style="color:var(--navy); margin-bottom:8px">Isi Kekosongan! 🧩</h2>
+        <p>Tarik pilihan kata (Do/Does/Don't/Doesn't) ke dalam kotak kalimat yang tepat!</p>
+        
+        <div style="text-align:center; padding:10px" id="wordbank">
+          <div class="drag-item" draggable="true" id="drag-do">Do</div>
+          <div class="drag-item" draggable="true" id="drag-does">Does</div>
+          <div class="drag-item" draggable="true" id="drag-dont">don't</div>
+          <div class="drag-item" draggable="true" id="drag-doesnt">doesn't</div>
+        </div>
+
+        <div class="drag-container" style="flex-direction:column">
+          <div class="drop-zone" style="min-height:80px; text-align:left; padding:10px" id="zone-1" ondragover="allowDrop(event)" ondrop="drop(event, 'drag-does')">
+            <h4 style="color:var(--navy); font-weight:600">Pertanyaan untuk "Budi" (Dia Lk)</h4>
+            <div style="display:flex; align-items:center; gap:8px; margin-top:10px">
+              <div class="drop-target" style="width:100px; height:40px; border:2px dashed var(--gray-400); border-radius:10px"></div>
+              <span>... Budi work in Jakarta?</span>
+            </div>
+          </div>
+          
+          <div class="drop-zone" style="min-height:80px; text-align:left; padding:10px" id="zone-2" ondragover="allowDrop(event)" ondrop="drop(event, 'drag-dont')">
+            <h4 style="color:var(--navy); font-weight:600">Negatif untuk "We" (Kita)</h4>
+            <div style="display:flex; align-items:center; gap:8px; margin-top:10px">
+              <span>We ... </span>
+              <div class="drop-target" style="width:100px; height:40px; border:2px dashed var(--gray-400); border-radius:10px"></div>
+              <span>sell products online.</span>
+            </div>
+          </div>
+        </div>
+        
+        <div id="drag-feedback" style="text-align:center; font-weight:700; min-height:24px; color:var(--navy)"></div>
+      </div>
+    </section>
+    
+    <button class="btn btn-primary btn-full btn-lg" onclick="window.location.href='student.html'">
+      ✅ Selesai Belajar Modul 2
+    </button>
+
+  </main>
+
+  <script>
+    function playAudio(text) {
+      if ('speechSynthesis' in window) {
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = "en-US";
+        utterance.rate = 0.9;
+        window.speechSynthesis.speak(utterance);
+      } else {
+        alert("Browser tidak mendukung fitur suara.");
+      }
+    }
+
+    // Drag and Drop Logic
+    const correctMap = {
+      'drag-does': 'zone-1',
+      'drag-dont': 'zone-2',
+    };
+    
+    let draggedId = null;
+
+    document.querySelectorAll('.drag-item').forEach(item => {
+      item.addEventListener('dragstart', (e) => {
+        draggedId = e.target.id;
+        e.target.style.opacity = '0.5';
+      });
+      item.addEventListener('dragend', (e) => {
+        e.target.style.opacity = '1';
+        document.querySelectorAll('.drop-zone').forEach(z => z.classList.remove('active'));
+      });
+      item.addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        draggedId = e.target.id;
+        document.getElementById('drag-feedback').textContent = "Pilih kotak putus-putus untuk menempatkan kata!";
+      });
+    });
+
+    document.querySelectorAll('.drop-zone').forEach(zone => {
+      zone.addEventListener('touchend', (e) => {
+        if(draggedId) {
+          handleDrop(draggedId, zone.id, zone);
+        }
+      });
+    });
+
+    function allowDrop(ev) {
+      ev.preventDefault();
+      ev.currentTarget.classList.add('active');
+    }
+
+    function drop(ev, expectedId) {
+      ev.preventDefault();
+      const zone = ev.currentTarget;
+      zone.classList.remove('active');
+      handleDrop(draggedId, zone.id, zone);
+    }
+    
+    function handleDrop(itemId, zoneId, zoneEl) {
+      if (!itemId) return;
+      const el = document.getElementById(itemId);
+      const fb = document.getElementById('drag-feedback');
+      
+      if (correctMap[itemId] === zoneId) {
+        zoneEl.querySelector('.drop-target').appendChild(el);
+        zoneEl.classList.add('correct');
+        setTimeout(() => zoneEl.classList.remove('correct'), 800);
+        fb.textContent = "✅ Tepat Sekali!";
+        fb.style.color = "#15803D";
+      } else {
+        zoneEl.classList.add('wrong');
+        setTimeout(() => zoneEl.classList.remove('wrong'), 800);
+        fb.textContent = "❌ Kurang tepat. Coba perhatikan Subjeknya!";
+        fb.style.color = "#B91C1C";
+      }
+      draggedId = null;
+    }
+  </script>
+</body>
+</html>

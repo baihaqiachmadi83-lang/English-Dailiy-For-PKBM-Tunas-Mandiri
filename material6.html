@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Materi Interaktif: Fakta & Ilmu Pengetahuan — E-Module PKBM</title>
+  <link rel="stylesheet" href="css/style.css"/>
+  <style>
+    body { padding-bottom: 2rem; background: var(--gray-100); }
+    .top-bar {
+      background: var(--navy); color: var(--white);
+      padding: 1rem; position: sticky; top: 0; z-index: 100;
+      display: flex; align-items: center; gap: 1rem;
+      box-shadow: var(--shadow-md);
+    }
+    .back-btn {
+      color: var(--white); background: rgba(255,255,255,0.1);
+      border-radius: 50%; width: 36px; height: 36px;
+      display: flex; align-items: center; justify-content: center;
+      text-decoration: none; font-size: 1.2rem; transition: var(--transition);
+    }
+    .back-btn:hover { background: rgba(255,255,255,0.2); }
+    .learning-section {
+      background: var(--white); border-radius: var(--radius-xl);
+      padding: 1.5rem; margin-bottom: 1.5rem;
+      box-shadow: var(--shadow-sm); border: 1.5px solid var(--gray-200);
+      position: relative; overflow: hidden;
+    }
+    .section-idx {
+      position: absolute; top: -15px; right: -15px;
+      font-size: 5rem; font-weight: 800; color: var(--gray-100);
+      line-height: 1; z-index: 0; pointer-events: none;
+    }
+    .learning-content { position: relative; z-index: 1; }
+
+    /* Section 1 – Fact Cards Swipe */
+    .fact-stage {
+      background: linear-gradient(135deg,#0D2B55,#1E4F8C);
+      border-radius: var(--radius-lg); padding: 1.5rem;
+      color: white; text-align: center; margin: 1rem 0;
+      min-height: 160px; position: relative;
+    }
+    .fact-emoji { font-size: 3rem; margin-bottom: 8px; display: block; }
+    .fact-sentence {
+      font-size: 1.1rem; font-weight: 800;
+      color: var(--yellow); margin-bottom: 6px;
+    }
+    .fact-translation { font-size: 0.88rem; color: rgba(255,255,255,0.8); margin-bottom: 10px; }
+    .fact-note { font-size: 0.78rem; color: rgba(255,255,255,0.55); font-style: italic; }
+    .fact-nav { display: flex; gap: 10px; justify-content: center; margin-top: 12px; }
+    .fact-btn {
+      background: rgba(255,255,255,0.15); border: 2px solid rgba(255,255,255,0.25);
+      color: white; border-radius: 20px; padding: 8px 18px;
+      font-weight: 700; font-size: 0.85rem; cursor: pointer; transition: all 0.2s;
+    }
+    .fact-btn:hover { background: rgba(255,255,255,0.28); }
+    .fact-btn.speak { background: var(--yellow); color: var(--navy); border-color: var(--yellow); }
+    .fact-counter { font-size: 0.75rem; opacity: 0.6; margin-top: 8px; }
+    .fact-dots { display: flex; gap: 6px; justify-content: center; margin-top: 10px; }
+    .fact-dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.25); transition: background 0.3s; }
+    .fact-dot.active { background: var(--yellow); }
+
+    /* Section 2 – True / False */
+    .tf-card {
+      background: linear-gradient(135deg,#0D2B55,#163D73);
+      border-radius: var(--radius-lg); padding: 1.25rem;
+      color: white; margin-bottom: 1rem;
+    }
+    .tf-sentence { font-size: 1rem; font-weight: 700; color: #FCD34D; margin-bottom: 12px; line-height: 1.5; }
+    .tf-btns { display: flex; gap: 10px; }
+    .tf-btn {
+      flex: 1; padding: 12px; border-radius: var(--radius-md);
+      border: 2px solid rgba(255,255,255,0.25); background: rgba(255,255,255,0.08);
+      color: white; font-weight: 800; font-size: 0.95rem;
+      cursor: pointer; transition: all 0.2s; text-align: center;
+    }
+    .tf-btn:hover:not(:disabled) { background: rgba(255,255,255,0.2); transform: translateY(-2px); }
+    .tf-btn.ok  { background: rgba(34,197,94,0.3);  border-color: #22C55E; }
+    .tf-btn.err { background: rgba(239,68,68,0.3);   border-color: #EF4444; }
+    .tf-btn.reveal { background: rgba(34,197,94,0.2); border-color: #22C55E; }
+    .tf-fb { font-size: 0.82rem; font-weight: 600; margin-top: 8px; min-height: 18px; }
+    .tf-score { text-align: center; font-weight: 800; color: var(--navy); margin-top: 0.5rem; }
+
+    /* Section 3 – Fill Blank */
+    .fill-item {
+      background: var(--gray-100); border-radius: var(--radius-md);
+      padding: 1rem; margin-bottom: 0.75rem;
+      border: 2px solid var(--gray-200); transition: border-color 0.3s;
+    }
+    .fill-item.ok  { border-color: #22C55E; background: #DCFCE7; }
+    .fill-item.err { border-color: #EF4444; background: #FEE2E2; }
+    .fill-sent { font-size: 0.95rem; font-weight: 600; color: var(--navy); margin-bottom: 8px; line-height: 1.6; }
+    .fill-opts { display: flex; gap: 8px; flex-wrap: wrap; }
+    .fill-opt {
+      padding: 7px 14px; border-radius: 20px;
+      border: 2px solid var(--gray-400); background: white;
+      font-weight: 700; font-size: 0.85rem; cursor: pointer;
+      color: var(--navy); transition: all 0.2s;
+    }
+    .fill-opt:hover:not(:disabled) { border-color: var(--navy); transform: translateY(-2px); }
+    .fill-opt.hit  { background: #DCFCE7; border-color: #22C55E; color: #15803D; }
+    .fill-opt.miss { background: #FEE2E2; border-color: #EF4444; color: #B91C1C; }
+    .fill-opt.show { background: #D1FAE5; border-color: #22C55E; color: #065F46; }
+    .fill-fb { font-size: 0.82rem; font-weight: 600; margin-top: 6px; min-height: 18px; }
+
+    /* Section 4 – Category Sort Drag */
+    .drag-container { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; margin: 1.5rem 0; }
+    .drop-zone {
+      border: 3px dashed var(--gray-400); border-radius: var(--radius-md);
+      padding: 1rem 0.75rem; text-align: center; min-width: 130px;
+      min-height: 120px; background: var(--gray-100); transition: var(--transition);
+      flex: 1;
+    }
+    .drop-zone.active  { border-color: var(--navy); background: rgba(30,79,140,0.07); }
+    .drop-zone.correct { border-color: #22C55E; background: #DCFCE7; }
+    .drop-zone.wrong   { border-color: #EF4444; background: #FEE2E2; }
+    .drag-item {
+      background: white; color: var(--navy); font-weight: 700;
+      padding: 8px 12px; border-radius: 20px; border: 2px solid var(--navy);
+      cursor: grab; display: inline-block; margin: 4px;
+      box-shadow: 0 3px 0 var(--navy); transition: transform 0.1s;
+      font-size: 0.82rem;
+    }
+    .drag-item:active { cursor: grabbing; transform: translateY(3px); box-shadow: 0 0 0 var(--navy); }
+    #drag-fb { text-align: center; font-weight: 700; min-height: 24px; margin-top: 6px; }
+  </style>
+</head>
+<body>
+
+  <div class="top-bar">
+    <a href="student.html" class="back-btn">⬅</a>
+    <div>
+      <div style="font-size:0.75rem;color:var(--yellow);font-weight:700">MODUL 6</div>
+      <div style="font-weight:800">Fakta & Ilmu Pengetahuan 🌐</div>
+    </div>
+  </div>
+
+  <main class="container" style="margin-top:1.5rem">
+
+    <!-- Section 1: Fact Card Carousel -->
+    <section class="learning-section">
+      <div class="section-idx">1</div>
+      <div class="learning-content">
+        <h2 style="color:var(--navy);margin-bottom:4px">Fakta Sains dalam Simple Present 🔬</h2>
+        <p>Simple Present dipakai untuk menyatakan <strong>fakta ilmiah yang selalu benar</strong>. Geser dan dengarkan!</p>
+
+        <div class="fact-stage">
+          <span class="fact-emoji" id="f-emoji">☀️</span>
+          <div class="fact-sentence" id="f-sent"></div>
+          <div class="fact-translation" id="f-trans"></div>
+          <div class="fact-note" id="f-note"></div>
+          <div class="fact-dots" id="f-dots"></div>
+          <div class="fact-nav">
+            <button class="fact-btn" onclick="prevFact()">← Sebelumnya</button>
+            <button class="fact-btn speak" onclick="speakFact()">🔊 Dengar</button>
+            <button class="fact-btn" onclick="nextFact()">Berikutnya →</button>
+          </div>
+          <div class="fact-counter" id="f-counter"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- VIDEO PEMBELAJARAN -->
+    <section class="learning-section" style="padding:1.25rem">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
+        <div style="background:#FF0000;border-radius:8px;padding:6px 10px;color:white;font-size:0.8rem;font-weight:800">▶ YouTube</div>
+        <div>
+          <div style="font-weight:800;color:var(--navy);font-size:0.95rem">Video: Simple Present untuk Fakta Umum</div>
+          <div style="font-size:0.78rem;color:var(--gray-600)">General Truths &amp; Scientific Facts — oleh Robert Teaches English</div>
+        </div>
+      </div>
+      <div style="position:relative;padding-bottom:56.25%;height:0;border-radius:var(--radius-md);overflow:hidden;background:#000">
+        <iframe
+          src="https://www.youtube.com/embed/Lid1nEIPXqg"
+          title="How to use the SIMPLE PRESENT TENSE | General Truths"
+          style="position:absolute;top:0;left:0;width:100%;height:100%;border:none"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen loading="lazy">
+        </iframe>
+      </div>
+      <p style="font-size:0.8rem;color:var(--gray-500);margin-top:8px;text-align:center">💡 Simple Present dipakai untuk fakta ilmiah yang selalu benar!</p>
+    </section>
+
+    <!-- Section 2: True or False -->
+    <section class="learning-section">
+      <div class="section-idx">2</div>
+      <div class="learning-content">
+        <h2 style="color:var(--navy);margin-bottom:4px">Benar atau Salah? ✅❌</h2>
+        <p>Apakah kalimat berikut <strong>benar secara tata bahasa</strong>? Pilih TRUE jika benar, FALSE jika salah!</p>
+        <div id="tf-container" style="margin-top:1rem"></div>
+        <div class="tf-score" id="tf-score"></div>
+      </div>
+    </section>
+
+    <!-- Section 3: Fill in the Blank -->
+    <section class="learning-section">
+      <div class="section-idx">3</div>
+      <div class="learning-content">
+        <h2 style="color:var(--navy);margin-bottom:4px">Lengkapi Fakta Sains! ✏️</h2>
+        <p>Pilih kata kerja yang tepat untuk melengkapi setiap fakta ilmiah.</p>
+        <div id="fill-cont" style="margin-top:1rem"></div>
+        <div id="fill-sc" style="text-align:center;font-weight:800;color:var(--navy);margin-top:0.5rem;min-height:28px"></div>
+      </div>
+    </section>
+
+    <!-- Section 4: Category Sort -->
+    <section class="learning-section">
+      <div class="section-idx">4</div>
+      <div class="learning-content">
+        <h2 style="color:var(--navy);margin-bottom:4px">Sortir Fakta! 🌍</h2>
+        <p>Tarik kartu ke kategori yang benar — <strong>Alam</strong>, <strong>Tubuh Manusia</strong>, atau <strong>Teknologi</strong>!</p>
+        <div style="text-align:center;padding:10px" id="wordbank">
+          <div class="drag-item" draggable="true" id="di1">The sun rises in the east.</div>
+          <div class="drag-item" draggable="true" id="di2">The heart pumps blood.</div>
+          <div class="drag-item" draggable="true" id="di3">Computers process data.</div>
+          <div class="drag-item" draggable="true" id="di4">Water flows downhill.</div>
+          <div class="drag-item" draggable="true" id="di5">The lungs help us breathe.</div>
+          <div class="drag-item" draggable="true" id="di6">The internet connects people.</div>
+        </div>
+        <div class="drag-container">
+          <div class="drop-zone" id="zone-nature" ondragover="allowDrop(event)" ondrop="doDrop(event,'nature')">
+            <h4 style="color:#15803D;font-size:0.88rem">🌿 Alam</h4>
+            <div style="font-size:0.72rem;color:var(--gray-600);margin-bottom:6px">Nature</div>
+            <div class="drop-target" style="min-height:36px"></div>
+          </div>
+          <div class="drop-zone" id="zone-body" ondragover="allowDrop(event)" ondrop="doDrop(event,'body')">
+            <h4 style="color:#B91C1C;font-size:0.88rem">🫀 Tubuh</h4>
+            <div style="font-size:0.72rem;color:var(--gray-600);margin-bottom:6px">Human Body</div>
+            <div class="drop-target" style="min-height:36px"></div>
+          </div>
+          <div class="drop-zone" id="zone-tech" ondragover="allowDrop(event)" ondrop="doDrop(event,'tech')">
+            <h4 style="color:#1D4ED8;font-size:0.88rem">💻 Teknologi</h4>
+            <div style="font-size:0.72rem;color:var(--gray-600);margin-bottom:6px">Technology</div>
+            <div class="drop-target" style="min-height:36px"></div>
+          </div>
+        </div>
+        <div id="drag-fb"></div>
+      </div>
+    </section>
+
+    <button class="btn btn-primary btn-full btn-lg" onclick="window.location.href='student.html'">
+      ✅ Selesai Belajar Modul 6
+    </button>
+  </main>
+
+  <script>
+    /* ===== Sound ===== */
+    function playAudio(t){ if(!('speechSynthesis' in window))return; window.speechSynthesis.cancel(); const u=new SpeechSynthesisUtterance(t); u.lang='en-US'; u.rate=0.88; window.speechSynthesis.speak(u); }
+    function playOk(){ try{ const c=new(window.AudioContext||window.webkitAudioContext)(); [[0,523.25],[0.12,659.25],[0.24,783.99]].forEach(([w,f])=>{ const o=c.createOscillator(),g=c.createGain(); o.connect(g);g.connect(c.destination); o.type='sine';o.frequency.value=f; g.gain.setValueAtTime(0.3,c.currentTime+w); g.gain.exponentialRampToValueAtTime(0.001,c.currentTime+w+0.3); o.start(c.currentTime+w);o.stop(c.currentTime+w+0.35); }); }catch(e){} }
+    function playErr(){ try{ const c=new(window.AudioContext||window.webkitAudioContext)(); const o=c.createOscillator(),g=c.createGain(); o.connect(g);g.connect(c.destination); o.type='sawtooth'; o.frequency.setValueAtTime(280,c.currentTime); o.frequency.exponentialRampToValueAtTime(100,c.currentTime+0.35); g.gain.setValueAtTime(0.35,c.currentTime); g.gain.exponentialRampToValueAtTime(0.001,c.currentTime+0.4); o.start();o.stop(c.currentTime+0.45); }catch(e){} }
+
+    /* ===== Section 1: Fact Carousel ===== */
+    const facts = [
+      { e:'☀️', s:'The sun rises in the east.', t:'Matahari terbit di sebelah timur.', n:'Subject "The sun" = It → rises (pakai S)' },
+      { e:'🌊', s:'Water flows to lower areas.', t:'Air mengalir ke tempat yang lebih rendah.', n:'Subject "Water" = It → flows (pakai S)' },
+      { e:'🌙', s:'The moon orbits the Earth.', t:'Bulan mengorbit Bumi.', n:'Subject "The moon" = It → orbits (pakai S)' },
+      { e:'🫀', s:'The heart pumps blood around the body.', t:'Jantung memompa darah ke seluruh tubuh.', n:'Subject "The heart" = It → pumps (pakai S)' },
+      { e:'🐝', s:'Bees produce honey.', t:'Lebah menghasilkan madu.', n:'Subject "Bees" = They → produce (kata kerja asli)' },
+      { e:'🌿', s:'Plants need sunlight to grow.', t:'Tumbuhan membutuhkan sinar matahari untuk tumbuh.', n:'Subject "Plants" = They → need (kata kerja asli)' },
+    ];
+    let fIdx = 0;
+    function renderFact(){
+      const f = facts[fIdx];
+      document.getElementById('f-emoji').textContent = f.e;
+      document.getElementById('f-sent').textContent = f.s;
+      document.getElementById('f-trans').textContent = f.t;
+      document.getElementById('f-note').textContent = '📌 ' + f.n;
+      document.getElementById('f-counter').textContent = `${fIdx+1} / ${facts.length}`;
+      const dots = document.getElementById('f-dots'); dots.innerHTML='';
+      facts.forEach((_,i)=>{ const d=document.createElement('div'); d.className='fact-dot'+(i===fIdx?' active':''); dots.appendChild(d); });
+    }
+    function prevFact(){ fIdx=(fIdx-1+facts.length)%facts.length; renderFact(); }
+    function nextFact(){ fIdx=(fIdx+1)%facts.length; renderFact(); }
+    function speakFact(){ playAudio(facts[fIdx].s); }
+
+    /* ===== Section 2: True / False ===== */
+    const tfData=[
+      { s:'"The sun rise in the east." — Apakah kalimat ini benar?', correct:false, expl:'Salah! Harus "rises" karena The sun = It (orang ketiga tunggal).' },
+      { s:'"Plants produce oxygen." — Apakah kalimat ini benar?', correct:true,  expl:'Benar! Plants = They (plural), kata kerja tetap "produce".' },
+      { s:'"The moon orbit the Earth." — Apakah kalimat ini benar?', correct:false, expl:'Salah! Harus "orbits" karena The moon = It.' },
+      { s:'"Water flows downhill." — Apakah kalimat ini benar?', correct:true,  expl:'Benar! Water = It, dan "flows" sudah benar (pakai S).' },
+      { s:'"Bees makes honey." — Apakah kalimat ini benar?', correct:false, expl:'Salah! Bees = They (plural), harusnya "make" bukan "makes".' },
+    ];
+    let tfAns=0, tfOk=0;
+    const tfCont=document.getElementById('tf-container');
+    tfData.forEach((q,i)=>{
+      const d=document.createElement('div'); d.className='tf-card'; d.id='tf-'+i;
+      d.innerHTML=`<div class="tf-sentence">${q.s}</div>
+        <div class="tf-btns">
+          <button class="tf-btn" onclick="ansTF(${i},true,this)">✅ TRUE</button>
+          <button class="tf-btn" onclick="ansTF(${i},false,this)">❌ FALSE</button>
+        </div>
+        <div class="tf-fb" id="tfb-${i}"></div>`;
+      tfCont.appendChild(d);
+    });
+    function ansTF(i,chosen,btn){
+      const card=document.getElementById('tf-'+i); if(card.dataset.done)return;
+      card.dataset.done='1'; tfAns++;
+      const q=tfData[i]; const ok=chosen===q.correct;
+      card.querySelectorAll('.tf-btn').forEach(b=>{ b.disabled=true; });
+      btn.classList.add(ok?'ok':'err');
+      if(!ok){ card.querySelectorAll('.tf-btn').forEach(b=>{ if((q.correct&&b.textContent.includes('TRUE'))||(!q.correct&&b.textContent.includes('FALSE')))b.classList.add('reveal'); }); }
+      const fb=document.getElementById('tfb-'+i);
+      fb.textContent=(ok?'✅ ':'❌ ')+q.expl; fb.style.color=ok?'#6EE7B7':'#FCA5A5';
+      if(ok){tfOk++;playOk();}else playErr();
+      if(tfAns===tfData.length){
+        const sc=document.getElementById('tf-score');
+        sc.textContent=`🎯 Skor: ${tfOk}/${tfData.length}`; sc.style.color=tfOk>=4?'#15803D':'#B91C1C';
+      }
+    }
+
+    /* ===== Section 3: Fill Blank ===== */
+    const fills=[
+      {s:'The Earth ___ around the sun.', opts:['orbit','orbits','orbiting'], ans:'orbits', hint:'"The Earth"=It → ORBITS'},
+      {s:'Fish ___ in water to survive.', opts:['live','lives','living'], ans:'live', hint:'"Fish" (plural)=They → LIVE'},
+      {s:'The human body ___ about 60% water.', opts:['contain','contains','containing'], ans:'contains', hint:'"The human body"=It → CONTAINS'},
+      {s:'Volcanoes sometimes ___ ash and lava.', opts:['release','releases','released'], ans:'release', hint:'"Volcanoes"=They → RELEASE'},
+      {s:'Light ___ faster than sound.', opts:['travel','travels','traveling'], ans:'travels', hint:'"Light"=It → TRAVELS'},
+    ];
+    let fA=0, fK=0;
+    const fC=document.getElementById('fill-cont');
+    fills.forEach((q,i)=>{
+      const d=document.createElement('div'); d.className='fill-item'; d.id='fi-'+i;
+      d.innerHTML=`<div class="fill-sent">${q.s.replace('___','<u style="color:#06B6D4">___</u>')}</div>
+        <div class="fill-opts">${q.opts.map(o=>`<button class="fill-opt" onclick="ansF(${i},'${o}',this)">${o}</button>`).join('')}</div>
+        <div class="fill-fb" id="ffb-${i}"></div>`;
+      fC.appendChild(d);
+    });
+    function ansF(i,ch,btn){
+      const item=document.getElementById('fi-'+i); if(item.dataset.done)return;
+      item.dataset.done='1'; fA++;
+      const q=fills[i]; const ok=ch===q.ans;
+      item.querySelectorAll('.fill-opt').forEach(b=>{b.disabled=true; if(b.textContent===q.ans)b.classList.add('show');});
+      btn.classList.add(ok?'hit':'miss'); item.classList.add(ok?'ok':'err');
+      const fb=document.getElementById('ffb-'+i);
+      fb.innerHTML=(ok?'✅ ':'❌ ')+q.hint; fb.style.color=ok?'#15803D':'#B91C1C';
+      if(ok){fK++;playOk();}else playErr();
+      if(fA===fills.length){
+        const sc=document.getElementById('fill-sc');
+        sc.textContent=`🎯 Skor: ${fK}/${fills.length}`; sc.style.color=fK>=4?'#15803D':'#B91C1C';
+      }
+    }
+
+    /* ===== Section 4: Drag & Drop ===== */
+    const dragMap={di1:'nature',di2:'body',di3:'tech',di4:'nature',di5:'body',di6:'tech'};
+    let dragged=null;
+    document.querySelectorAll('.drag-item').forEach(el=>{
+      el.addEventListener('dragstart',e=>{dragged=e.target.id;e.target.style.opacity='0.5';});
+      el.addEventListener('dragend',e=>{e.target.style.opacity='1';document.querySelectorAll('.drop-zone').forEach(z=>z.classList.remove('active'));});
+      el.addEventListener('touchstart',e=>{e.preventDefault();dragged=e.target.id;document.getElementById('drag-fb').textContent='Pilih kategori yang sesuai!';});
+    });
+    document.querySelectorAll('.drop-zone').forEach(z=>{
+      z.addEventListener('touchend',()=>{if(dragged){const t=z.id.replace('zone-','');handleDrop(dragged,t,z);}});
+    });
+    function allowDrop(ev){ev.preventDefault();ev.currentTarget.classList.add('active');}
+    function doDrop(ev,t){ev.preventDefault();ev.currentTarget.classList.remove('active');handleDrop(dragged,t,ev.currentTarget);}
+    function handleDrop(id,t,zEl){
+      if(!id)return;
+      const el=document.getElementById(id);
+      const fb=document.getElementById('drag-fb');
+      if(dragMap[id]===t){
+        zEl.querySelector('.drop-target').appendChild(el);
+        zEl.classList.add('correct'); setTimeout(()=>zEl.classList.remove('correct'),800);
+        fb.textContent='✅ Tepat!'; fb.style.color='#15803D'; playOk();
+      } else {
+        zEl.classList.add('wrong'); setTimeout(()=>zEl.classList.remove('wrong'),800);
+        fb.textContent='❌ Coba lagi — perhatikan topik kalimatnya!'; fb.style.color='#B91C1C'; playErr();
+      }
+      dragged=null;
+    }
+
+    renderFact();
+  </script>
+</body>
+</html>

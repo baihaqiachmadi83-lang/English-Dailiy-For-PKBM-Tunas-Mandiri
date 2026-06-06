@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Materi Interaktif: Layanan Publik & Kesehatan — E-Module PKBM</title>
+  <link rel="stylesheet" href="css/style.css"/>
+  <style>
+    body { padding-bottom: 2rem; background: var(--gray-100); }
+    .top-bar {
+      background: var(--navy); color: var(--white);
+      padding: 1rem; position: sticky; top: 0; z-index: 100;
+      display: flex; align-items: center; gap: 1rem;
+      box-shadow: var(--shadow-md);
+    }
+    .back-btn {
+      color: var(--white); background: rgba(255,255,255,0.1);
+      border-radius: 50%; width: 36px; height: 36px;
+      display: flex; align-items: center; justify-content: center;
+      text-decoration: none; font-size: 1.2rem; transition: var(--transition);
+    }
+    .back-btn:hover { background: rgba(255,255,255,0.2); }
+    .learning-section {
+      background: var(--white); border-radius: var(--radius-xl);
+      padding: 1.5rem; margin-bottom: 1.5rem;
+      box-shadow: var(--shadow-sm); border: 1.5px solid var(--gray-200);
+      position: relative; overflow: hidden;
+    }
+    .section-idx {
+      position: absolute; top: -15px; right: -15px;
+      font-size: 5rem; font-weight: 800; color: var(--gray-100);
+      line-height: 1; z-index: 0; pointer-events: none;
+    }
+    .learning-content { position: relative; z-index: 1; }
+
+    /* Section 1 – Question Builder */
+    .qbuilder {
+      background: linear-gradient(135deg,#0D2B55,#1E4F8C);
+      border-radius: var(--radius-lg); padding: 1.25rem;
+      color: white; margin: 1rem 0;
+    }
+    .qb-display {
+      font-size: 1.15rem; font-weight: 800; text-align: center;
+      min-height: 48px; margin: 0.75rem 0;
+      display: flex; flex-wrap: wrap; gap: 6px;
+      justify-content: center; align-items: center;
+    }
+    .qb-aux  { color: #93C5FD; padding: 2px 8px; border-radius: 6px; background: rgba(147,197,253,0.18); }
+    .qb-subj { color: #FCD34D; }
+    .qb-verb { color: #6EE7B7; border-bottom: 2px solid #6EE7B7; }
+    .qb-rest { color: rgba(255,255,255,0.85); }
+    .pill-row { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 8px; }
+    .pill {
+      padding: 7px 14px; border-radius: 20px; font-size: 0.82rem;
+      font-weight: 700; cursor: pointer; transition: all 0.2s;
+      border: 2px solid rgba(255,255,255,0.25);
+      background: rgba(255,255,255,0.08); color: white;
+    }
+    .pill.active { background: #FCD34D; color: #0D2B55; border-color: #FCD34D; }
+    .rule-hint {
+      background: rgba(255,255,255,0.08); border-left: 4px solid #FCD34D;
+      border-radius: var(--radius-md); padding: 10px 14px;
+      font-size: 0.85rem; margin-top: 8px;
+    }
+    .speak-row { text-align: center; margin-top: 8px; }
+    .speak-btn-lg {
+      background: var(--yellow); color: var(--navy); border: none;
+      border-radius: 20px; padding: 8px 18px; font-weight: 700;
+      font-size: 0.85rem; cursor: pointer; transition: all 0.2s;
+    }
+    .speak-btn-lg:hover { background: var(--yellow-hover); transform: scale(1.04); }
+
+    /* Section 2 – WH Cards */
+    .wh-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 1rem; }
+    .wh-card {
+      border-radius: var(--radius-md); padding: 1rem;
+      cursor: pointer; transition: all 0.25s;
+      border: 2px solid var(--gray-200);
+    }
+    .wh-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+    .wh-word { font-size: 1.4rem; font-weight: 800; margin-bottom: 4px; }
+    .wh-meaning { font-size: 0.75rem; font-weight: 600; opacity: 0.75; margin-bottom: 6px; }
+    .wh-example { font-size: 0.82rem; font-style: italic; }
+    .wh-answer {
+      font-size: 0.78rem; margin-top: 6px; padding: 6px 8px;
+      border-radius: 8px; display: none;
+      background: rgba(0,0,0,0.08); font-weight: 600;
+    }
+    .wh-card.revealed .wh-answer { display: block; }
+
+    /* Section 3 – Fill Blank */
+    .fill-item {
+      background: var(--gray-100); border-radius: var(--radius-md);
+      padding: 1rem; margin-bottom: 0.75rem;
+      border: 2px solid var(--gray-200); transition: border-color 0.3s;
+    }
+    .fill-item.ok  { border-color: #22C55E; background: #DCFCE7; }
+    .fill-item.err { border-color: #EF4444; background: #FEE2E2; }
+    .fill-sent { font-size: 0.95rem; font-weight: 600; color: var(--navy); margin-bottom: 8px; line-height: 1.6; }
+    .fill-opts { display: flex; gap: 8px; flex-wrap: wrap; }
+    .fill-opt {
+      padding: 7px 14px; border-radius: 20px;
+      border: 2px solid var(--gray-400); background: white;
+      font-weight: 700; font-size: 0.85rem; cursor: pointer;
+      color: var(--navy); transition: all 0.2s;
+    }
+    .fill-opt:hover:not(:disabled) { border-color: var(--navy); transform: translateY(-2px); }
+    .fill-opt.hit  { background: #DCFCE7; border-color: #22C55E; color: #15803D; }
+    .fill-opt.miss { background: #FEE2E2; border-color: #EF4444; color: #B91C1C; }
+    .fill-opt.show { background: #D1FAE5; border-color: #22C55E; color: #065F46; }
+    .fill-fb { font-size: 0.82rem; font-weight: 600; margin-top: 6px; min-height: 18px; }
+
+    /* Section 4 – Dialog Match */
+    .dialog-box {
+      background: linear-gradient(135deg,#0D2B55,#163D73);
+      border-radius: var(--radius-lg); padding: 1.25rem;
+      margin-bottom: 1rem;
+    }
+    .dialog-q { color: #FCD34D; font-weight: 700; font-size: 0.95rem; margin-bottom: 12px; }
+    .dialog-options { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .dialog-opt {
+      background: rgba(255,255,255,0.1); border: 2px solid rgba(255,255,255,0.2);
+      border-radius: var(--radius-md); padding: 10px 8px;
+      color: white; font-size: 0.85rem; font-weight: 600;
+      cursor: pointer; text-align: center; transition: all 0.2s;
+    }
+    .dialog-opt:hover:not(:disabled) { background: rgba(255,255,255,0.2); transform: translateY(-2px); }
+    .dialog-opt.d-correct { background: rgba(34,197,94,0.25); border-color: #22C55E; }
+    .dialog-opt.d-wrong   { background: rgba(239,68,68,0.25);  border-color: #EF4444; }
+    .dialog-fb { color: rgba(255,255,255,0.9); font-size: 0.82rem; margin-top: 10px; min-height: 18px; font-weight: 600; }
+    .dialog-nav { display: flex; gap: 8px; justify-content: center; margin-top: 12px; }
+    .dialog-pip { width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,0.25); transition: background 0.3s; }
+    .dialog-pip.active { background: #FCD34D; }
+    .dialog-pip.done-ok   { background: #22C55E; }
+    .dialog-pip.done-err  { background: #EF4444; }
+  </style>
+</head>
+<body>
+
+  <div class="top-bar">
+    <a href="student.html" class="back-btn">⬅</a>
+    <div>
+      <div style="font-size:0.75rem;color:var(--yellow);font-weight:700">MODUL 5</div>
+      <div style="font-weight:800">Layanan Publik & Kesehatan 🏥</div>
+    </div>
+  </div>
+
+  <main class="container" style="margin-top:1.5rem">
+
+    <!-- Section 1: Question Builder -->
+    <section class="learning-section">
+      <div class="section-idx">1</div>
+      <div class="learning-content">
+        <h2 style="color:var(--navy);margin-bottom:4px">Membuat Kalimat Tanya ❓</h2>
+        <p>Di layanan publik, kita sering bertanya. Pilih subjek & kata kerja, lalu lihat kalimat tanyanya!</p>
+
+        <div class="qbuilder">
+          <div style="font-size:0.78rem;opacity:0.7;margin-bottom:6px">Pilih Subjek:</div>
+          <div class="pill-row" id="subj-pills">
+            <button class="pill active" onclick="setQB('subj','the doctor','does','work')">👨‍⚕️ The Doctor</button>
+            <button class="pill" onclick="setQB('subj','the nurse','does','help')">👩‍⚕️ The Nurse</button>
+            <button class="pill" onclick="setQB('subj','they','do','open')">👥 They</button>
+            <button class="pill" onclick="setQB('subj','you','do','have')">🙋 You</button>
+          </div>
+          <div style="font-size:0.78rem;opacity:0.7;margin-bottom:6px">Pilih Kata Kerja:</div>
+          <div class="pill-row" id="verb-pills">
+            <button class="pill active" onclick="setQB('verb','work','work here')">work</button>
+            <button class="pill" onclick="setQB('verb','check','check patients')">check</button>
+            <button class="pill" onclick="setQB('verb','open','open on Sunday')">open</button>
+            <button class="pill" onclick="setQB('verb','accept','accept BPJS')">accept</button>
+          </div>
+          <div class="qb-display" id="qb-display">
+            <span class="qb-aux">Does</span>
+            <span class="qb-subj">the doctor</span>
+            <span class="qb-verb">work</span>
+            <span class="qb-rest">here?</span>
+          </div>
+          <div class="rule-hint" id="qb-rule">
+            ❓ <strong>Does</strong> dipakai untuk He / She / It (orang ketiga tunggal)
+          </div>
+          <div class="speak-row">
+            <button class="speak-btn-lg" onclick="speakQB()">🔊 Dengarkan</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- VIDEO PEMBELAJARAN -->
+    <section class="learning-section" style="padding:1.25rem">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
+        <div style="background:#FF0000;border-radius:8px;padding:6px 10px;color:white;font-size:0.8rem;font-weight:800">▶ YouTube</div>
+        <div>
+          <div style="font-weight:800;color:var(--navy);font-size:0.95rem">Video: Present Simple WH-Questions</div>
+          <div style="font-size:0.78rem;color:var(--gray-600)">Where, When, What, Who, How, Why — oleh engVid</div>
+        </div>
+      </div>
+      <div style="position:relative;padding-bottom:56.25%;height:0;border-radius:var(--radius-md);overflow:hidden;background:#000">
+        <iframe
+          src="https://www.youtube.com/embed/49bKfTBy9Tc"
+          title="English Grammar - Present Simple WH Questions - engVid"
+          style="position:absolute;top:0;left:0;width:100%;height:100%;border:none"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen loading="lazy">
+        </iframe>
+      </div>
+      <p style="font-size:0.8rem;color:var(--gray-500);margin-top:8px;text-align:center">💡 Pelajari cara bertanya dengan Where, When, What, Who, How, dan Why!</p>
+    </section>
+
+    <!-- Section 2: WH-Question Cards -->
+    <section class="learning-section">
+      <div class="section-idx">2</div>
+      <div class="learning-content">
+        <h2 style="color:var(--navy);margin-bottom:4px">Kata Tanya (WH-Questions) 🔤</h2>
+        <p>Klik setiap kartu untuk melihat contoh kalimat di lingkungan kesehatan!</p>
+        <div class="wh-grid">
+          <div class="wh-card" style="background:#EFF6FF;border-color:#BFDBFE" onclick="this.classList.toggle('revealed')">
+            <div class="wh-word" style="color:#1D4ED8">WHERE</div>
+            <div class="wh-meaning" style="color:#1D4ED8">Di mana?</div>
+            <div class="wh-example" style="color:#1E40AF">Where does the doctor work?</div>
+            <div class="wh-answer" style="color:#1E40AF">✅ She works at the clinic.</div>
+          </div>
+          <div class="wh-card" style="background:#F0FDF4;border-color:#BBF7D0" onclick="this.classList.toggle('revealed')">
+            <div class="wh-word" style="color:#15803D">WHEN</div>
+            <div class="wh-meaning" style="color:#15803D">Kapan?</div>
+            <div class="wh-example" style="color:#166534">When does the clinic open?</div>
+            <div class="wh-answer" style="color:#166534">✅ It opens at 8 AM.</div>
+          </div>
+          <div class="wh-card" style="background:#FFF7ED;border-color:#FED7AA" onclick="this.classList.toggle('revealed')">
+            <div class="wh-word" style="color:#C2410C">WHAT</div>
+            <div class="wh-meaning" style="color:#C2410C">Apa?</div>
+            <div class="wh-example" style="color:#9A3412">What does the nurse do?</div>
+            <div class="wh-answer" style="color:#9A3412">✅ She checks the patients.</div>
+          </div>
+          <div class="wh-card" style="background:#FDF4FF;border-color:#E9D5FF" onclick="this.classList.toggle('revealed')">
+            <div class="wh-word" style="color:#7E22CE">WHO</div>
+            <div class="wh-meaning" style="color:#7E22CE">Siapa?</div>
+            <div class="wh-example" style="color:#6B21A8">Who works at the hospital?</div>
+            <div class="wh-answer" style="color:#6B21A8">✅ The doctors and nurses work there.</div>
+          </div>
+          <div class="wh-card" style="background:#FFF1F2;border-color:#FECDD3" onclick="this.classList.toggle('revealed')">
+            <div class="wh-word" style="color:#BE123C">HOW</div>
+            <div class="wh-meaning" style="color:#BE123C">Bagaimana?</div>
+            <div class="wh-example" style="color:#9F1239">How do they help patients?</div>
+            <div class="wh-answer" style="color:#9F1239">✅ They give medicine and advice.</div>
+          </div>
+          <div class="wh-card" style="background:#ECFEFF;border-color:#A5F3FC" onclick="this.classList.toggle('revealed')">
+            <div class="wh-word" style="color:#0E7490">WHY</div>
+            <div class="wh-meaning" style="color:#0E7490">Mengapa?</div>
+            <div class="wh-example" style="color:#155E75">Why do people go to the clinic?</div>
+            <div class="wh-answer" style="color:#155E75">✅ Because they feel sick.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 3: Fill in the Blank -->
+    <section class="learning-section">
+      <div class="section-idx">3</div>
+      <div class="learning-content">
+        <h2 style="color:var(--navy);margin-bottom:4px">Lengkapi Kalimatnya! ✏️</h2>
+        <p>Pilih kata yang tepat untuk melengkapi kalimat di lingkungan kesehatan.</p>
+        <div id="fill-container" style="margin-top:1rem"></div>
+        <div id="fill-score" style="text-align:center;font-weight:800;color:var(--navy);margin-top:0.5rem;min-height:28px"></div>
+      </div>
+    </section>
+
+    <!-- Section 4: Dialog Quiz -->
+    <section class="learning-section">
+      <div class="section-idx">4</div>
+      <div class="learning-content">
+        <h2 style="color:var(--navy);margin-bottom:4px">Percakapan di Klinik 💬</h2>
+        <p>Pilih jawaban yang paling tepat untuk setiap pertanyaan percakapan!</p>
+        <div class="dialog-box">
+          <div class="dialog-nav" id="d-pips"></div>
+          <div style="margin-top:12px">
+            <div class="dialog-q" id="d-question"></div>
+            <div class="dialog-options" id="d-options"></div>
+            <div class="dialog-fb" id="d-feedback"></div>
+          </div>
+          <div style="text-align:center;margin-top:12px">
+            <button class="speak-btn-lg" id="d-next" onclick="nextDialog()" style="display:none">Berikutnya →</button>
+          </div>
+        </div>
+        <div id="d-score-area"></div>
+      </div>
+    </section>
+
+    <button class="btn btn-primary btn-full btn-lg" onclick="window.location.href='student.html'">
+      ✅ Selesai Belajar Modul 5
+    </button>
+  </main>
+
+  <script>
+    /* ===== Sound ===== */
+    function playAudio(t){ if(!('speechSynthesis' in window))return; window.speechSynthesis.cancel(); const u=new SpeechSynthesisUtterance(t); u.lang='en-US'; u.rate=0.88; window.speechSynthesis.speak(u); }
+    function playOk(){ const c=new(window.AudioContext||window.webkitAudioContext)(); [[0,523.25],[0.12,659.25],[0.24,783.99]].forEach(([w,f])=>{ const o=c.createOscillator(),g=c.createGain(); o.connect(g);g.connect(c.destination); o.type='sine';o.frequency.value=f; g.gain.setValueAtTime(0.3,c.currentTime+w); g.gain.exponentialRampToValueAtTime(0.001,c.currentTime+w+0.3); o.start(c.currentTime+w);o.stop(c.currentTime+w+0.35); }); }
+    function playErr(){ const c=new(window.AudioContext||window.webkitAudioContext)(); const o=c.createOscillator(),g=c.createGain(); o.connect(g);g.connect(c.destination); o.type='sawtooth'; o.frequency.setValueAtTime(280,c.currentTime); o.frequency.exponentialRampToValueAtTime(100,c.currentTime+0.35); g.gain.setValueAtTime(0.35,c.currentTime); g.gain.exponentialRampToValueAtTime(0.001,c.currentTime+0.4); o.start();o.stop(c.currentTime+0.45); }
+
+    /* ===== Section 1: Question Builder ===== */
+    let qbState = { subj:'the doctor', aux:'does', verb:'work', rest:'work here' };
+    function setQB(key, val, extra1, extra2) {
+      if(key==='subj'){ qbState.subj=val; qbState.aux=extra1; qbState.verb=extra2; }
+      else { qbState.verb=val; qbState.rest=extra1; }
+      renderQB();
+      document.querySelectorAll(`#${key==='subj'?'subj':'verb'}-pills .pill`).forEach(p=>p.classList.remove('active'));
+      event.currentTarget.classList.add('active');
+    }
+    function renderQB(){
+      const {subj,aux,verb,rest}=qbState;
+      const capAux=aux.charAt(0).toUpperCase()+aux.slice(1);
+      document.getElementById('qb-display').innerHTML=`<span class="qb-aux">${capAux}</span> <span class="qb-subj">${subj}</span> <span class="qb-verb">${verb}</span> <span class="qb-rest">${rest.split(' ').slice(1).join(' ')}?</span>`;
+      document.getElementById('qb-rule').innerHTML=aux==='does'
+        ? `❓ <strong>Does</strong> dipakai untuk He / She / It — kata kerja tetap bentuk ASLI`
+        : `❓ <strong>Do</strong> dipakai untuk I / You / We / They — kata kerja tetap bentuk ASLI`;
+    }
+    function speakQB(){
+      const {subj,aux,verb,rest}=qbState;
+      const capAux=aux.charAt(0).toUpperCase()+aux.slice(1);
+      playAudio(`${capAux} ${subj} ${verb} ${rest.split(' ').slice(1).join(' ')}?`);
+    }
+
+    /* ===== Section 3: Fill Blank ===== */
+    const fills=[
+      {s:'___ the doctor work on weekends?', opts:['Do','Does','Is'], ans:'Does', hint:'"The doctor"=He → pakai DOES'},
+      {s:'The nurse ___ take care of patients every day.', opts:['do','does','doesn\'t'], ans:'does', hint:'"The nurse"=She → pakai DOES'},
+      {s:'They ___ have enough medicine at the clinic.', opts:['doesn\'t','don\'t','does'], ans:"don't", hint:'"They"=plural → pakai DON\'T'},
+      {s:'___ do they serve patients at the hospital?', opts:['What','Who','When'], ans:'How', hint:'Menanyakan cara → pakai HOW'},
+      {s:'Where ___ the doctor usually work?', opts:['do','does','is'], ans:'does', hint:'"The doctor"=She → pakai DOES'},
+    ];
+    fills[3].opts=['How','What','Who'];
+    let fAns=0, fOk=0;
+    const fCont=document.getElementById('fill-container');
+    fills.forEach((q,i)=>{
+      const d=document.createElement('div'); d.className='fill-item'; d.id='fi-'+i;
+      d.innerHTML=`<div class="fill-sent">${q.s.replace('___','<u style="color:#06B6D4">___</u>')}</div>
+        <div class="fill-opts">${q.opts.map(o=>`<button class="fill-opt" onclick="ansF(${i},'${o}',this)">${o}</button>`).join('')}</div>
+        <div class="fill-fb" id="ffb-${i}"></div>`;
+      fCont.appendChild(d);
+    });
+    function ansF(i,ch,btn){
+      const item=document.getElementById('fi-'+i); if(item.dataset.done)return;
+      item.dataset.done='1'; fAns++;
+      const q=fills[i]; const ok=ch===q.ans;
+      item.querySelectorAll('.fill-opt').forEach(b=>{b.disabled=true; if(b.textContent===q.ans)b.classList.add('show');});
+      btn.classList.add(ok?'hit':'miss');
+      item.classList.add(ok?'ok':'err');
+      const fb=document.getElementById('ffb-'+i);
+      fb.innerHTML=(ok?'✅ ':'❌ ')+q.hint; fb.style.color=ok?'#15803D':'#B91C1C';
+      if(ok){fOk++;playOk();}else playErr();
+      if(fAns===fills.length){
+        const sc=document.getElementById('fill-score');
+        sc.textContent=`🎯 Skor: ${fOk}/${fills.length}`; sc.style.color=fOk>=4?'#15803D':'#B91C1C';
+      }
+    }
+
+    /* ===== Section 4: Dialog Quiz ===== */
+    const dialogs=[
+      {q:'"___ the pharmacy open on Sunday?" — Pilih jawaban yang benar:',opts:['Is','Does','Do','Are'],ans:'Does',expl:'"The pharmacy"=It → pakai DOES'},
+      {q:'Pasien: "Where does the doctor check patients?" — Jawaban terbaik:',opts:['She checks at the room.','She check at the room.','Does she check at room?','She is check at room.'],ans:'She checks at the room.',expl:'Kalimat positif: She + checks (pakai S karena she)'},
+      {q:'"___ do the nurses help the patients?" — Kata tanya yang tepat:',opts:['What','How','Where','When'],ans:'How',expl:'HOW = menanyakan cara / metode'},
+      {q:'Dokter: "Do you take medicine regularly?" — Respon benar:',opts:['Yes, I do.','Yes, I does.','Yes, I am.','Yes, she does.'],ans:'Yes, I do.',expl:'Jawaban Do-question dengan I → Yes, I do.'},
+    ];
+    let dIdx=0, dScore=0;
+    function renderDialog(){
+      if(dIdx>=dialogs.length){showDScore();return;}
+      const d=dialogs[dIdx];
+      document.getElementById('d-question').textContent=d.q;
+      const optsEl=document.getElementById('d-options'); optsEl.innerHTML='';
+      d.opts.forEach(o=>{
+        const b=document.createElement('button'); b.className='dialog-opt'; b.textContent=o;
+        b.onclick=()=>ansDialog(o,b); optsEl.appendChild(b);
+      });
+      document.getElementById('d-feedback').textContent='';
+      document.getElementById('d-next').style.display='none';
+      // pips
+      const pips=document.getElementById('d-pips'); pips.innerHTML='';
+      dialogs.forEach((_,i)=>{
+        const p=document.createElement('div');
+        p.className='dialog-pip'+(i===dIdx?' active':i<dIdx?' done-ok':'');
+        pips.appendChild(p);
+      });
+    }
+    function ansDialog(ch,btn){
+      const d=dialogs[dIdx]; const ok=ch===d.ans;
+      document.querySelectorAll('.dialog-opt').forEach(b=>b.disabled=true);
+      btn.classList.add(ok?'d-correct':'d-wrong');
+      document.querySelectorAll('.dialog-opt').forEach(b=>{if(b.textContent===d.ans)b.classList.add('d-correct');});
+      document.getElementById('d-feedback').textContent=(ok?'✅ ':'❌ ')+d.expl;
+      if(ok){dScore++;playOk();}else playErr();
+      document.getElementById('d-next').style.display='inline-flex';
+    }
+    function nextDialog(){ dIdx++; renderDialog(); }
+    function showDScore(){
+      document.getElementById('d-score-area').innerHTML=`
+        <div style="text-align:center;padding:1.5rem">
+          <div style="font-size:3rem">${dScore===dialogs.length?'🏆':dScore>=3?'👍':'📚'}</div>
+          <div style="font-size:3rem;font-weight:900;background:linear-gradient(135deg,#06B6D4,#10B981);-webkit-background-clip:text;-webkit-text-fill-color:transparent">${dScore}/${dialogs.length}</div>
+          <div style="font-weight:700;color:var(--navy);margin:8px 0">${dScore===dialogs.length?'Sempurna!':dScore>=3?'Bagus!':'Coba lagi ya!'}</div>
+          <button class="btn btn-primary" style="margin-top:8px" onclick="dIdx=0;dScore=0;document.getElementById('d-score-area').innerHTML='';renderDialog()">🔁 Ulangi</button>
+        </div>`;
+    }
+
+    renderQB();
+    renderDialog();
+  </script>
+</body>
+</html>

@@ -1,0 +1,1135 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>English Skills for Daily Life — PKBM Tunas Mandiri</title>
+  <meta name="description" content="Modul E-Learning Bahasa Inggris interaktif untuk Warga Belajar Paket C PKBM Tunas Mandiri, Yogyakarta." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Lato:wght@300;400;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --primary: #1B6B72; --primary-dark: #134f55; --primary-light: #e8f4f5;
+      --accent: #F4A423; --bg: #F9F7F3; --surface: #ffffff;
+      --text-main: #1e2a2b; --text-sub: #5a6e6f; --border: #dde8e9;
+      --unit1: #2563EB; --unit1-light: #dbeafe;
+      --unit2: #16A34A; --unit2-light: #dcfce7;
+      --unit3: #D97706; --unit3-light: #fef3c7;
+      --success: #15803d; --success-bg: #dcfce7;
+      --error: #dc2626; --error-bg: #fee2e2;
+      --r-sm: 8px; --r-md: 14px; --r-lg: 20px;
+      --sh-sm: 0 2px 8px rgba(27,107,114,.08);
+      --sh-md: 0 6px 24px rgba(27,107,114,.13);
+      --tr: .25s cubic-bezier(.4,0,.2,1);
+    }
+    html { font-size: 16px; }
+    body {
+      font-family: 'Lato', sans-serif; background: var(--bg);
+      color: var(--text-main); line-height: 1.7; overflow-x: hidden;
+      min-height: 100vh; display: flex; flex-direction: column;
+    }
+    h1,h2,h3,h4 { font-family: 'Poppins', sans-serif; line-height: 1.3; }
+
+    /* ── NAVBAR ── */
+    #navbar {
+      position: sticky; top: 0; z-index: 1000;
+      background: rgba(27,107,114,.97); backdrop-filter: blur(12px);
+      box-shadow: 0 2px 16px rgba(27,107,114,.25); padding: 0 16px; flex-shrink: 0;
+    }
+    .nav-inner {
+      max-width: 780px; margin: 0 auto;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 56px; gap: 10px;
+    }
+    .nav-logo { display: flex; align-items: center; gap: 8px; background: none; border: none; cursor: pointer; flex-shrink: 0; }
+    .nav-logo-icon { width: 40px; height: 40px; border-radius: 50%; overflow: hidden; flex-shrink: 0; background: #000; display: flex; align-items: center; justify-content: center; }
+    .nav-logo-icon img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
+    .nav-logo-text { color: #fff; font-family: 'Poppins', sans-serif; font-weight: 700; font-size: .82rem; line-height: 1.2; text-align: left; }
+    .nav-logo-sub { color: rgba(255,255,255,.65); font-size: .62rem; }
+    .nav-step-info {
+      font-family: 'Poppins', sans-serif; font-size: .75rem;
+      color: rgba(255,255,255,.8); white-space: nowrap; text-align: right;
+    }
+    .nav-step-info strong { color: var(--accent); }
+
+    /* ── PROGRESS BAR ── */
+    #prog-wrap { background: rgba(0,0,0,.15); height: 4px; flex-shrink: 0; }
+    #prog-bar { height: 100%; background: linear-gradient(90deg, var(--accent), #ffd166); transition: width .4s ease; width: 0%; }
+
+    /* ── PAGE SYSTEM ── */
+    #app { flex: 1; position: relative; overflow: hidden; }
+    .page {
+      display: none; position: absolute;
+      top: 0; left: 0; right: 0; min-height: 100%;
+      overflow-y: auto;
+    }
+    .page.active { display: block; position: relative; opacity: 1; }
+    .page.visible { opacity: 1; }
+
+    /* ── LAYOUT ── */
+    .pw { max-width: 780px; margin: 0 auto; padding: 0 16px; }
+
+    /* ── HERO ── */
+    #page-hero {
+      background: linear-gradient(145deg, var(--primary-dark) 0%, var(--primary) 55%, #1d8a93 100%);
+      min-height: calc(100vh - 64px);
+      display: flex; flex-direction: column; justify-content: center;
+      padding: 40px 24px 60px; position: relative; overflow: hidden;
+    }
+    .hbg { position: absolute; border-radius: 50%; background: rgba(255,255,255,.05); pointer-events: none; }
+    .hbg.c1 { width: 280px; height: 280px; top: -60px; right: -60px; }
+    .hbg.c2 { width: 160px; height: 160px; bottom: 30px; left: -40px; }
+    .hero-inner { max-width: 680px; margin: 0 auto; text-align: center; position: relative; z-index: 1; }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 7px;
+      background: rgba(244,164,35,.2); border: 1px solid rgba(244,164,35,.4);
+      color: var(--accent); padding: 5px 14px; border-radius: 50px;
+      font-size: .78rem; font-family: 'Poppins',sans-serif; font-weight: 600;
+      margin-bottom: 18px;
+    }
+    #page-hero h1 { font-size: clamp(1.7rem,5.5vw,2.8rem); color: #fff; font-weight: 800; margin-bottom: 10px; }
+    #page-hero h1 span { color: var(--accent); }
+    .hero-sub { font-size: clamp(.82rem,2.5vw,.95rem); color: rgba(255,255,255,.75); font-family: 'Poppins',sans-serif; font-weight: 500; margin-bottom: 18px; }
+    .hero-welcome {
+      background: rgba(255,255,255,.1); border-left: 4px solid var(--accent);
+      padding: 12px 16px; border-radius: 0 var(--r-md) var(--r-md) 0;
+      color: rgba(255,255,255,.88); font-size: .88rem; text-align: left; margin-bottom: 26px;
+    }
+    .hero-cta {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--accent); color: var(--primary-dark);
+      padding: 13px 30px; border-radius: 50px; font-family: 'Poppins',sans-serif;
+      font-weight: 700; font-size: .95rem;
+      box-shadow: 0 8px 24px rgba(244,164,35,.4);
+      transition: var(--tr); border: none; cursor: pointer; margin-bottom: 36px;
+    }
+    .hero-cta:hover { transform: translateY(-3px); box-shadow: 0 12px 32px rgba(244,164,35,.55); }
+    .unit-cards-preview { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; }
+    .ucp {
+      padding: 10px 16px; border-radius: var(--r-md); font-family: 'Poppins',sans-serif;
+      font-size: .8rem; font-weight: 600; cursor: pointer; transition: var(--tr);
+      background: rgba(255,255,255,.1); color: rgba(255,255,255,.85); border: none;
+      min-width: 110px; text-align: center;
+    }
+    .ucp:hover { transform: translateY(-2px); background: rgba(255,255,255,.18); }
+    .ucp-icon { font-size: 1.3rem; margin-bottom: 3px; }
+    .ucp-label { font-size: .67rem; opacity: .7; }
+
+    /* ── SECTION HEADER (inside a materi page) ── */
+    .s-wrap { padding: 28px 0 20px; }
+    .s-tag {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 4px 12px; border-radius: 50px;
+      font-family: 'Poppins',sans-serif; font-size: .72rem; font-weight: 700;
+      letter-spacing: .5px; text-transform: uppercase; margin-bottom: 8px;
+    }
+    .s-tag.u1 { background: var(--unit1-light); color: var(--unit1); }
+    .s-tag.u2 { background: var(--unit2-light); color: var(--unit2); }
+    .s-tag.u3 { background: var(--unit3-light); color: var(--unit3); }
+    .s-title { font-size: clamp(1.1rem,3.5vw,1.55rem); font-weight: 700; color: var(--text-main); margin-bottom: 4px; }
+    .s-div { width: 42px; height: 4px; border-radius: 4px; margin-bottom: 20px; }
+    .s-div.u1 { background: var(--unit1); } .s-div.u2 { background: var(--unit2); } .s-div.u3 { background: var(--unit3); }
+
+    /* ── CARD ── */
+    .card {
+      background: var(--surface); border-radius: var(--r-lg);
+      box-shadow: var(--sh-sm); border: 1px solid var(--border);
+      padding: 18px; margin-bottom: 14px;
+    }
+    .card-title { font-family: 'Poppins',sans-serif; font-weight: 600; font-size: .92rem; color: var(--text-main); margin-bottom: 12px; display: flex; align-items: center; gap: 7px; }
+
+    /* ── OBJECTIVES ── */
+    .obj-list { list-style: none; display: flex; flex-direction: column; gap: 9px; }
+    .obj-list li { display: flex; align-items: flex-start; gap: 9px; font-size: .88rem; color: var(--text-sub); }
+    .obj-ck { width: 21px; height: 21px; border-radius: 50%; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: .72rem; margin-top: 2px; }
+    .obj-ck.u1 { background: var(--unit1-light); color: var(--unit1); }
+    .obj-ck.u2 { background: var(--unit2-light); color: var(--unit2); }
+    .obj-ck.u3 { background: var(--unit3-light); color: var(--unit3); }
+
+    /* ── VOCAB GRID ── */
+    .vocab-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; }
+    @media(min-width:520px){ .vocab-grid { grid-template-columns: repeat(3,1fr); } }
+    @media(min-width:720px){ .vocab-grid { grid-template-columns: repeat(4,1fr); } }
+    .vc {
+      background: var(--surface); border-radius: var(--r-md);
+      border: 1.5px solid var(--border); padding: 11px 9px; text-align: center;
+      transition: var(--tr); box-shadow: var(--sh-sm);
+    }
+    .vc:hover { transform: translateY(-3px); box-shadow: var(--sh-md); border-color: var(--unit1); }
+    .vc-word { font-family: 'Poppins',sans-serif; font-size: .98rem; font-weight: 700; color: var(--unit1); }
+    .vc-pos { font-size: .7rem; color: var(--text-sub); font-style: italic; margin: 2px 0 4px; }
+    .vc-trans { font-size: .8rem; font-weight: 700; color: var(--text-main); margin-bottom: 5px; }
+    .vc-ex { font-size: .72rem; color: var(--text-sub); font-style: italic; line-height: 1.5; border-top: 1px solid var(--border); padding-top: 5px; }
+
+    /* ── EXPRESSIONS TABLE ── */
+    .tscroll { overflow-x: auto; border-radius: var(--r-md); }
+    .etable { width: 100%; border-collapse: collapse; font-size: .84rem; }
+    .etable thead th { background: var(--primary); color: #fff; padding: 9px 11px; font-family: 'Poppins',sans-serif; font-weight: 600; text-align: left; font-size: .79rem; }
+    .etable thead th:first-child { border-radius: 10px 0 0 0; } .etable thead th:last-child { border-radius: 0 10px 0 0; }
+    .etable tbody tr:nth-child(even) { background: var(--bg); }
+    .etable tbody tr:hover { background: var(--primary-light); }
+    .etable td { padding: 9px 11px; border-bottom: 1px solid var(--border); vertical-align: top; }
+    .etable td:first-child { font-weight: 700; color: var(--unit2); white-space: nowrap; }
+    .etable td:nth-child(2) { font-style: italic; }
+    .etable td:last-child { color: var(--text-sub); }
+
+    /* ── DIALOGUE ── */
+    .dlg-sit {
+      background: var(--primary-light); border-left: 4px solid var(--primary);
+      padding: 9px 13px; border-radius: 0 var(--r-sm) var(--r-sm) 0;
+      font-size: .83rem; color: var(--primary-dark); margin-bottom: 14px; font-style: italic;
+    }
+    .dlg-wrap { display: flex; flex-direction: column; gap: 10px; }
+    .dlg-line { display: flex; align-items: flex-start; gap: 9px; }
+    .dlg-line.r { flex-direction: row-reverse; }
+    .dlg-av { width: 32px; height: 32px; border-radius: 50%; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-family: 'Poppins',sans-serif; font-weight: 700; font-size: .72rem; color: #fff; }
+    .dlg-av.ri { background: var(--unit2); } .dlg-av.bu { background: var(--unit1); }
+    .dlg-bub { max-width: 78%; padding: 8px 12px; border-radius: 14px; font-size: .86rem; line-height: 1.6; }
+    .dlg-line:not(.r) .dlg-bub { background: var(--unit1-light); border-top-left-radius: 4px; }
+    .dlg-line.r .dlg-bub { background: var(--unit2-light); border-top-right-radius: 4px; }
+    .dlg-name { font-size: .68rem; color: var(--text-sub); font-weight: 700; margin-bottom: 2px; }
+    .dlg-line.r .dlg-name { text-align: right; }
+    .vh-box { border: 1px solid var(--border); border-radius: var(--r-sm); overflow: hidden; margin-top: 12px; }
+    .vh-hdr { background: var(--bg); padding: 9px 13px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-family: 'Poppins',sans-serif; font-size: .8rem; font-weight: 600; color: var(--text-main); border: none; width: 100%; text-align: left; }
+    .vh-hdr:hover { background: var(--primary-light); }
+    .vh-body { padding: 12px; display: none; flex-wrap: wrap; gap: 7px; }
+    .vh-body.open { display: flex; }
+    .hl-chip { padding: 3px 11px; border-radius: 50px; background: var(--unit2-light); color: var(--unit2); font-weight: 700; font-size: .8rem; }
+
+    /* ── EXERCISE COMMON ── */
+    .ex-card { background: var(--surface); border-radius: var(--r-lg); box-shadow: var(--sh-sm); border: 1px solid var(--border); padding: 18px; margin-bottom: 14px; }
+    .ex-label { font-family: 'Poppins',sans-serif; font-weight: 700; font-size: .9rem; color: var(--text-main); margin-bottom: 5px; display: flex; align-items: center; gap: 7px; }
+    .ex-num { width: 27px; height: 27px; border-radius: 7px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: .77rem; font-weight: 700; font-family: 'Poppins',sans-serif; }
+    .ex-num.u1 { background: var(--unit1); color: #fff; }
+    .ex-num.u2 { background: var(--unit2); color: #fff; }
+    .ex-num.u3 { background: var(--unit3); color: #fff; }
+    .ex-instr { font-size: .83rem; color: var(--text-sub); margin-bottom: 14px; padding: 9px 13px; background: var(--bg); border-radius: var(--r-sm); border-left: 3px solid var(--border); }
+    .fb { padding: 9px 13px; border-radius: var(--r-sm); font-size: .86rem; font-weight: 600; margin-top: 12px; display: none; }
+    .fb.ok { background: var(--success-bg); color: var(--success); display: block; }
+    .fb.err { background: var(--error-bg); color: var(--error); display: block; }
+    .score-disp { text-align: center; padding: 14px; background: linear-gradient(135deg,var(--primary-light),#fff); border-radius: var(--r-md); border: 1.5px solid var(--primary); margin-top: 14px; display: none; }
+    .score-disp.show { display: block; animation: popIn .4s cubic-bezier(.34,1.56,.64,1); }
+    .score-num-big { font-family: 'Poppins',sans-serif; font-size: 1.7rem; font-weight: 800; color: var(--primary); }
+    .score-lbl { font-size: .8rem; color: var(--text-sub); }
+
+    /* ── MATCHING ── */
+    .match-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; }
+    .match-col { display: flex; flex-direction: column; gap: 7px; }
+    .mb {
+      padding: 10px 8px; border-radius: var(--r-sm); border: 2px solid var(--border);
+      background: var(--surface); font-family: 'Lato',sans-serif; font-size: .86rem;
+      font-weight: 700; cursor: pointer; transition: var(--tr); text-align: center; color: var(--text-main);
+    }
+    .mb:hover:not(:disabled) { border-color: var(--unit1); background: var(--unit1-light); }
+    .mb.selected { border-color: var(--unit1); background: var(--unit1); color: #fff; }
+    .mb.matched { border-color: var(--success); background: var(--success-bg); color: var(--success); cursor: default; pointer-events: none; }
+    .mb.shake { animation: shake .4s ease; }
+    .mb:disabled { opacity: .6; cursor: default; }
+
+    /* ── FILL ── */
+    .fill-q { margin-bottom: 16px; }
+    .fill-qt { font-size: .9rem; margin-bottom: 9px; font-weight: 600; color: var(--text-main); line-height: 1.6; }
+    .fill-opts { display: flex; gap: 7px; flex-wrap: wrap; }
+    .fo {
+      padding: 7px 15px; border-radius: 50px; border: 2px solid var(--border);
+      background: var(--surface); font-family: 'Lato',sans-serif; font-size: .86rem;
+      font-weight: 700; cursor: pointer; transition: var(--tr); color: var(--text-main);
+    }
+    .fo:hover:not(:disabled) { border-color: var(--unit1); background: var(--unit1-light); }
+    .fo.sc { border-color: var(--success); background: var(--success-bg); color: var(--success); }
+    .fo.sw { border-color: var(--error); background: var(--error-bg); color: var(--error); }
+    .fo.sh { border-color: var(--success); background: var(--success-bg); color: var(--success); }
+    .fo:disabled { cursor: default; opacity: .7; }
+    .qfb { font-size: .8rem; margin-top: 5px; font-weight: 600; }
+    .qfb.ok { color: var(--success); } .qfb.err { color: var(--error); }
+
+    /* ── ARRANGE ── */
+    .arr-pool { display: flex; flex-direction: column; gap: 6px; margin-bottom: 10px; }
+    .arr-btn {
+      padding: 8px 12px; border-radius: var(--r-sm); border: 2px solid var(--border);
+      background: var(--surface); font-family: 'Lato',sans-serif; font-size: .84rem;
+      cursor: pointer; transition: var(--tr); text-align: left; color: var(--text-main);
+      width: 100%; display: flex; align-items: center; gap: 8px;
+    }
+    .arr-btn:hover:not(:disabled) { border-color: var(--unit2); background: var(--unit2-light); }
+    .arr-btn.used { opacity: .3; pointer-events: none; }
+    .arr-ltr { width: 23px; height: 23px; border-radius: 6px; background: var(--unit2); color: #fff; display: flex; align-items: center; justify-content: center; font-size: .72rem; font-weight: 700; flex-shrink: 0; }
+    .arr-seq { display: flex; flex-direction: column; gap: 5px; min-height: 42px; padding: 9px; background: var(--bg); border: 2px dashed var(--border); border-radius: var(--r-md); margin-bottom: 10px; }
+    .seq-i { padding: 7px 11px; background: var(--unit2); color: #fff; border-radius: var(--r-sm); font-size: .82rem; display: flex; justify-content: space-between; align-items: center; animation: fadeIn .2s ease; }
+    .seq-i .rm { cursor: pointer; font-size: .78rem; opacity: .7; background: none; border: none; color: inherit; padding: 0 3px; }
+    .seq-i .rm:hover { opacity: 1; }
+    .arr-actions { display: flex; gap: 7px; flex-wrap: wrap; }
+    .cor-reveal { margin-top: 12px; padding: 11px; background: var(--error-bg); border-radius: var(--r-sm); font-size: .82rem; color: var(--error); display: none; }
+    .cor-reveal.show { display: block; }
+    .cor-reveal ol { margin-left: 18px; margin-top: 5px; }
+    .cor-reveal li { margin-bottom: 3px; }
+
+    /* ── MCQ ── */
+    .mcq-q { margin-bottom: 16px; }
+    .mcq-qn { color: var(--text-sub); font-size: .76rem; margin-bottom: 2px; }
+    .mcq-qt { font-size: .9rem; font-weight: 600; color: var(--text-main); margin-bottom: 9px; line-height: 1.5; }
+    .mcq-opts { display: flex; flex-direction: column; gap: 6px; }
+    .mopt {
+      padding: 9px 13px; border-radius: var(--r-sm); border: 2px solid var(--border);
+      background: var(--surface); font-size: .85rem; cursor: pointer; transition: var(--tr);
+      text-align: left; width: 100%; color: var(--text-main); display: flex; align-items: flex-start; gap: 8px;
+    }
+    .mopt:hover:not(:disabled) { border-color: var(--unit3); background: var(--unit3-light); }
+    .mopt.correct { border-color: var(--success); background: var(--success-bg); color: var(--success); }
+    .mopt.wrong { border-color: var(--error); background: var(--error-bg); color: var(--error); }
+    .mopt:disabled { cursor: default; }
+    .opt-m { width: 19px; height: 19px; border-radius: 50%; border: 2px solid var(--border); flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: .68rem; margin-top: 1px; }
+    .mopt.correct .opt-m { background: var(--success); border-color: var(--success); color: #fff; }
+    .mopt.wrong .opt-m { background: var(--error); border-color: var(--error); color: #fff; }
+    .mfb { font-size: .78rem; margin-top: 4px; font-weight: 600; }
+    .mfb.ok { color: var(--success); } .mfb.err { color: var(--error); }
+
+    /* ── DIALOGUE COMPLETE ── */
+    .dc-q { margin-bottom: 14px; }
+    .dc-bub { background: var(--bg); border: 1px solid var(--border); border-radius: var(--r-sm); padding: 9px 13px; font-size: .86rem; margin-bottom: 9px; font-style: italic; }
+    .dc-opts { display: flex; flex-direction: column; gap: 6px; }
+    .dopt { padding: 8px 13px; border-radius: var(--r-sm); border: 2px solid var(--border); background: var(--surface); font-size: .86rem; cursor: pointer; transition: var(--tr); text-align: left; width: 100%; color: var(--text-main); }
+    .dopt:hover:not(:disabled) { border-color: var(--unit2); background: var(--unit2-light); }
+    .dopt.correct { border-color: var(--success); background: var(--success-bg); color: var(--success); }
+    .dopt.wrong { border-color: var(--error); background: var(--error-bg); color: var(--error); }
+    .dopt:disabled { cursor: default; }
+
+    /* ── READING TEXTS ── */
+    .notice-card { border: 2px solid var(--unit3); border-radius: var(--r-md); padding: 18px; background: #fffbf0; }
+    .notice-title { text-align: center; font-family: 'Poppins',sans-serif; font-weight: 800; font-size: .9rem; color: var(--unit3); letter-spacing: 2px; text-transform: uppercase; border-bottom: 2px solid var(--unit3); padding-bottom: 10px; margin-bottom: 13px; }
+    .notice-card p { margin-bottom: 10px; font-size: .88rem; line-height: 1.8; }
+    .notice-foot { margin-top: 14px; font-size: .84rem; }
+    .article-card { border: 1px solid var(--border); border-radius: var(--r-md); padding: 18px; background: var(--surface); }
+    .article-title { text-align: center; font-family: 'Poppins',sans-serif; font-weight: 800; font-size: .95rem; color: var(--text-main); letter-spacing: 2px; text-transform: uppercase; border-bottom: 2px solid var(--unit3); padding-bottom: 10px; margin-bottom: 13px; }
+    .article-card p { margin-bottom: 10px; font-size: .88rem; line-height: 1.8; }
+    .vocab-new-box { background: var(--unit3-light); border-radius: var(--r-sm); padding: 11px; margin-top: 12px; border: 1px solid rgba(217,119,6,.2); }
+    .vn-title { font-family: 'Poppins',sans-serif; font-weight: 700; font-size: .78rem; color: var(--unit3); margin-bottom: 7px; text-transform: uppercase; letter-spacing: .5px; }
+    .vn-list { display: flex; flex-direction: column; gap: 3px; }
+    .vn-item { font-size: .83rem; }
+    .vn-item strong { color: var(--text-main); } .vn-item span { color: var(--text-sub); }
+
+    /* ── FINAL SCORE ── */
+    .final-card {
+      background: linear-gradient(145deg, var(--primary-dark), var(--primary));
+      border-radius: var(--r-lg); padding: 26px 18px; color: #fff;
+      text-align: center; box-shadow: var(--sh-md); position: relative; overflow: hidden; margin-bottom: 18px;
+    }
+    .final-card::before { content:'🎓'; position:absolute; top:-20px; right:-10px; font-size:110px; opacity:.07; transform:rotate(-15deg); }
+    .f-title { font-family: 'Poppins',sans-serif; font-size: 1.35rem; font-weight: 800; color: var(--accent); margin-bottom: 5px; }
+    .f-sub { font-size: .84rem; color: rgba(255,255,255,.7); margin-bottom: 20px; }
+    .sc-break { display: flex; flex-direction: column; gap: 8px; margin-bottom: 18px; }
+    .sc-row { background: rgba(255,255,255,.1); border-radius: var(--r-sm); padding: 10px 13px; display: flex; justify-content: space-between; align-items: center; }
+    .sc-rl { font-size: .84rem; color: rgba(255,255,255,.85); font-weight: 500; }
+    .sc-rv { font-family: 'Poppins',sans-serif; font-weight: 700; font-size: .92rem; color: var(--accent); }
+    .sc-total-wrap { background: rgba(255,255,255,.15); border-radius: var(--r-md); padding: 16px; margin-bottom: 16px; border: 2px solid rgba(244,164,35,.4); }
+    .sc-total-num { font-family: 'Poppins',sans-serif; font-size: 2.6rem; font-weight: 800; color: var(--accent); line-height: 1; }
+    .sc-total-lbl { font-size: .82rem; color: rgba(255,255,255,.7); margin-top: 3px; }
+    .sc-pct { font-family: 'Poppins',sans-serif; font-size: 1.2rem; font-weight: 700; color: #fff; margin-top: 5px; }
+    .motiv-msg { background: rgba(255,255,255,.12); border-radius: var(--r-sm); padding: 11px 13px; font-size: .87rem; color: rgba(255,255,255,.92); line-height: 1.7; margin-bottom: 20px; border-left: 4px solid var(--accent); text-align: left; }
+    .f-actions { display: flex; gap: 9px; justify-content: center; flex-wrap: wrap; }
+    .btn-acc { padding: 10px 20px; border-radius: 50px; background: var(--accent); color: var(--primary-dark); border: none; font-family: 'Poppins',sans-serif; font-weight: 700; font-size: .86rem; cursor: pointer; transition: var(--tr); box-shadow: 0 4px 16px rgba(244,164,35,.3); }
+    .btn-acc:hover { transform: translateY(-2px); }
+    .btn-owl { padding: 10px 20px; border-radius: 50px; background: transparent; color: #fff; border: 2px solid rgba(255,255,255,.4); font-family: 'Poppins',sans-serif; font-weight: 600; font-size: .86rem; cursor: pointer; transition: var(--tr); }
+    .btn-owl:hover { border-color: #fff; background: rgba(255,255,255,.1); }
+
+    /* ── NAV BUTTONS ── */
+    .page-nav { display: flex; justify-content: space-between; align-items: center; padding: 18px 0 28px; gap: 10px; }
+    .bn {
+      display: flex; align-items: center; gap: 7px;
+      padding: 11px 22px; border-radius: 50px; font-family: 'Poppins',sans-serif;
+      font-weight: 700; font-size: .88rem; cursor: pointer; transition: var(--tr); border: none;
+    }
+    .bn-prev { background: var(--surface); color: var(--text-main); border: 2px solid var(--border); }
+    .bn-prev:hover { border-color: var(--primary); color: var(--primary); transform: translateX(-2px); }
+    .bn-next { background: var(--accent); color: var(--primary-dark); box-shadow: 0 4px 16px rgba(244,164,35,.35); }
+    .bn-next:hover { transform: translateX(2px); box-shadow: 0 6px 20px rgba(244,164,35,.45); }
+    .bn-next.u1 { background: var(--unit1); color: #fff; box-shadow: 0 4px 14px rgba(37,99,235,.3); }
+    .bn-next.u2 { background: var(--unit2); color: #fff; box-shadow: 0 4px 14px rgba(22,163,74,.3); }
+    .bn-next.u3 { background: var(--unit3); color: #fff; box-shadow: 0 4px 14px rgba(217,119,6,.3); }
+
+    /* ── BUTTONS ── */
+    .btn-p { padding: 9px 20px; border-radius: 50px; background: var(--primary); color: #fff; border: none; font-family: 'Poppins',sans-serif; font-weight: 600; font-size: .86rem; cursor: pointer; transition: var(--tr); }
+    .btn-p:hover { background: var(--primary-dark); transform: translateY(-1px); }
+    .btn-s { padding: 9px 20px; border-radius: 50px; background: var(--bg); color: var(--text-sub); border: 2px solid var(--border); font-family: 'Poppins',sans-serif; font-weight: 600; font-size: .86rem; cursor: pointer; transition: var(--tr); }
+    .btn-s:hover { border-color: var(--primary); color: var(--primary); }
+
+    /* ── SEPARATOR ── */
+    .sep { border: none; border-top: 2px dashed var(--border); margin: 16px 0; }
+
+    /* ── FOOTER ── */
+    footer { background: var(--primary-dark); color: rgba(255,255,255,.7); text-align: center; padding: 20px 24px; font-size: .78rem; line-height: 1.8; flex-shrink: 0; }
+    footer .ft { font-family: 'Poppins',sans-serif; font-weight: 700; color: #fff; font-size: .88rem; margin-bottom: 3px; }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeIn { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
+    @keyframes popIn { 0%{opacity:0;transform:scale(.8)} 70%{transform:scale(1.05)} 100%{opacity:1;transform:scale(1)} }
+    @keyframes shake { 0%,100%{transform:translateX(0)} 20%{transform:translateX(-6px)} 40%{transform:translateX(6px)} 60%{transform:translateX(-4px)} 80%{transform:translateX(4px)} }
+    @keyframes confetti { 0%{transform:translateY(0) rotate(0);opacity:1} 100%{transform:translateY(-80px) rotate(360deg);opacity:0} }
+    .confetti-piece { position:fixed; border-radius:2px; animation:confetti 1s ease forwards; pointer-events:none; z-index:9999; }
+  </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav id="navbar">
+  <div class="nav-inner">
+    <button class="nav-logo" onclick="goTo(0)">
+      <div class="nav-logo-icon">
+        <img src="logo.jpg" alt="Logo PKBM Tunas Mandiri" />
+      </div>
+      <div>
+        <div class="nav-logo-text">English Skills for Daily Life</div>
+        <div class="nav-logo-sub">PKBM Tunas Mandiri, Yogyakarta</div>
+      </div>
+    </button>
+    <div class="nav-step-info" id="step-info">Beranda</div>
+  </div>
+</nav>
+<div id="prog-wrap"><div id="prog-bar"></div></div>
+
+<!-- APP -->
+<div id="app">
+
+<!-- ══════════════════ 0: HERO ══════════════════ -->
+<div class="page active" id="p0">
+  <div id="page-hero">
+    <div class="hbg c1"></div><div class="hbg c2"></div>
+    <div class="hero-inner">
+      <div class="hero-badge">🎓 Modul E-Learning · Paket C</div>
+      <h1><span>English Skills</span><br>for Daily Life</h1>
+      <p class="hero-sub">Modul E-Learning Bahasa Inggris untuk Warga Belajar Paket C</p>
+      <div class="hero-welcome">Selamat datang di modul pembelajaran Bahasa Inggris interaktif! Modul ini terdiri dari 3 unit yang dirancang khusus untuk membantu kamu menguasai kosakata, berbicara, dan membaca dalam Bahasa Inggris sehari-hari. Kamu bisa belajar kapan saja dan di mana saja melalui smartphone kamu.</div>
+      <button class="hero-cta" onclick="next()">✨ Mulai Belajar →</button>
+      <div class="unit-cards-preview">
+        <button class="ucp" onclick="goTo(1)"><div class="ucp-icon">📖</div><div style="font-weight:700">Unit 1</div><div class="ucp-label">Vocabulary</div></button>
+        <button class="ucp" onclick="goTo(6)"><div class="ucp-icon">💬</div><div style="font-weight:700">Unit 2</div><div class="ucp-label">Speaking</div></button>
+        <button class="ucp" onclick="goTo(11)"><div class="ucp-icon">📰</div><div style="font-weight:700">Unit 3</div><div class="ucp-label">Reading</div></button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════ 1: UNIT 1 — TUJUAN ══════════════════ -->
+<div class="page" id="p1">
+  <div class="pw"><div class="s-wrap">
+    <div class="s-tag u1">📖 Unit 1 · Materi 1 dari 4</div>
+    <h2 class="s-title">Tujuan Pembelajaran</h2>
+    <div class="s-div u1"></div>
+    <div class="card">
+      <div class="card-title"><span>🎯</span> Tujuan Pembelajaran — Unit 1</div>
+      <ul class="obj-list">
+        <li><div class="obj-ck u1">✓</div><span>Mengenal dan memahami kosakata Bahasa Inggris yang sering digunakan dalam kehidupan sehari-hari</span></li>
+        <li><div class="obj-ck u1">✓</div><span>Menggunakan kosakata dalam konteks kalimat yang bermakna</span></li>
+        <li><div class="obj-ck u1">✓</div><span>Mencocokkan kata dengan artinya secara tepat</span></li>
+      </ul>
+    </div>
+    <div class="page-nav">
+      <button class="bn bn-prev" onclick="prev()">← Beranda</button>
+      <button class="bn bn-next u1" onclick="next()">Kosakata →</button>
+    </div>
+  </div></div>
+</div>
+
+<!-- ══════════════════ 2: UNIT 1 — KOSAKATA ══════════════════ -->
+<div class="page" id="p2">
+  <div class="pw"><div class="s-wrap">
+    <div class="s-tag u1">📖 Unit 1 · Materi 2 dari 4</div>
+    <h2 class="s-title">Daftar Kosakata</h2>
+    <div class="s-div u1"></div>
+    <div class="card">
+      <div class="card-title"><span>📝</span> Daftar Kosakata — 10 Kata Penting</div>
+      <div class="vocab-grid">
+        <div class="vc"><div class="vc-word">Work</div><div class="vc-pos">[verb]</div><div class="vc-trans">Bekerja</div><div class="vc-ex">"I work at a small shop near my house."</div></div>
+        <div class="vc"><div class="vc-word">Buy</div><div class="vc-pos">[verb]</div><div class="vc-trans">Membeli</div><div class="vc-ex">"She buys vegetables at the market every morning."</div></div>
+        <div class="vc"><div class="vc-word">Cook</div><div class="vc-pos">[verb]</div><div class="vc-trans">Memasak</div><div class="vc-ex">"My mother cooks rice for breakfast."</div></div>
+        <div class="vc"><div class="vc-word">Study</div><div class="vc-pos">[verb]</div><div class="vc-trans">Belajar</div><div class="vc-ex">"They study English at PKBM Tunas Mandiri."</div></div>
+        <div class="vc"><div class="vc-word">Help</div><div class="vc-pos">[verb]</div><div class="vc-trans">Membantu</div><div class="vc-ex">"He helps his neighbor carry heavy bags."</div></div>
+        <div class="vc"><div class="vc-word">Market</div><div class="vc-pos">[noun]</div><div class="vc-trans">Pasar</div><div class="vc-ex">"The market opens at five in the morning."</div></div>
+        <div class="vc"><div class="vc-word">Family</div><div class="vc-pos">[noun]</div><div class="vc-trans">Keluarga</div><div class="vc-ex">"My family eats dinner together every night."</div></div>
+        <div class="vc"><div class="vc-word">Neighbor</div><div class="vc-pos">[noun]</div><div class="vc-trans">Tetangga</div><div class="vc-ex">"Our neighbor is very kind and friendly."</div></div>
+        <div class="vc"><div class="vc-word">Tired</div><div class="vc-pos">[adjective]</div><div class="vc-trans">Lelah</div><div class="vc-ex">"She feels tired after a long day of work."</div></div>
+        <div class="vc"><div class="vc-word">Happy</div><div class="vc-pos">[adjective]</div><div class="vc-trans">Senang/Bahagia</div><div class="vc-ex">"The children are happy when they play outside."</div></div>
+      </div>
+    </div>
+    <div class="page-nav">
+      <button class="bn bn-prev" onclick="prev()">← Tujuan</button>
+      <button class="bn bn-next u1" onclick="next()">Latihan 1 →</button>
+    </div>
+  </div></div>
+</div>
+
+<!-- ══════════════════ 3: UNIT 1 — LATIHAN 1 (MATCHING) ══════════════════ -->
+<div class="page" id="p3">
+  <div class="pw"><div class="s-wrap">
+    <div class="s-tag u1">📖 Unit 1 · Materi 3 dari 4</div>
+    <h2 class="s-title">Latihan 1: Cocokkan Kata</h2>
+    <div class="s-div u1"></div>
+    <div class="ex-card">
+      <div class="ex-label"><div class="ex-num u1">1</div>Latihan 1: Cocokkan Kata dengan Artinya</div>
+      <div class="ex-instr">Cocokkan kata Bahasa Inggris di kolom kiri dengan artinya dalam Bahasa Indonesia di kolom kanan. Klik kata di kiri, lalu klik artinya di kanan.</div>
+      <div class="match-grid">
+        <div class="match-col">
+          <button class="mb" onclick="selL('Work',this)">Work</button>
+          <button class="mb" onclick="selL('Buy',this)">Buy</button>
+          <button class="mb" onclick="selL('Family',this)">Family</button>
+          <button class="mb" onclick="selL('Tired',this)">Tired</button>
+          <button class="mb" onclick="selL('Neighbor',this)">Neighbor</button>
+        </div>
+        <div class="match-col" id="match-right">
+          <button class="mb" onclick="selR('Tetangga',this)">Tetangga</button>
+          <button class="mb" onclick="selR('Membeli',this)">Membeli</button>
+          <button class="mb" onclick="selR('Lelah',this)">Lelah</button>
+          <button class="mb" onclick="selR('Keluarga',this)">Keluarga</button>
+          <button class="mb" onclick="selR('Bekerja',this)">Bekerja</button>
+        </div>
+      </div>
+      <div class="score-disp" id="ex1-score"><div class="score-num-big" id="ex1-sn">0/5</div><div class="score-lbl">Skor Latihan 1</div></div>
+    </div>
+    <div class="page-nav">
+      <button class="bn bn-prev" onclick="prev()">← Kosakata</button>
+      <button class="bn bn-next u1" onclick="next()">Latihan 2 →</button>
+    </div>
+  </div></div>
+</div>
+
+<!-- ══════════════════ 4: UNIT 1 — LATIHAN 2 (FILL) ══════════════════ -->
+<div class="page" id="p4">
+  <div class="pw"><div class="s-wrap">
+    <div class="s-tag u1">📖 Unit 1 · Materi 4 dari 4</div>
+    <h2 class="s-title">Latihan 2: Lengkapi Kalimat</h2>
+    <div class="s-div u1"></div>
+    <div class="ex-card">
+      <div class="ex-label"><div class="ex-num u1">2</div>Latihan 2: Lengkapi Kalimat</div>
+      <div class="ex-instr">Pilih kata yang tepat untuk melengkapi kalimat berikut.</div>
+      <div class="fill-q"><div class="fill-qt">1. "I _____ at a restaurant as a waiter."</div><div class="fill-opts"><button class="fo" onclick="chkF(1,'cook','work',this)">cook</button><button class="fo" onclick="chkF(1,'work','work',this)">work</button><button class="fo" onclick="chkF(1,'buy','work',this)">buy</button></div><div class="qfb" id="f1"></div></div>
+      <div class="fill-q"><div class="fill-qt">2. "She _____ fresh fish at the market every Sunday."</div><div class="fill-opts"><button class="fo" onclick="chkF(2,'buys','buys',this)">buys</button><button class="fo" onclick="chkF(2,'helps','buys',this)">helps</button><button class="fo" onclick="chkF(2,'studies','buys',this)">studies</button></div><div class="qfb" id="f2"></div></div>
+      <div class="fill-q"><div class="fill-qt">3. "My _____ always supports me in everything I do."</div><div class="fill-opts"><button class="fo" onclick="chkF(3,'neighbor','family',this)">neighbor</button><button class="fo" onclick="chkF(3,'market','family',this)">market</button><button class="fo" onclick="chkF(3,'family','family',this)">family</button></div><div class="qfb" id="f3"></div></div>
+      <div class="fill-q"><div class="fill-qt">4. "He feels _____ after working twelve hours today."</div><div class="fill-opts"><button class="fo" onclick="chkF(4,'happy','tired',this)">happy</button><button class="fo" onclick="chkF(4,'tired','tired',this)">tired</button><button class="fo" onclick="chkF(4,'kind','tired',this)">kind</button></div><div class="qfb" id="f4"></div></div>
+      <div class="fill-q"><div class="fill-qt">5. "Our _____ often shares food with us during celebrations."</div><div class="fill-opts"><button class="fo" onclick="chkF(5,'neighbor','neighbor',this)">neighbor</button><button class="fo" onclick="chkF(5,'market','neighbor',this)">market</button><button class="fo" onclick="chkF(5,'study','neighbor',this)">study</button></div><div class="qfb" id="f5"></div></div>
+      <div class="score-disp" id="ex2-score"><div class="score-num-big" id="ex2-sn">0/5</div><div class="score-lbl">Skor Latihan 2</div></div>
+    </div>
+    <div class="page-nav">
+      <button class="bn bn-prev" onclick="prev()">← Latihan 1</button>
+      <button class="bn bn-next u2" onclick="next()">Unit 2 →</button>
+    </div>
+  </div></div>
+</div>
+
+<!-- ══════════════════ 5: UNIT 2 — SEKAT ══════════════════ -->
+<div class="page" id="p5">
+  <div class="pw"><div class="s-wrap">
+    <div class="s-tag u2">💬 Unit 2 · Mulai</div>
+    <h2 class="s-title">Unit 2 — Berbicara untuk Komunikasi Sehari-hari</h2>
+    <div class="s-div u2"></div>
+    <div class="card" style="text-align:center;padding:32px 20px;">
+      <div style="font-size:3rem;margin-bottom:12px;">💬</div>
+      <p style="font-size:.95rem;color:var(--text-sub);margin-bottom:20px;">Pada unit ini kamu akan belajar ekspresi percakapan sehari-hari, mempraktikkan dialog, dan menyusun percakapan dengan urutan yang benar.</p>
+      <button class="btn-p" onclick="next()" style="font-size:.9rem;padding:11px 28px;">Mulai Unit 2 →</button>
+    </div>
+    <div class="page-nav">
+      <button class="bn bn-prev" onclick="prev()">← Latihan 2</button>
+      <button class="bn bn-next u2" onclick="next()">Tujuan →</button>
+    </div>
+  </div></div>
+</div>
+
+<!-- ══════════════════ 6: UNIT 2 — TUJUAN ══════════════════ -->
+<div class="page" id="p6">
+  <div class="pw" style="background:var(--surface);"><div class="s-wrap">
+    <div class="s-tag u2">💬 Unit 2 · Materi 1 dari 4</div>
+    <h2 class="s-title">Tujuan Pembelajaran</h2>
+    <div class="s-div u2"></div>
+    <div class="card">
+      <div class="card-title"><span>🎯</span> Tujuan Pembelajaran — Unit 2</div>
+      <ul class="obj-list">
+        <li><div class="obj-ck u2">✓</div><span>Memahami dan menggunakan ekspresi Bahasa Inggris untuk percakapan sehari-hari</span></li>
+        <li><div class="obj-ck u2">✓</div><span>Mempraktikkan dialog sederhana dalam konteks kehidupan nyata</span></li>
+        <li><div class="obj-ck u2">✓</div><span>Menyusun kalimat percakapan dengan struktur yang benar</span></li>
+      </ul>
+    </div>
+    <div class="page-nav">
+      <button class="bn bn-prev" onclick="prev()">← Kembali</button>
+      <button class="bn bn-next u2" onclick="next()">Ekspresi →</button>
+    </div>
+  </div></div>
+</div>
+
+<!-- ══════════════════ 7: UNIT 2 — EKSPRESI ══════════════════ -->
+<div class="page" id="p7">
+  <div class="pw" style="background:var(--surface);"><div class="s-wrap">
+    <div class="s-tag u2">💬 Unit 2 · Materi 2 dari 4</div>
+    <h2 class="s-title">Ekspresi yang Berguna</h2>
+    <div class="s-div u2"></div>
+    <div class="card">
+      <div class="card-title"><span>💡</span> Ekspresi Sehari-hari</div>
+      <div class="tscroll">
+        <table class="etable">
+          <thead><tr><th>Situasi</th><th>Ekspresi Bahasa Inggris</th><th>Artinya</th></tr></thead>
+          <tbody>
+            <tr><td>Menyapa</td><td>"Good morning! How are you?"</td><td>Selamat pagi! Apa kabar?</td></tr>
+            <tr><td>Menjawab sapaan</td><td>"I'm fine, thank you. And you?"</td><td>Saya baik, terima kasih. Kamu?</td></tr>
+            <tr><td>Memperkenalkan diri</td><td>"My name is ___. I live in ___."</td><td>Nama saya ___. Saya tinggal di ___.</td></tr>
+            <tr><td>Meminta bantuan</td><td>"Excuse me, can you help me?"</td><td>Permisi, bisakah kamu membantu saya?</td></tr>
+            <tr><td>Berterima kasih</td><td>"Thank you very much!"</td><td>Terima kasih banyak!</td></tr>
+            <tr><td>Berpamitan</td><td>"See you tomorrow. Take care!"</td><td>Sampai jumpa besok. Jaga diri!</td></tr>
+            <tr><td>Menanyakan rutinitas</td><td>"What do you usually do in the morning?"</td><td>Apa yang biasanya kamu lakukan di pagi hari?</td></tr>
+            <tr><td>Menjawab rutinitas</td><td>"I usually wake up at five and cook breakfast."</td><td>Saya biasanya bangun jam lima dan memasak sarapan.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="page-nav">
+      <button class="bn bn-prev" onclick="prev()">← Tujuan</button>
+      <button class="bn bn-next u2" onclick="next()">Contoh Percakapan →</button>
+    </div>
+  </div></div>
+</div>
+
+<!-- ══════════════════ 8: UNIT 2 — CONTOH DIALOG ══════════════════ -->
+<div class="page" id="p8">
+  <div class="pw" style="background:var(--surface);"><div class="s-wrap">
+    <div class="s-tag u2">💬 Unit 2 · Materi 3 dari 4</div>
+    <h2 class="s-title">Contoh Percakapan</h2>
+    <div class="s-div u2"></div>
+    <div class="card">
+      <div class="card-title"><span>🗣️</span> Contoh Percakapan: Di Tempat Kerja</div>
+      <div class="ex-instr">Baca percakapan di bawah ini. Perhatikan ekspresi yang digunakan dalam situasi sehari-hari.</div>
+      <div class="dlg-sit">📍 Rini bertemu dengan rekan kerjanya, Budi, di tempat kerja pada pagi hari.</div>
+      <div class="dlg-wrap">
+        <div class="dlg-line"><div class="dlg-av ri">Ri</div><div><div class="dlg-name">Rini</div><div class="dlg-bub">"Good morning, Budi! How are you today?"</div></div></div>
+        <div class="dlg-line r"><div class="dlg-av bu">Bu</div><div><div class="dlg-name">Budi</div><div class="dlg-bub">"Good morning, Rini! I'm a little tired, but I'm okay. Thank you for asking."</div></div></div>
+        <div class="dlg-line"><div class="dlg-av ri">Ri</div><div><div class="dlg-name">Rini</div><div class="dlg-bub">"Oh, I see. Did you work late yesterday?"</div></div></div>
+        <div class="dlg-line r"><div class="dlg-av bu">Bu</div><div><div class="dlg-name">Budi</div><div class="dlg-bub">"Yes, I worked until nine o'clock last night. What about you?"</div></div></div>
+        <div class="dlg-line"><div class="dlg-av ri">Ri</div><div><div class="dlg-name">Rini</div><div class="dlg-bub">"I went home early. I cooked dinner for my family."</div></div></div>
+        <div class="dlg-line r"><div class="dlg-av bu">Bu</div><div><div class="dlg-name">Budi</div><div class="dlg-bub">"That sounds nice. By the way, can you help me with this report later?"</div></div></div>
+        <div class="dlg-line"><div class="dlg-av ri">Ri</div><div><div class="dlg-name">Rini</div><div class="dlg-bub">"Of course! I'm happy to help. See you at the office."</div></div></div>
+        <div class="dlg-line r"><div class="dlg-av bu">Bu</div><div><div class="dlg-name">Budi</div><div class="dlg-bub">"Thank you so much, Rini. See you!"</div></div></div>
+      </div>
+      <div class="vh-box">
+        <button class="vh-hdr" onclick="toggleVH(this)" aria-expanded="false"><span>📌 Kosakata dalam Percakapan</span><span class="vh-arr">▼</span></button>
+        <div class="vh-body" id="vh-body"><span class="hl-chip">tired</span><span class="hl-chip">worked</span><span class="hl-chip">cooked</span><span class="hl-chip">help</span><span class="hl-chip">happy</span></div>
+      </div>
+    </div>
+    <div class="page-nav">
+      <button class="bn bn-prev" onclick="prev()">← Ekspresi</button>
+      <button class="bn bn-next u2" onclick="next()">Latihan 3 →</button>
+    </div>
+  </div></div>
+</div>
+
+<!-- ══════════════════ 9: UNIT 2 — LATIHAN 3 (ARRANGE) ══════════════════ -->
+<div class="page" id="p9">
+  <div class="pw" style="background:var(--surface);"><div class="s-wrap">
+    <div class="s-tag u2">💬 Unit 2 · Materi 4 dari 5</div>
+    <h2 class="s-title">Latihan 3: Susun Percakapan</h2>
+    <div class="s-div u2"></div>
+    <div class="ex-card">
+      <div class="ex-label"><div class="ex-num u2">3</div>Latihan 3: Susun Percakapan</div>
+      <div class="ex-instr">Susun kalimat-kalimat berikut menjadi percakapan yang benar. Klik kalimat satu per satu sesuai urutan yang tepat.</div>
+      <p style="font-size:.78rem;color:var(--text-sub);margin-bottom:7px;">Kalimat yang tersedia:</p>
+      <div class="arr-pool" id="arr-pool">
+        <button class="arr-btn" id="ab-A" onclick="pickA('A',this)"><span class="arr-ltr">A</span><span>"Good morning! How are you?"</span></button>
+        <button class="arr-btn" id="ab-B" onclick="pickA('B',this)"><span class="arr-ltr">B</span><span>"I'm fine, thank you. What about you?"</span></button>
+        <button class="arr-btn" id="ab-C" onclick="pickA('C',this)"><span class="arr-ltr">C</span><span>"I'm good too. Can you help me find the market?"</span></button>
+        <button class="arr-btn" id="ab-D" onclick="pickA('D',this)"><span class="arr-ltr">D</span><span>"Of course! The market is not far from here."</span></button>
+        <button class="arr-btn" id="ab-E" onclick="pickA('E',this)"><span class="arr-ltr">E</span><span>"Thank you so much! You are very kind."</span></button>
+        <button class="arr-btn" id="ab-F" onclick="pickA('F',this)"><span class="arr-ltr">F</span><span>"You're welcome. Have a great day!"</span></button>
+      </div>
+      <p style="font-size:.78rem;color:var(--text-sub);margin-bottom:5px;">Urutan pilihanmu:</p>
+      <div class="arr-seq" id="arr-seq"><span style="font-size:.76rem;color:var(--text-sub);font-style:italic;" id="arr-ph">Klik kalimat di atas untuk menyusunnya di sini...</span></div>
+      <div class="arr-actions">
+        <button class="btn-p" onclick="chkA()">Cek Jawaban</button>
+        <button class="btn-s" onclick="rstA()">Ulangi</button>
+      </div>
+      <div id="ex3-fb" class="fb"></div>
+      <div class="cor-reveal" id="cor-rev">
+        <strong>Urutan yang benar adalah:</strong>
+        <ol><li>A — "Good morning! How are you?"</li><li>B — "I'm fine, thank you. What about you?"</li><li>C — "I'm good too. Can you help me find the market?"</li><li>D — "Of course! The market is not far from here."</li><li>E — "Thank you so much! You are very kind."</li><li>F — "You're welcome. Have a great day!"</li></ol>
+      </div>
+      <div class="score-disp" id="ex3-score"><div class="score-num-big" id="ex3-sn">0/6</div><div class="score-lbl">Skor Latihan 3</div></div>
+    </div>
+    <div class="page-nav">
+      <button class="bn bn-prev" onclick="prev()">← Percakapan</button>
+      <button class="bn bn-next u2" onclick="next()">Latihan 4 →</button>
+    </div>
+  </div></div>
+</div>
+
+<!-- ══════════════════ 10: UNIT 2 — LATIHAN 4 (COMPLETE DIALOGUE) ══════════════════ -->
+<div class="page" id="p10">
+  <div class="pw" style="background:var(--surface);"><div class="s-wrap">
+    <div class="s-tag u2">💬 Unit 2 · Materi 5 dari 5</div>
+    <h2 class="s-title">Latihan 4: Lengkapi Percakapan</h2>
+    <div class="s-div u2"></div>
+    <div class="ex-card">
+      <div class="ex-label"><div class="ex-num u2">4</div>Latihan 4: Lengkapi Percakapan</div>
+      <div class="ex-instr">Pilih jawaban yang paling tepat untuk melengkapi percakapan berikut.</div>
+      <div class="dc-q"><div class="dc-bub"><strong>A:</strong> "Good morning! How are you?"<br><strong>B:</strong> "_____"</div><div class="dc-opts"><button class="dopt" onclick="chkD(1,'correct',this)">💬 "I'm fine, thank you!"</button><button class="dopt" onclick="chkD(1,'wrong',this)">💬 "Yes, I work here."</button><button class="dopt" onclick="chkD(1,'wrong',this)">💬 "The market is open."</button></div><div class="mfb" id="dfb1"></div></div>
+      <hr class="sep">
+      <div class="dc-q"><div class="dc-bub"><strong>A:</strong> "Can you help me with this?"<br><strong>B:</strong> "_____"</div><div class="dc-opts"><button class="dopt" onclick="chkD(2,'wrong',this)">💬 "See you tomorrow."</button><button class="dopt" onclick="chkD(2,'correct',this)">💬 "Of course! I'm happy to help."</button><button class="dopt" onclick="chkD(2,'wrong',this)">💬 "My name is Sari."</button></div><div class="mfb" id="dfb2"></div></div>
+      <hr class="sep">
+      <div class="dc-q"><div class="dc-bub"><strong>A:</strong> "Thank you very much!"<br><strong>B:</strong> "_____"</div><div class="dc-opts"><button class="dopt" onclick="chkD(3,'wrong',this)">💬 "Good night!"</button><button class="dopt" onclick="chkD(3,'wrong',this)">💬 "I am tired."</button><button class="dopt" onclick="chkD(3,'correct',this)">💬 "You're welcome!"</button></div><div class="mfb" id="dfb3"></div></div>
+      <div class="score-disp" id="ex4-score"><div class="score-num-big" id="ex4-sn">0/3</div><div class="score-lbl">Skor Latihan 4</div></div>
+    </div>
+    <div class="page-nav">
+      <button class="bn bn-prev" onclick="prev()">← Latihan 3</button>
+      <button class="bn bn-next u3" onclick="next()">Unit 3 →</button>
+    </div>
+  </div></div>
+</div>
+
+<!-- ══════════════════ 11: UNIT 3 — SEKAT ══════════════════ -->
+<div class="page" id="p11">
+  <div class="pw"><div class="s-wrap">
+    <div class="s-tag u3">📰 Unit 3 · Mulai</div>
+    <h2 class="s-title">Unit 3 — Membaca untuk Kehidupan Sehari-hari</h2>
+    <div class="s-div u3"></div>
+    <div class="card" style="text-align:center;padding:32px 20px;">
+      <div style="font-size:3rem;margin-bottom:12px;">📰</div>
+      <p style="font-size:.95rem;color:var(--text-sub);margin-bottom:20px;">Pada unit ini kamu akan membaca dua teks berbahasa Inggris: sebuah pengumuman dan teks informasi tentang rutinitas harian, lalu menjawab pertanyaan pemahaman.</p>
+      <button class="btn-p" onclick="next()" style="font-size:.9rem;padding:11px 28px;">Mulai Unit 3 →</button>
+    </div>
+    <div class="page-nav">
+      <button class="bn bn-prev" onclick="prev()">← Latihan 4</button>
+      <button class="bn bn-next u3" onclick="next()">Tujuan →</button>
+    </div>
+  </div></div>
+</div>
+
+<!-- ══════════════════ 12: UNIT 3 — TUJUAN ══════════════════ -->
+<div class="page" id="p12">
+  <div class="pw"><div class="s-wrap">
+    <div class="s-tag u3">📰 Unit 3 · Materi 1 dari 4</div>
+    <h2 class="s-title">Tujuan Pembelajaran</h2>
+    <div class="s-div u3"></div>
+    <div class="card">
+      <div class="card-title"><span>🎯</span> Tujuan Pembelajaran — Unit 3</div>
+      <ul class="obj-list">
+        <li><div class="obj-ck u3">✓</div><span>Memahami isi teks fungsional berbahasa Inggris yang ditemui dalam kehidupan sehari-hari</span></li>
+        <li><div class="obj-ck u3">✓</div><span>Mengidentifikasi informasi penting dari teks pendek</span></li>
+        <li><div class="obj-ck u3">✓</div><span>Menjawab pertanyaan pemahaman berdasarkan teks yang dibaca</span></li>
+      </ul>
+    </div>
+    <div class="page-nav">
+      <button class="bn bn-prev" onclick="prev()">← Kembali</button>
+      <button class="bn bn-next u3" onclick="next()">Teks 1 →</button>
+    </div>
+  </div></div>
+</div>
+
+<!-- ══════════════════ 13: UNIT 3 — TEKS 1 ══════════════════ -->
+<div class="page" id="p13">
+  <div class="pw"><div class="s-wrap">
+    <div class="s-tag u3">📰 Unit 3 · Materi 2 dari 4</div>
+    <h2 class="s-title">Teks 1: Pengumuman</h2>
+    <div class="s-div u3"></div>
+    <div class="card">
+      <div class="card-title"><span>📋</span> Teks 1: Community Announcement</div>
+      <div class="notice-card">
+        <div class="notice-title">Community Announcement</div>
+        <p>Dear Residents of RW 05,</p>
+        <p>We would like to inform you that there will be a <strong>community clean-up activity</strong> this <strong>Sunday, June 8, 2026</strong>, starting at <strong>07.00 AM</strong>.</p>
+        <p>All residents are kindly requested to participate. Please bring your own cleaning tools such as <strong>brooms and trash bags</strong>.</p>
+        <p>After the clean-up, we will have a short meeting to discuss the <strong>community garden project</strong>.</p>
+        <p>Thank you for your cooperation.</p>
+        <div class="notice-foot">Best regards,<br><strong>The Neighborhood Committee</strong></div>
+      </div>
+      <div class="vocab-new-box">
+        <div class="vn-title">📖 Kosakata Baru</div>
+        <div class="vn-list">
+          <div class="vn-item"><strong>inform</strong> <span>= memberitahukan</span></div>
+          <div class="vn-item"><strong>residents</strong> <span>= warga/penghuni</span></div>
+          <div class="vn-item"><strong>participate</strong> <span>= ikut serta/berpartisipasi</span></div>
+          <div class="vn-item"><strong>cooperation</strong> <span>= kerja sama</span></div>
+          <div class="vn-item"><strong>committee</strong> <span>= panitia/pengurus</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="page-nav">
+      <button class="bn bn-prev" onclick="prev()">← Tujuan</button>
+      <button class="bn bn-next u3" onclick="next()">Latihan 5 →</button>
+    </div>
+  </div></div>
+</div>
+
+<!-- ══════════════════ 14: UNIT 3 — LATIHAN 5 ══════════════════ -->
+<div class="page" id="p14">
+  <div class="pw"><div class="s-wrap">
+    <div class="s-tag u3">📰 Unit 3 · Materi 3 dari 4</div>
+    <h2 class="s-title">Latihan 5: Pertanyaan Teks 1</h2>
+    <div class="s-div u3"></div>
+    <div class="ex-card">
+      <div class="ex-label"><div class="ex-num u3">5</div>Latihan 5: Pertanyaan Pemahaman Teks 1</div>
+      <div class="ex-instr">Jawab pertanyaan berikut berdasarkan teks pengumuman yang sudah kamu baca.</div>
+      <div class="mcq-q"><div class="mcq-qn">Pertanyaan 1 dari 5</div><div class="mcq-qt">What is the announcement about?</div><div class="mcq-opts"><button class="mopt" onclick="chkM(5,1,'wrong',this)"><span class="opt-m"></span>A school holiday</button><button class="mopt" onclick="chkM(5,1,'correct',this)"><span class="opt-m"></span>A community clean-up activity</button><button class="mopt" onclick="chkM(5,1,'wrong',this)"><span class="opt-m"></span>A neighborhood election</button></div><div class="mfb" id="m51"></div></div>
+      <hr class="sep">
+      <div class="mcq-q"><div class="mcq-qn">Pertanyaan 2 dari 5</div><div class="mcq-qt">When will the activity take place?</div><div class="mcq-opts"><button class="mopt" onclick="chkM(5,2,'wrong',this)"><span class="opt-m"></span>Saturday, June 7</button><button class="mopt" onclick="chkM(5,2,'correct',this)"><span class="opt-m"></span>Sunday, June 8</button><button class="mopt" onclick="chkM(5,2,'wrong',this)"><span class="opt-m"></span>Monday, June 9</button></div><div class="mfb" id="m52"></div></div>
+      <hr class="sep">
+      <div class="mcq-q"><div class="mcq-qn">Pertanyaan 3 dari 5</div><div class="mcq-qt">What time does the activity start?</div><div class="mcq-opts"><button class="mopt" onclick="chkM(5,3,'wrong',this)"><span class="opt-m"></span>06.00 AM</button><button class="mopt" onclick="chkM(5,3,'correct',this)"><span class="opt-m"></span>07.00 AM</button><button class="mopt" onclick="chkM(5,3,'wrong',this)"><span class="opt-m"></span>08.00 AM</button></div><div class="mfb" id="m53"></div></div>
+      <hr class="sep">
+      <div class="mcq-q"><div class="mcq-qn">Pertanyaan 4 dari 5</div><div class="mcq-qt">What should residents bring?</div><div class="mcq-opts"><button class="mopt" onclick="chkM(5,4,'wrong',this)"><span class="opt-m"></span>Food and drinks</button><button class="mopt" onclick="chkM(5,4,'correct',this)"><span class="opt-m"></span>Cleaning tools like brooms and trash bags</button><button class="mopt" onclick="chkM(5,4,'wrong',this)"><span class="opt-m"></span>Tables and chairs</button></div><div class="mfb" id="m54"></div></div>
+      <hr class="sep">
+      <div class="mcq-q"><div class="mcq-qn">Pertanyaan 5 dari 5</div><div class="mcq-qt">What will happen after the clean-up?</div><div class="mcq-opts"><button class="mopt" onclick="chkM(5,5,'wrong',this)"><span class="opt-m"></span>A community dinner</button><button class="mopt" onclick="chkM(5,5,'correct',this)"><span class="opt-m"></span>A short meeting about the garden project</button><button class="mopt" onclick="chkM(5,5,'wrong',this)"><span class="opt-m"></span>A sports competition</button></div><div class="mfb" id="m55"></div></div>
+      <div class="score-disp" id="ex5-score"><div class="score-num-big" id="ex5-sn">0/5</div><div class="score-lbl">Skor Latihan 5</div></div>
+    </div>
+    <div class="page-nav">
+      <button class="bn bn-prev" onclick="prev()">← Teks 1</button>
+      <button class="bn bn-next u3" onclick="next()">Teks 2 →</button>
+    </div>
+  </div></div>
+</div>
+
+<!-- ══════════════════ 15: UNIT 3 — TEKS 2 ══════════════════ -->
+<div class="page" id="p15">
+  <div class="pw"><div class="s-wrap">
+    <div class="s-tag u3">📰 Unit 3 · Materi 4 dari 5</div>
+    <h2 class="s-title">Teks 2: My Daily Routine</h2>
+    <div class="s-div u3"></div>
+    <div class="card">
+      <div class="card-title"><span>📄</span> Teks 2: Teks Informasi Singkat</div>
+      <div class="article-card">
+        <div class="article-title">My Daily Routine</div>
+        <p>My name is Dewi. I am 32 years old and I live in Yogyakarta. I work at a small food stall near my house from Monday to Saturday.</p>
+        <p>Every morning, I wake up at four-thirty. I cook rice and prepare breakfast for my family before I go to work. I open the food stall at six o'clock.</p>
+        <p>At noon, I take a short break and eat lunch with my husband. In the evening, after closing the stall, I attend English classes at PKBM Tunas Mandiri. I study English because I want to communicate better with customers and improve my skills.</p>
+        <p>I believe that learning is important at any age. I am proud to keep studying even though I am busy every day.</p>
+      </div>
+      <div class="vocab-new-box">
+        <div class="vn-title">📖 Kosakata Baru</div>
+        <div class="vn-list">
+          <div class="vn-item"><strong>routine</strong> <span>= rutinitas</span></div>
+          <div class="vn-item"><strong>prepare</strong> <span>= menyiapkan</span></div>
+          <div class="vn-item"><strong>attend</strong> <span>= menghadiri/mengikuti</span></div>
+          <div class="vn-item"><strong>communicate</strong> <span>= berkomunikasi</span></div>
+          <div class="vn-item"><strong>improve</strong> <span>= meningkatkan</span></div>
+          <div class="vn-item"><strong>proud</strong> <span>= bangga</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="page-nav">
+      <button class="bn bn-prev" onclick="prev()">← Latihan 5</button>
+      <button class="bn bn-next u3" onclick="next()">Latihan 6 →</button>
+    </div>
+  </div></div>
+</div>
+
+<!-- ══════════════════ 16: UNIT 3 — LATIHAN 6 ══════════════════ -->
+<div class="page" id="p16">
+  <div class="pw"><div class="s-wrap">
+    <div class="s-tag u3">📰 Unit 3 · Materi 5 dari 5</div>
+    <h2 class="s-title">Latihan 6: Pertanyaan Teks 2</h2>
+    <div class="s-div u3"></div>
+    <div class="ex-card">
+      <div class="ex-label"><div class="ex-num u3">6</div>Latihan 6: Pertanyaan Pemahaman Teks 2</div>
+      <div class="ex-instr">Jawab pertanyaan berikut berdasarkan teks "My Daily Routine" yang sudah kamu baca.</div>
+      <div class="mcq-q"><div class="mcq-qn">Pertanyaan 1 dari 5</div><div class="mcq-qt">What is Dewi's job?</div><div class="mcq-opts"><button class="mopt" onclick="chkM(6,1,'wrong',this)"><span class="opt-m"></span>A teacher</button><button class="mopt" onclick="chkM(6,1,'correct',this)"><span class="opt-m"></span>A food stall worker</button><button class="mopt" onclick="chkM(6,1,'wrong',this)"><span class="opt-m"></span>A market vendor</button></div><div class="mfb" id="m61"></div></div>
+      <hr class="sep">
+      <div class="mcq-q"><div class="mcq-qn">Pertanyaan 2 dari 5</div><div class="mcq-qt">What time does Dewi wake up every morning?</div><div class="mcq-opts"><button class="mopt" onclick="chkM(6,2,'wrong',this)"><span class="opt-m"></span>Four o'clock</button><button class="mopt" onclick="chkM(6,2,'correct',this)"><span class="opt-m"></span>Four-thirty</button><button class="mopt" onclick="chkM(6,2,'wrong',this)"><span class="opt-m"></span>Five o'clock</button></div><div class="mfb" id="m62"></div></div>
+      <hr class="sep">
+      <div class="mcq-q"><div class="mcq-qn">Pertanyaan 3 dari 5</div><div class="mcq-qt">What does Dewi do before going to work?</div><div class="mcq-opts"><button class="mopt" onclick="chkM(6,3,'wrong',this)"><span class="opt-m"></span>She exercises and takes a shower</button><button class="mopt" onclick="chkM(6,3,'correct',this)"><span class="opt-m"></span>She cooks rice and prepares breakfast</button><button class="mopt" onclick="chkM(6,3,'wrong',this)"><span class="opt-m"></span>She reads the newspaper</button></div><div class="mfb" id="m63"></div></div>
+      <hr class="sep">
+      <div class="mcq-q"><div class="mcq-qn">Pertanyaan 4 dari 5</div><div class="mcq-qt">Why does Dewi study English?</div><div class="mcq-opts"><button class="mopt" onclick="chkM(6,4,'wrong',this)"><span class="opt-m"></span>Because her boss requires it</button><button class="mopt" onclick="chkM(6,4,'correct',this)"><span class="opt-m"></span>Because she wants to communicate better and improve her skills</button><button class="mopt" onclick="chkM(6,4,'wrong',this)"><span class="opt-m"></span>Because her children ask her to</button></div><div class="mfb" id="m64"></div></div>
+      <hr class="sep">
+      <div class="mcq-q"><div class="mcq-qn">Pertanyaan 5 dari 5</div><div class="mcq-qt">What does the text tell us about Dewi's attitude toward learning?</div><div class="mcq-opts"><button class="mopt" onclick="chkM(6,5,'wrong',this)"><span class="opt-m"></span>She thinks learning is only for young people</button><button class="mopt" onclick="chkM(6,5,'correct',this)"><span class="opt-m"></span>She believes learning is important at any age</button><button class="mopt" onclick="chkM(6,5,'wrong',this)"><span class="opt-m"></span>She finds studying too difficult</button></div><div class="mfb" id="m65"></div></div>
+      <div class="score-disp" id="ex6-score"><div class="score-num-big" id="ex6-sn">0/5</div><div class="score-lbl">Skor Latihan 6</div></div>
+    </div>
+    <div class="page-nav">
+      <button class="bn bn-prev" onclick="prev()">← Teks 2</button>
+      <button class="bn bn-next" onclick="next()">Lihat Nilai Akhir 🏆</button>
+    </div>
+  </div></div>
+</div>
+
+<!-- ══════════════════ 17: FINAL SCORE ══════════════════ -->
+<div class="page" id="p17">
+  <div class="pw"><div class="s-wrap">
+    <div class="final-card">
+      <h2 class="f-title">🏆 Hasil Belajarmu</h2>
+      <p class="f-sub">Kamu telah menyelesaikan semua latihan! Berikut adalah ringkasan nilaimu.</p>
+      <div class="sc-break">
+        <div class="sc-row"><span class="sc-rl">📖 Unit 1 — Vocabulary (Latihan 1 + 2)</span><span class="sc-rv" id="fu1">0 / 10</span></div>
+        <div class="sc-row"><span class="sc-rl">💬 Unit 2 — Speaking (Latihan 3 + 4)</span><span class="sc-rv" id="fu2">0 / 9</span></div>
+        <div class="sc-row"><span class="sc-rl">📰 Unit 3 — Reading (Latihan 5 + 6)</span><span class="sc-rv" id="fu3">0 / 10</span></div>
+      </div>
+      <div class="sc-total-wrap">
+        <div class="sc-total-num" id="ftotal">0</div>
+        <div class="sc-total-lbl">Total Skor</div>
+        <div class="sc-pct" id="fpct">0% dari 29 poin</div>
+      </div>
+      <div class="motiv-msg" id="motiv">Selesaikan semua latihan untuk melihat pesanmu di sini! 🌟</div>
+      <div class="f-actions">
+        <button class="btn-acc" onclick="resetAll()">🔄 Ulangi Semua Latihan</button>
+        <button class="btn-owl" onclick="goTo(0)">⬆️ Kembali ke Awal</button>
+      </div>
+    </div>
+    <div class="page-nav">
+      <button class="bn bn-prev" onclick="prev()">← Latihan 6</button>
+      <div></div>
+    </div>
+  </div></div>
+</div>
+
+</div><!-- /#app -->
+
+<footer>
+  <div class="ft">English Skills for Daily Life</div>
+  <div>Dikembangkan untuk Warga Belajar Paket C | PKBM Tunas Mandiri, Yogyakarta</div>
+  <div>© 2026 — <strong>Annuril Baihaqi Achmadi</strong> | UNU Yogyakarta</div>
+</footer>
+
+<script>
+'use strict';
+
+/* ── PAGE SYSTEM ── */
+const TOTAL = 17; // 0..17
+let cur = 0;
+
+const PAGE_META = [
+  { label: 'Beranda' },
+  { label: 'Unit 1 · Tujuan Pembelajaran' },
+  { label: 'Unit 1 · Daftar Kosakata' },
+  { label: 'Unit 1 · Latihan 1: Cocokkan Kata' },
+  { label: 'Unit 1 · Latihan 2: Lengkapi Kalimat' },
+  { label: 'Unit 2 · Pengantar' },
+  { label: 'Unit 2 · Tujuan Pembelajaran' },
+  { label: 'Unit 2 · Ekspresi yang Berguna' },
+  { label: 'Unit 2 · Contoh Percakapan' },
+  { label: 'Unit 2 · Latihan 3: Susun Percakapan' },
+  { label: 'Unit 2 · Latihan 4: Lengkapi Percakapan' },
+  { label: 'Unit 3 · Pengantar' },
+  { label: 'Unit 3 · Tujuan Pembelajaran' },
+  { label: 'Unit 3 · Teks 1: Pengumuman' },
+  { label: 'Unit 3 · Latihan 5: Pertanyaan Teks 1' },
+  { label: 'Unit 3 · Teks 2: My Daily Routine' },
+  { label: 'Unit 3 · Latihan 6: Pertanyaan Teks 2' },
+  { label: 'Nilai Akhir 🏆' },
+];
+
+function goTo(idx, forward) {
+  if (idx < 0 || idx > TOTAL) return;
+  const isForward = forward !== undefined ? forward : idx > cur;
+
+  const oldEl = document.getElementById('p' + cur);
+  const newEl = document.getElementById('p' + idx);
+  if (!newEl) return;
+
+  // Animate out
+  if (oldEl) {
+    oldEl.style.transition = 'opacity .22s ease, transform .25s ease';
+    oldEl.style.opacity = '0';
+    oldEl.style.transform = isForward ? 'translateX(-28px)' : 'translateX(28px)';
+    setTimeout(() => {
+      oldEl.classList.remove('active');
+      oldEl.style.cssText = '';
+    }, 240);
+  }
+
+  cur = idx;
+
+  // Animate in
+  setTimeout(() => {
+    newEl.classList.add('active');
+    newEl.style.opacity = '0';
+    newEl.style.transform = isForward ? 'translateX(28px)' : 'translateX(-28px)';
+    newEl.style.transition = 'opacity .28s ease, transform .3s ease';
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      newEl.style.opacity = '1';
+      newEl.style.transform = 'translateX(0)';
+      setTimeout(() => { newEl.style.cssText = ''; }, 310);
+    }));
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    updateUI();
+    updateFinal();
+  }, 230);
+}
+
+function next() { goTo(cur + 1, true); }
+function prev() { goTo(cur - 1, false); }
+
+function updateUI() {
+  // Step label
+  const meta = PAGE_META[cur];
+  document.getElementById('step-info').innerHTML =
+    cur === 0 ? 'Beranda' :
+    `Langkah <strong>${cur}</strong>/${TOTAL} &nbsp;·&nbsp; ${meta.label}`;
+
+  // Progress bar
+  document.getElementById('prog-bar').style.width = (cur / TOTAL * 100) + '%';
+}
+
+/* ── SCORE STATE ── */
+const SC = { ex1:0,ex1d:false, ex2:0,ex2c:0, ex3:0,ex3d:false,ex3att:0, ex4:0,ex4c:0, ex5:0,ex5c:0, ex6:0,ex6c:0 };
+
+const MATCH_ANS = { Work:'Bekerja', Buy:'Membeli', Family:'Keluarga', Tired:'Lelah', Neighbor:'Tetangga' };
+
+/* ── EX1 MATCHING ── */
+let matchWord=null, matchEl=null;
+
+function selL(w,el){
+  if(el.classList.contains('matched')) return;
+  document.querySelectorAll('#p3 .match-col:first-child .mb').forEach(b=>{ if(!b.classList.contains('matched')) b.classList.remove('selected'); });
+  matchWord=w; matchEl=el; el.classList.add('selected');
+}
+function selR(m,el){
+  if(el.classList.contains('matched')||!matchWord) return;
+  if(m===MATCH_ANS[matchWord]){
+    matchEl.classList.remove('selected'); matchEl.classList.add('matched'); matchEl.disabled=true;
+    el.classList.add('matched'); el.disabled=true; SC.ex1++;
+    if(SC.ex1===5){ SC.ex1d=true; showSc('ex1','5/5'); confetti(); updateFinal(); }
+  } else {
+    matchEl.classList.add('shake'); el.classList.add('shake');
+    setTimeout(()=>{ matchEl.classList.remove('shake','selected'); el.classList.remove('shake'); },450);
+  }
+  matchWord=null; matchEl=null;
+}
+
+/* ── EX2 FILL ── */
+function chkF(n,ch,cor,el){
+  const c=el.closest('.fill-opts');
+  if(c.querySelector('.sc,.sw')) return;
+  const fb=document.getElementById('f'+n);
+  if(ch===cor){ el.classList.add('sc'); fb.textContent='✅ Benar!'; fb.className='qfb ok'; SC.ex2++; }
+  else{ el.classList.add('sw'); c.querySelectorAll('.fo').forEach(o=>{ if(o.textContent.trim()===cor) o.classList.add('sh'); }); fb.textContent=`❌ Jawaban yang benar: "${cor}"`; fb.className='qfb err'; }
+  c.querySelectorAll('.fo').forEach(o=>o.disabled=true);
+  SC.ex2c++;
+  if(SC.ex2c===5){ showSc('ex2',SC.ex2+'/5'); if(SC.ex2===5) confetti(); updateFinal(); }
+}
+
+/* ── EX3 ARRANGE ── */
+const CORR=['A','B','C','D','E','F'];
+let arrSeq=[];
+const arrLbls={ A:'"Good morning! How are you?"', B:'"I\'m fine, thank you. What about you?"', C:'"I\'m good too. Can you help me find the market?"', D:'"Of course! The market is not far from here."', E:'"Thank you so much! You are very kind."', F:'"You\'re welcome. Have a great day!"' };
+
+function pickA(l,el){
+  if(SC.ex3d) return;
+  document.getElementById('arr-ph')?.remove();
+  arrSeq.push(l); el.classList.add('used'); el.disabled=true;
+  const it=document.createElement('div'); it.className='seq-i'; it.id='si-'+l;
+  it.innerHTML=`<span><strong>${l}.</strong> ${arrLbls[l]}</span><button class="rm" onclick="rmA('${l}')">✕</button>`;
+  document.getElementById('arr-seq').appendChild(it);
+}
+function rmA(l){
+  if(SC.ex3d) return;
+  const i=arrSeq.indexOf(l); if(i>-1) arrSeq.splice(i,1);
+  document.getElementById('si-'+l)?.remove();
+  const b=document.getElementById('ab-'+l); if(b){ b.classList.remove('used'); b.disabled=false; }
+  if(!arrSeq.length) document.getElementById('arr-seq').innerHTML='<span style="font-size:.76rem;color:var(--text-sub);font-style:italic;" id="arr-ph">Klik kalimat di atas untuk menyusunnya di sini...</span>';
+}
+function chkA(){
+  const fb=document.getElementById('ex3-fb');
+  if(arrSeq.length<6){ fb.textContent='⚠️ Susun semua 6 kalimat terlebih dahulu!'; fb.className='fb err'; return; }
+  if(arrSeq.join('')===CORR.join('')){
+    fb.textContent='✅ Luar biasa! Urutan percakapanmu sudah benar!'; fb.className='fb ok';
+    SC.ex3=6; SC.ex3d=true; showSc('ex3','6/6'); confetti(); updateFinal();
+    document.querySelectorAll('.arr-btn').forEach(b=>b.disabled=true);
+  } else {
+    SC.ex3att++;
+    fb.textContent=`❌ Urutan belum tepat. Coba lagi! (Percobaan ke-${SC.ex3att})`; fb.className='fb err';
+    if(SC.ex3att>=2){ document.getElementById('cor-rev').classList.add('show'); SC.ex3=0; SC.ex3d=true; showSc('ex3','0/6'); updateFinal(); document.querySelectorAll('.arr-btn').forEach(b=>b.disabled=true); }
+  }
+}
+function rstA(){
+  if(SC.ex3d) return;
+  arrSeq=[]; document.getElementById('arr-seq').innerHTML='<span style="font-size:.76rem;color:var(--text-sub);font-style:italic;" id="arr-ph">Klik kalimat di atas untuk menyusunnya di sini...</span>';
+  document.querySelectorAll('.arr-btn').forEach(b=>{ b.classList.remove('used'); b.disabled=false; });
+  document.getElementById('ex3-fb').className='fb';
+}
+
+/* ── EX4 DIALOGUE ── */
+const DLG_COR={ 1:"I'm fine, thank you!", 2:"Of course! I'm happy to help.", 3:"You're welcome!" };
+function chkD(n,res,el){
+  const c=el.closest('.dc-opts'); if(c.querySelector('.correct,.wrong')) return;
+  const fb=document.getElementById('dfb'+n);
+  if(res==='correct'){ el.classList.add('correct'); fb.textContent='✅ Tepat sekali!'; fb.className='mfb ok'; SC.ex4++; }
+  else{ el.classList.add('wrong'); c.querySelectorAll('.dopt').forEach(b=>{ if(b.textContent.includes(DLG_COR[n])) b.classList.add('correct'); }); fb.textContent='❌ Kurang tepat. Perhatikan konteksnya!'; fb.className='mfb err'; }
+  c.querySelectorAll('.dopt').forEach(b=>b.disabled=true);
+  SC.ex4c++;
+  if(SC.ex4c===3){ showSc('ex4',SC.ex4+'/3'); if(SC.ex4===3) confetti(); updateFinal(); }
+}
+
+/* ── EX5 & EX6 MCQ ── */
+function chkM(ex,n,res,el){
+  const c=el.closest('.mcq-opts'); if(c.querySelector('.correct,.wrong')) return;
+  const fb=document.getElementById('m'+ex+n);
+  const mk=el.querySelector('.opt-m');
+  if(res==='correct'){ el.classList.add('correct'); mk.textContent='✓'; fb.textContent='✅ Benar!'; fb.className='mfb ok'; SC['ex'+ex]++; }
+  else{ el.classList.add('wrong'); mk.textContent='✕'; c.querySelectorAll('.mopt').forEach(b=>{ if(b.getAttribute('onclick')?.includes("'correct'")){ b.classList.add('correct'); b.querySelector('.opt-m').textContent='✓'; } }); fb.textContent='❌ Kurang tepat. Perhatikan kembali isi teksnya!'; fb.className='mfb err'; }
+  c.querySelectorAll('.mopt').forEach(b=>b.disabled=true);
+  SC['ex'+ex+'c']++;
+  if(SC['ex'+ex+'c']===5){ showSc('ex'+ex,SC['ex'+ex]+'/5'); if(SC['ex'+ex]===5) confetti(); updateFinal(); }
+}
+
+/* ── HELPERS ── */
+function showSc(id,txt){
+  const sd=document.getElementById(id+'-score');
+  document.getElementById(id+'-sn').textContent=txt;
+  sd.classList.add('show');
+}
+
+function updateFinal(){
+  const u1=SC.ex1+SC.ex2, u2=SC.ex3+SC.ex4, u3=SC.ex5+SC.ex6;
+  const tot=u1+u2+u3, pct=Math.round(tot/29*100);
+  document.getElementById('fu1').textContent=u1+' / 10';
+  document.getElementById('fu2').textContent=u2+' / 9';
+  document.getElementById('fu3').textContent=u3+' / 10';
+  document.getElementById('ftotal').textContent=tot;
+  document.getElementById('fpct').textContent=pct+'% dari 29 poin';
+  let msg='Selesaikan semua latihan untuk melihat pesanmu di sini! 🌟';
+  if(tot>0){
+    if(pct>=90) msg='🌟 Luar biasa! Kamu menguasai materi dengan sangat baik. Terus semangat belajar!';
+    else if(pct>=70) msg='👍 Bagus sekali! Kamu sudah memahami sebagian besar materi. Coba ulangi bagian yang masih kurang.';
+    else if(pct>=50) msg='💪 Cukup baik! Yuk ulangi kembali materi di unit yang nilainya masih rendah.';
+    else msg='🙏 Jangan menyerah! Coba baca kembali materinya dan kerjakan latihannya sekali lagi. Kamu pasti bisa!';
+  }
+  document.getElementById('motiv').textContent=msg;
+}
+
+function confetti(){
+  const cols=['#F4A423','#1B6B72','#16A34A','#2563EB','#f9f7f3','#ffd166'];
+  for(let i=0;i<28;i++) setTimeout(()=>{
+    const p=document.createElement('div'); p.className='confetti-piece';
+    p.style.cssText=`left:${Math.random()*100}vw;top:${40+Math.random()*40}vh;background:${cols[Math.floor(Math.random()*cols.length)]};width:${7+Math.random()*8}px;height:${7+Math.random()*8}px;animation-duration:${.7+Math.random()*.6}s`;
+    document.body.appendChild(p); setTimeout(()=>p.remove(),1400);
+  },i*38);
+}
+
+function toggleVH(hdr){
+  const b=document.getElementById('vh-body');
+  const open=b.classList.toggle('open');
+  hdr.querySelector('.vh-arr').textContent=open?'▲':'▼';
+  hdr.setAttribute('aria-expanded',open);
+}
+
+/* ── RESET ── */
+function resetAll(){
+  if(!confirm('Apakah kamu yakin ingin mengulang semua latihan? Semua nilaimu akan direset.')) return;
+  Object.keys(SC).forEach(k=>SC[k]=0);
+  SC.ex1d=SC.ex3d=false;
+  matchWord=null; matchEl=null;
+  document.querySelectorAll('.mb').forEach(b=>{ b.classList.remove('matched','selected','shake'); b.disabled=false; });
+  ['ex1-score','ex2-score','ex3-score','ex4-score','ex5-score','ex6-score'].forEach(id=>document.getElementById(id)?.classList.remove('show'));
+  document.querySelectorAll('.fo').forEach(b=>{ b.classList.remove('sc','sw','sh'); b.disabled=false; });
+  [1,2,3,4,5].forEach(n=>{ const e=document.getElementById('f'+n); if(e){ e.textContent=''; e.className='qfb'; } });
+  arrSeq=[]; document.getElementById('arr-seq').innerHTML='<span style="font-size:.76rem;color:var(--text-sub);font-style:italic;" id="arr-ph">Klik kalimat di atas untuk menyusunnya di sini...</span>';
+  document.querySelectorAll('.arr-btn').forEach(b=>{ b.classList.remove('used'); b.disabled=false; });
+  const efb=document.getElementById('ex3-fb'); if(efb){ efb.textContent=''; efb.className='fb'; }
+  document.getElementById('cor-rev')?.classList.remove('show');
+  document.querySelectorAll('.dopt').forEach(b=>{ b.classList.remove('correct','wrong'); b.disabled=false; });
+  [1,2,3].forEach(n=>{ const e=document.getElementById('dfb'+n); if(e){ e.textContent=''; e.className='mfb'; } });
+  document.querySelectorAll('.mopt').forEach(b=>{ b.classList.remove('correct','wrong'); b.disabled=false; const m=b.querySelector('.opt-m'); if(m) m.textContent=''; });
+  ['m51','m52','m53','m54','m55','m61','m62','m63','m64','m65'].forEach(id=>{ const e=document.getElementById(id); if(e){ e.textContent=''; e.className='mfb'; } });
+  updateFinal();
+  goTo(0, false);
+}
+
+/* ── INIT ── */
+document.addEventListener('DOMContentLoaded', ()=>{
+  document.getElementById('p0').classList.add('active');
+  updateUI();
+  updateFinal();
+});
+</script>
+</body>
+</html>

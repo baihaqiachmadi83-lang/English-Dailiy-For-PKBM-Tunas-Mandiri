@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="E-Modul Pembelajaran Bahasa Inggris Simple Present Tense untuk Siswa SMP. Belajar grammar dengan cara interaktif, fun, dan mudah dipahami!">
+    <meta name="keywords"
+        content="bahasa inggris, simple present, grammar, e-learning, modul pembelajaran, SMP, interaktif">
+    <meta name="author" content="E-Modul ELT Simple Present">
+
+    <title>E-Modul Simple Present Tense | Belajar Bahasa Inggris Interaktif</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📚</text></svg>">
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+</head>
+
+<body>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="navbar-container">
+            <a href="index.html" class="navbar-brand">
+                <span>📚</span>
+                <span>E-Modul Simple Present</span>
+            </a>
+
+            <button class="navbar-toggle" id="navbarToggle" aria-label="Toggle navigation">
+                ☰
+            </button>
+
+            <ul class="navbar-menu" id="navbarMenu">
+                <li><a href="index.html" class="active">Beranda</a></li>
+                <li><a href="pages/material.html">Materi</a></li>
+                <li><a href="pages/practice.html">Latihan</a></li>
+                <li><a href="pages/quiz.html">Quiz</a></li>
+                <li>
+                    <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+                        <span id="themeIcon">🌙</span>
+                    </button>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-text fade-in">
+                    <div class="badge badge-primary mb-md">📖 E-Learning Module untuk SMP</div>
+                    <h1 class="hero-title">
+                        Belajar <span class="gradient-text">Simple Present Tense</span> Jadi Mudah & Seru!
+                    </h1>
+                    <p class="hero-description">
+                        Pelajari Simple Present Tense dengan cara yang interaktif dan menyenangkan! Dilengkapi dengan
+                        materi lengkap,
+                        latihan soal beragam, game edukatif, dan quiz evaluasi. Cocok banget buat kamu siswa SMP yang
+                        ingin jago bahasa Inggris! 🚀
+                    </p>
+
+                    <!-- Progress Info (will show if user has started) -->
+                    <div class="progress-info" id="progressInfo" style="display: none;">
+                        <div class="progress-label">
+                            <span>📊 Progress Belajar Kamu</span>
+                            <span id="progressPercent">0%</span>
+                        </div>
+                        <div class="progress">
+                            <div class="progress-bar" id="progressBar" style="width: 0%"></div>
+                        </div>
+                    </div>
+
+                    <div class="hero-buttons">
+                        <a href="pages/material.html" class="btn btn-primary btn-lg">
+                            🚀 Mulai Belajar Sekarang
+                        </a>
+                        <a href="#features" class="btn btn-outline btn-lg">
+                            ✨ Lihat Fitur Keren
+                        </a>
+                    </div>
+                </div>
+
+                <div class="hero-image slide-in-right">
+                    <img src="assets/images/hero-illustration.png" alt="Students Learning English Together">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <div class="container">
+            <div class="section-header text-center">
+                <h2>✨ Fitur Pembelajaran Interaktif</h2>
+                <p>Belajar bahasa Inggris dengan metode yang seru dan mudah dipahami untuk siswa SMP</p>
+            </div>
+
+            <div class="features-grid">
+                <!-- Feature 1 -->
+                <div class="card fade-in">
+                    <div class="feature-icon">📖</div>
+                    <div class="card-header">
+                        <h3 class="card-title">Materi Interaktif</h3>
+                    </div>
+                    <div class="card-body">
+                        <p>Penjelasan Simple Present yang mudah dipahami dengan <strong>Live Sentence Builder</strong>,
+                            game interaktif, dan contoh kalimat dari kehidupan sehari-hari kamu!</p>
+                    </div>
+                    <div class="card-footer">
+                        <a href="pages/material.html" class="btn btn-secondary">🎮 Belajar Materi</a>
+                    </div>
+                </div>
+
+                <!-- Feature 2 -->
+                <div class="card fade-in">
+                    <div class="feature-icon">✏️</div>
+                    <div class="card-header">
+                        <h3 class="card-title">Latihan Beragam</h3>
+                    </div>
+                    <div class="card-body">
+                        <p>5 tipe latihan seru: Multiple Choice dengan gambar, Fill-in-the-Blanks cerita,
+                            Drag & Drop, Match the Pairs, dan True/False Quick Fire! 🎯</p>
+                    </div>
+                    <div class="card-footer">
+                        <a href="pages/practice.html" class="btn btn-secondary">🎲 Mulai Latihan</a>
+                    </div>
+                </div>
+
+                <!-- Feature 3 -->
+                <div class="card fade-in">
+                    <div class="feature-icon">🏆</div>
+                    <div class="card-header">
+                        <h3 class="card-title">Gamifikasi & Badges</h3>
+                    </div>
+                    <div class="card-body">
+                        <p>Kumpulkan poin, raih bintang, dan unlock achievement badges seperti "Grammar Master"
+                            dan "Perfect Score"! Belajar jadi lebih menyenangkan! 🌟</p>
+                    </div>
+                    <div class="card-footer">
+                        <a href="pages/practice.html" class="btn btn-secondary">🎖️ Raih Badge</a>
+                    </div>
+                </div>
+
+                <!-- Feature 4 -->
+                <div class="card fade-in">
+                    <div class="feature-icon">🎯</div>
+                    <div class="card-header">
+                        <h3 class="card-title">Quiz Evaluasi</h3>
+                    </div>
+                    <div class="card-body">
+                        <p>Uji kemampuan kamu dengan quiz komprehensif yang memberikan feedback instant
+                            dan skor detail untuk mengukur progress belajar!</p>
+                    </div>
+                    <div class="card-footer">
+                        <a href="pages/quiz.html" class="btn btn-secondary">📝 Ikuti Quiz</a>
+                    </div>
+                </div>
+
+                <!-- Feature 5 -->
+                <div class="card fade-in">
+                    <div class="feature-icon">📱</div>
+                    <div class="card-header">
+                        <h3 class="card-title">Mobile-Friendly</h3>
+                    </div>
+                    <div class="card-body">
+                        <p>Belajar dimana saja, kapan saja! E-Modul ini dioptimalkan untuk HP, tablet,
+                            dan laptop dengan tampilan yang responsif dan nyaman.</p>
+                    </div>
+                    <div class="card-footer">
+                        <button class="btn btn-secondary" onclick="alert('Coba resize browser atau buka di HP! 📱')">📲
+                            Coba Sekarang</button>
+                    </div>
+                </div>
+
+                <!-- Feature 6 -->
+                <div class="card fade-in">
+                    <div class="feature-icon">🌙</div>
+                    <div class="card-header">
+                        <h3 class="card-title">Dark Mode</h3>
+                    </div>
+                    <div class="card-body">
+                        <p>Belajar malam hari? Aktifkan Dark Mode untuk kenyamanan mata!
+                            Klik icon bulan/matahari di navigation bar untuk ganti tema.</p>
+                    </div>
+                    <div class="card-footer">
+                        <button class="btn btn-secondary" onclick="document.getElementById('themeToggle').click()">🌓
+                            Toggle Theme</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Simple Present Section -->
+    <section class="about-section">
+        <div class="container">
+            <div class="about-content">
+                <div class="about-text">
+                    <h2>Apa itu Simple Present Tense? 🤔</h2>
+                    <p>
+                        Simple Present Tense adalah salah satu <strong>tenses paling penting</strong> dalam bahasa
+                        Inggris!
+                        Kamu akan sering banget pakai ini dalam kehidupan sehari-hari untuk menyatakan:
+                    </p>
+                    <ul class="check-list">
+                        <li>✅ Kebiasaan atau rutinitas harian (misal: "I study English every day")</li>
+                        <li>✅ Fakta umum atau kebenaran universal (misal: "The sun rises in the east")</li>
+                        <li>✅ Jadwal yang tetap (misal: "School starts at 7 AM")</li>
+                        <li>✅ Kemampuan atau hobi (misal: "She plays guitar")</li>
+                    </ul>
+                    <div class="formula-box">
+                        <h4>📝 Rumus Dasar Simple Present</h4>
+                        <p><strong>✅ Positive:</strong> Subject + Verb1 (s/es) + Object</p>
+                        <p class="mb-sm">Contoh: <em>I <u>study</u> English</em> / <em>She <u>studies</u> Math</em></p>
+
+                        <p><strong>❌ Negative:</strong> Subject + do/does + not + Verb1 + Object</p>
+                        <p class="mb-sm">Contoh: <em>I <u>don't like</u> spicy food</em> / <em>He <u>doesn't play</u>
+                                football</em></p>
+
+                        <p><strong>❓ Interrogative:</strong> Do/Does + Subject + Verb1 + Object?</p>
+                        <p>Contoh: <em><u>Do</u> you <u>speak</u> English?</em> / <em><u>Does</u> she <u>study</u>
+                                here?</em></p>
+                    </div>
+                    <a href="pages/material.html" class="btn btn-primary mt-lg">🎮 Pelajari Lebih Lanjut dengan
+                        Interaktif →</a>
+                </div>
+
+                <div class="about-examples">
+                    <div class="example-card">
+                        <h4>💡 Contoh Kalimat Sehari-hari</h4>
+
+                        <div class="example-item">
+                            <span class="badge badge-success">Positive</span>
+                            <p>I <strong>go</strong> to school every day.</p>
+                            <p style="color: var(--text-tertiary); font-size: 0.9rem;">🇮🇩 Saya pergi ke sekolah setiap
+                                hari.</p>
+                        </div>
+
+                        <div class="example-item">
+                            <span class="badge badge-success">Positive</span>
+                            <p>My friend <strong>plays</strong> mobile games after school.</p>
+                            <p style="color: var(--text-tertiary); font-size: 0.9rem;">🇮🇩 Teman saya bermain game HP
+                                setelah sekolah.</p>
+                        </div>
+
+                        <div class="example-item">
+                            <span class="badge badge-error">Negative</span>
+                            <p>She <strong>doesn't like</strong> coffee.</p>
+                            <p style="color: var(--text-tertiary); font-size: 0.9rem;">🇮🇩 Dia tidak suka kopi.</p>
+                        </div>
+
+                        <div class="example-item">
+                            <span class="badge badge-error">Negative</span>
+                            <p>They <strong>don't watch</strong> TV on weekdays.</p>
+                            <p style="color: var(--text-tertiary); font-size: 0.9rem;">🇮🇩 Mereka tidak menonton TV di
+                                hari kerja.</p>
+                        </div>
+
+                        <div class="example-item">
+                            <span class="badge badge-warning">Question</span>
+                            <p><strong>Do</strong> you <strong>speak</strong> English?</p>
+                            <p style="color: var(--text-tertiary); font-size: 0.9rem;">🇮🇩 Apakah kamu berbicara bahasa
+                                Inggris?</p>
+                        </div>
+
+                        <div class="example-item">
+                            <span class="badge badge-warning">Question</span>
+                            <p><strong>Does</strong> he <strong>study</strong> at this school?</p>
+                            <p style="color: var(--text-tertiary); font-size: 0.9rem;">🇮🇩 Apakah dia belajar di
+                                sekolah ini?</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container text-center">
+            <h2>🎉 Siap Jadi Jago Simple Present Tense?</h2>
+            <p>Mulai perjalanan belajar kamu sekarang dan kuasai Simple Present dengan cara yang fun dan interaktif!</p>
+            <div class="cta-buttons">
+                <a href="pages/material.html" class="btn btn-primary btn-lg"
+                    style="background: white; color: var(--primary-color);">
+                    🚀 Mulai Belajar Sekarang
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-info">
+                    <h3>📚 E-Modul Simple Present Tense</h3>
+                    <p>Platform pembelajaran bahasa Inggris interaktif untuk siswa SMP.
+                        Belajar Simple Present Tense dengan metode yang menyenangkan, mudah dipahami,
+                        dan berbasis penelitian ELT (English Language Teaching).</p>
+                    <p style="margin-top: var(--spacing-md); color: var(--text-tertiary);">
+                        Made with ❤️ for Indonesian students
+                    </p>
+                </div>
+                <div class="footer-links">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html">🏠 Beranda</a></li>
+                        <li><a href="pages/material.html">📖 Materi Interaktif</a></li>
+                        <li><a href="pages/practice.html">✏️ Latihan Soal</a></li>
+                        <li><a href="pages/quiz.html">🎯 Quiz Evaluasi</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 E-Modul ELT Simple Present. All rights reserved. 🌟</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="js/main.js"></script>
+
+</body>
+
+</html>

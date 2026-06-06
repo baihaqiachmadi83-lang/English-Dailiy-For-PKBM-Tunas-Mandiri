@@ -1,0 +1,147 @@
+/* ====================================
+   DRAG & DROP SPECIFIC STYLES
+   Add these to style.css
+   ==================================== */
+
+.drag-drop-item {
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.03) 0%, transparent 100%);
+}
+
+.words-bank {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    padding: 1.5rem;
+    background: var(--bg-secondary);
+    border-radius: var(--radius-lg);
+    margin: 1.5rem 0;
+    min-height: 80px;
+    border: 2px dashed var(--gray-300);
+}
+
+[data-theme="dark"] .words-bank {
+    background: var(--gray-800);
+    border-color: var(--gray-600);
+}
+
+.word-item {
+    display: inline-block;
+    padding: 0.75rem 1rem;
+    background: var(--primary-color);
+    color: var(--white);
+    border-radius: var(--radius-md);
+    cursor: grab;
+    user-select: none;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: all 0.25s ease-in-out;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+.word-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.word-item:active {
+    cursor: grabbing;
+    transform: scale(0.95);
+}
+
+.drop-zone {
+    min-height: 120px;
+    padding: 1.5rem;
+    background: var(--bg-color);
+    border: 3px dashed var(--primary-color);
+    border-radius: var(--radius-lg);
+    margin: 1.5rem 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    align-items: center;
+    transition: all 0.25s ease-in-out;
+}
+
+.drop-placeholder {
+    color: var(--text-secondary);
+    font-style: italic;
+    width: 100%;
+    text-align: center;
+}
+
+.dropped-word {
+    display: inline-block;
+    padding: 0.75rem 1rem;
+    background: var(--success-color);
+    color: var(--white);
+    border-radius: var(--radius-md);
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.25s ease-in-out;
+}
+
+.dropped-word:hover {
+    background: var(--error-color);
+    transform: scale(0.95);
+}
+
+.dropped-word::after {
+    content: ' ×';
+    margin-left: 0.5rem;
+    opacity: 0;
+    transition: opacity 0.15s ease-in-out;
+}
+
+.dropped-word:hover::after {
+    opacity: 1;
+}
+
+.drop-zone.correct {
+    border-color: var(--success-color);
+    background: var(--success-light);
+}
+
+[data-theme="dark"] .drop-zone.correct {
+    background: rgba(16, 185, 129, 0.1);
+}
+
+.drop-zone.wrong {
+    border-color: var(--error-color);
+    background: var(--error-light);
+}
+
+[data-theme="dark"] .drop-zone.wrong {
+    background: rgba(239, 68, 68, 0.1);
+}
+
+.drag-drop-actions {
+    display: flex;
+    gap: 0.75rem;
+    justify-content: flex-end;
+    margin-top: 1rem;
+}
+
+@media screen and (max-width: 767px) {
+    .words-bank {
+        min-height: 100px;
+    }
+
+    .drop-zone {
+        min-height: 100px;
+    }
+
+    .word-item,
+    .dropped-word {
+        font-size: 0.875rem;
+        padding: 0.5rem 0.75rem;
+    }
+
+    .drag-drop-actions {
+        flex-direction: column;
+    }
+
+    .drag-drop-actions .btn {
+        width: 100%;
+    }
+}

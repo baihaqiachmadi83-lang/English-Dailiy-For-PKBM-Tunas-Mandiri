@@ -1,0 +1,1528 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Materi Interaktif - Simple Present Tense | E-Modul</title>
+    <link rel="icon" type="image/svg+xml"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📚</text></svg>">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/responsive.css">
+    <style>
+        /* Additional styles for interactive material page */
+        .material-header {
+            background: var(--gradient-primary);
+            color: white;
+            padding: 3rem 0;
+            text-align: center;
+        }
+
+        .material-header h1,
+        .material-header p {
+            color: white;
+        }
+
+        .material-content {
+            padding: var(--spacing-2xl) 0;
+        }
+
+        .section-card {
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-xl);
+            padding: var(--spacing-xl);
+            margin-bottom: var(--spacing-xl);
+            box-shadow: var(--shadow-md);
+        }
+
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-lg);
+            font-size: 1.75rem;
+            color: var(--primary-color);
+        }
+
+        /* Live Sentence Builder */
+        .sentence-builder {
+            background: var(--bg-secondary);
+            padding: var(--spacing-xl);
+            border-radius: var(--radius-lg);
+            margin: var(--spacing-lg) 0;
+        }
+
+        .builder-controls {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .builder-select {
+            padding: var(--spacing-md);
+            border: 2px solid var(--border-color);
+            border-radius: var(--radius-md);
+            font-size: 1rem;
+            font-family: var(--font-body);
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+
+        .builder-select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        .sentence-output {
+            background: var(--bg-primary);
+            padding: var(--spacing-xl);
+            border-radius: var(--radius-lg);
+            min-height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 600;
+            border: 2px dashed var(--border-color);
+        }
+
+        .word-colored {
+            margin: 0 0.25rem;
+        }
+
+        .subject {
+            color: #3B82F6;
+        }
+
+        .verb {
+            color: #10B981;
+        }
+
+        .object {
+            color: #F59E0B;
+        }
+
+        /* Formula Cards */
+        .formula-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: var(--spacing-lg);
+            margin: var(--spacing-lg) 0;
+        }
+
+        .formula-card {
+            background: var(--bg-secondary);
+            padding: var(--spacing-lg);
+            border-radius: var(--radius-lg);
+            border-left: 4px solid var(--primary-color);
+            cursor: pointer;
+            transition: all var(--transition-base);
+        }
+
+        .formula-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .formula-card.positive {
+            border-left-color: var(--success-color);
+        }
+
+        .formula-card.negative {
+            border-left-color: var(--error-color);
+        }
+
+        .formula-card.interrogative {
+            border-left-color: var(--warning-color);
+        }
+
+        .formula-examples {
+            margin-top: var(--spacing-md);
+            padding-top: var(--spacing-md);
+            border-top: 1px solid var(--border-color);
+            display: none;
+        }
+
+        .formula-card.expanded .formula-examples {
+            display: block;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        /* Verb Conjugation Table */
+        .conjugation-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: var(--spacing-lg) 0;
+        }
+
+        .conjugation-table th,
+        .conjugation-table td {
+            padding: var(--spacing-md);
+            border: 1px solid var(--border-color);
+            text-align: left;
+        }
+
+        .conjugation-table th {
+            background: var(--bg-secondary);
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .conjugation-table td {
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+
+        .conjugation-table td:hover {
+            background: var(--bg-secondary);
+        }
+
+        .conjugation-table .revealed {
+            background: rgba(79, 70, 229, 0.1);
+            font-weight: 600;
+        }
+
+        .conjugation-table .hidden-verb {
+            color: transparent;
+            user-select: none;
+        }
+
+        /* ===== INTERACTIVE FREQUENCY SECTION ===== */
+        /* Frequency Slider */
+        .freq-slider-wrap {
+            background: var(--bg-secondary);
+            border-radius: var(--radius-xl);
+            padding: var(--spacing-xl);
+            margin: var(--spacing-lg) 0;
+        }
+
+        .freq-track {
+            position: relative;
+            height: 14px;
+            border-radius: 999px;
+            background: linear-gradient(90deg,
+                    #ef4444 0%, #f97316 20%, #eab308 40%,
+                    #22c55e 70%, #10b981 100%);
+            margin: 3rem 0 1.5rem;
+            cursor: pointer;
+        }
+
+        .freq-thumb {
+            position: absolute;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 32px;
+            height: 32px;
+            background: white;
+            border: 3px solid var(--primary-color);
+            border-radius: 50%;
+            box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.2), var(--shadow-lg);
+            cursor: grab;
+            transition: box-shadow 0.2s;
+            z-index: 2;
+        }
+
+        .freq-thumb:active {
+            cursor: grabbing;
+            box-shadow: 0 0 0 8px rgba(79, 70, 229, 0.25);
+        }
+
+        .freq-adverb-bubble {
+            position: absolute;
+            bottom: calc(100% + 14px);
+            transform: translateX(-50%);
+            background: var(--primary-color);
+            color: white;
+            padding: 0.4rem 1rem;
+            border-radius: 999px;
+            font-weight: 700;
+            font-size: 1rem;
+            white-space: nowrap;
+            pointer-events: none;
+            transition: left 0.15s ease;
+        }
+
+        .freq-adverb-bubble::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 6px solid transparent;
+            border-top-color: var(--primary-color);
+        }
+
+        .freq-percent-label {
+            text-align: center;
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-top: 0.5rem;
+            color: var(--text-secondary);
+            min-height: 1.6rem;
+        }
+
+        .freq-example-box {
+            margin-top: var(--spacing-md);
+            background: var(--bg-primary);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-lg);
+            border-left: 4px solid var(--primary-color);
+            font-size: 1.05rem;
+            min-height: 60px;
+            transition: all 0.3s ease;
+        }
+
+        .freq-example-box em {
+            color: var(--primary-color);
+            font-style: normal;
+            font-weight: 700;
+        }
+
+        /* Frequency Cards Grid */
+        .freq-cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: var(--spacing-md);
+            margin: var(--spacing-lg) 0;
+        }
+
+        .freq-card {
+            background: var(--bg-secondary);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-md) var(--spacing-sm);
+            text-align: center;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: all 0.25s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .freq-card::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--card-color, var(--primary-color));
+        }
+
+        .freq-card:hover,
+        .freq-card.active {
+            border-color: var(--card-color, var(--primary-color));
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .freq-card .fc-word {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 0.3rem;
+            color: var(--card-color, var(--primary-color));
+        }
+
+        .freq-card .fc-pct {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        .freq-card .fc-bar {
+            height: 6px;
+            background: var(--border-color);
+            border-radius: 999px;
+            margin: 0.5rem 0;
+            overflow: hidden;
+        }
+
+        .freq-card .fc-bar-fill {
+            height: 100%;
+            border-radius: 999px;
+            background: var(--card-color, var(--primary-color));
+            transition: width 0.5s ease;
+        }
+
+        .freq-card .fc-example {
+            font-size: 0.78rem;
+            color: var(--text-secondary);
+            display: none;
+            margin-top: 0.5rem;
+            line-height: 1.4;
+        }
+
+        .freq-card.active .fc-example {
+            display: block;
+        }
+
+        /* Expression Matcher Mini-game */
+        .matcher-game {
+            background: var(--bg-secondary);
+            border-radius: var(--radius-xl);
+            padding: var(--spacing-xl);
+            margin: var(--spacing-lg) 0;
+        }
+
+        .matcher-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--spacing-lg);
+            margin: var(--spacing-md) 0;
+        }
+
+        @media (max-width: 600px) {
+            .matcher-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .matcher-col-title {
+            font-weight: 700;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .matcher-item {
+            padding: 0.6rem 1rem;
+            background: var(--bg-primary);
+            border-radius: var(--radius-md);
+            margin-bottom: var(--spacing-sm);
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: all 0.2s;
+            font-size: 0.95rem;
+        }
+
+        .matcher-item:hover {
+            border-color: var(--primary-color);
+            transform: scale(1.02);
+        }
+
+        .matcher-item.selected {
+            border-color: var(--primary-color);
+            background: rgba(79, 70, 229, 0.1);
+        }
+
+        .matcher-item.matched-ok {
+            border-color: var(--success-color);
+            background: rgba(16, 185, 129, 0.12);
+            cursor: default;
+            pointer-events: none;
+        }
+
+        .matcher-item.matched-err {
+            border-color: var(--error-color);
+            background: rgba(239, 68, 68, 0.12);
+        }
+
+        .matcher-feedback {
+            text-align: center;
+            font-weight: 700;
+            min-height: 1.8rem;
+            margin-top: var(--spacing-sm);
+            font-size: 1.05rem;
+        }
+
+        .matcher-score {
+            text-align: center;
+            margin-top: var(--spacing-md);
+        }
+
+        /* Routine Builder */
+        .routine-builder {
+            background: var(--bg-secondary);
+            border-radius: var(--radius-xl);
+            padding: var(--spacing-xl);
+            margin: var(--spacing-lg) 0;
+        }
+
+        .routine-slots {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-md);
+        }
+
+        .routine-slot {
+            display: grid;
+            grid-template-columns: 1fr auto 2fr;
+            align-items: center;
+            gap: var(--spacing-sm);
+            background: var(--bg-primary);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-md);
+        }
+
+        .routine-activity {
+            font-weight: 600;
+        }
+
+        .routine-plus {
+            font-size: 1.2rem;
+            color: var(--text-tertiary);
+            text-align: center;
+        }
+
+        .routine-select {
+            padding: 0.5rem 0.75rem;
+            border: 2px solid var(--border-color);
+            border-radius: var(--radius-md);
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: border-color 0.2s;
+            width: 100%;
+        }
+
+        .routine-select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        .routine-output {
+            margin-top: var(--spacing-lg);
+            padding: var(--spacing-lg);
+            background: var(--bg-primary);
+            border-radius: var(--radius-lg);
+            border: 2px dashed var(--border-color);
+            min-height: 80px;
+        }
+
+        .routine-sentence {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .routine-sentence:last-child {
+            border-bottom: none;
+        }
+
+        .rs-activity {
+            color: #3B82F6;
+            font-weight: 600;
+        }
+
+        .rs-expr {
+            color: #10B981;
+            font-weight: 600;
+        }
+
+        .rs-icon {
+            font-size: 1.3rem;
+        }
+
+        /* Frequency Labels (kept for legacy) */
+        .frequency-labels {
+            display: flex;
+            justify-content: space-between;
+            margin-top: var(--spacing-md);
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+
+        /* Example Cards Carousel */
+        .examples-carousel {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--spacing-lg);
+            margin: var(--spacing-lg) 0;
+        }
+
+        .example-flip-card {
+            perspective: 1000px;
+            height: 200px;
+            cursor: pointer;
+        }
+
+        .flip-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+
+        .example-flip-card.flipped .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .flip-card-front,
+        .flip-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-lg);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .flip-card-front {
+            background: var(--gradient-primary);
+            color: white;
+        }
+
+        .flip-card-back {
+            background: var(--bg-secondary);
+            transform: rotateY(180deg);
+        }
+
+        /* Spot the Error Game */
+        .error-game {
+            margin: var(--spacing-lg) 0;
+        }
+
+        .error-sentence {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--spacing-sm);
+            justify-content: center;
+            font-size: 1.25rem;
+            margin: var(--spacing-lg) 0;
+        }
+
+        .error-word {
+            padding: var(--spacing-sm) var(--spacing-md);
+            background: var(--bg-secondary);
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+
+        .error-word:hover {
+            background: var(--bg-tertiary);
+            transform: scale(1.05);
+        }
+
+        .error-word.correct-click {
+            background: var(--gradient-success);
+            color: white;
+        }
+
+        .error-word.wrong-click {
+            background: var(--gradient-error);
+            color: white;
+        }
+
+        .error-feedback {
+            text-align: center;
+            margin-top: var(--spacing-md);
+            font-weight: 600;
+            font-size: 1.125rem;
+            min-height: 2rem;
+        }
+
+        /* Progress Checkpoints */
+        .checkpoint {
+            background: linear-gradient(135deg, rgba(79, 70, 229, 0.1), rgba(124, 58, 237, 0.1));
+            padding: var(--spacing-xl);
+            border-radius: var(--radius-lg);
+            text-align: center;
+            margin: var(--spacing-2xl) 0;
+        }
+
+        .checkpoint-buttons {
+            display: flex;
+            gap: var(--spacing-md);
+            justify-content: center;
+            margin-top: var(--spacing-lg);
+        }
+
+        /* Completion Badge */
+        .completion-badge {
+            display: none;
+            background: var(--gradient-success);
+            color: white;
+            padding: var(--spacing-lg);
+            border-radius: var(--radius-lg);
+            text-align: center;
+            margin: var(--spacing-xl) 0;
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        .completion-badge.show {
+            display: block;
+        }
+
+        @media (max-width: 767px) {
+            .sentence-output {
+                font-size: 1.125rem;
+            }
+
+            .formula-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .examples-carousel {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="navbar-container">
+            <a href="../index.html" class="navbar-brand">
+                <span>📚</span>
+                <span>E-Modul Simple Present</span>
+            </a>
+            <button class="navbar-toggle" id="navbarToggle" aria-label="Toggle navigation">☰</button>
+            <ul class="navbar-menu" id="navbarMenu">
+                <li><a href="../index.html">Beranda</a></li>
+                <li><a href="material.html" class="active">Materi</a></li>
+                <li><a href="practice.html">Latihan</a></li>
+                <li><a href="quiz.html">Quiz</a></li>
+                <li>
+                    <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+                        <span id="themeIcon">🌙</span>
+                    </button>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Header -->
+    <div class="material-header">
+        <div class="container">
+            <h1>📖 Materi Interaktif: Simple Present Tense</h1>
+            <p>Belajar dengan cara yang fun dan mudah dipahami!</p>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="material-content">
+        <div class="container">
+
+            <!-- Section 1: Introduction -->
+            <div class="section-card">
+                <h2 class="section-title">
+                    <span>🎯</span>
+                    <span>Apa itu Simple Present Tense?</span>
+                </h2>
+                <p style="font-size: 1.125rem; line-height: 1.8;">
+                    <strong>Simple Present Tense</strong> adalah tenses yang kamu pakai untuk cerita tentang:
+                </p>
+                <ul class="check-list">
+                    <li>✅ <strong>Kebiasaan sehari-hari</strong> - Contoh: "I wake up at 6 AM every day"</li>
+                    <li>✅ <strong>Fakta umum</strong> - Contoh: "The sun rises in the east"</li>
+                    <li>✅ <strong>Jadwal tetap</strong> - Contoh: "School starts at 7 AM"</li>
+                    <li>✅ <strong>Hobi & kemampuan</strong> - Contoh: "She plays guitar very well"</li>
+                </ul>
+                <div class="badge badge-info mt-lg">💡 Tips: Simple Present itu seperti cerita rutinitas kamu!</div>
+            </div>
+
+            <!-- Section 2: Interactive Formula Explorer -->
+            <div class="section-card">
+                <h2 class="section-title">
+                    <span>🔧</span>
+                    <span>Formula Explorer - Klik untuk Expand!</span>
+                </h2>
+
+                <div class="formula-grid">
+                    <!-- Positive Formula -->
+                    <div class="formula-card positive" onclick="toggleFormula(this)">
+                        <h3 style="color: var(--success-color); margin-bottom: var(--spacing-sm);">✅ Positive Form</h3>
+                        <p style="font-weight: 600; margin-bottom: var(--spacing-sm);">
+                            Subject + Verb1 (s/es) + Object
+                        </p>
+                        <div class="badge badge-success">Klik untuk lihat contoh!</div>
+
+                        <div class="formula-examples">
+                            <p><strong>Contoh:</strong></p>
+                            <p>• I <span class="verb">study</span> English every day.</p>
+                            <p>• She <span class="verb">plays</span> badminton.</p>
+                            <p>• They <span class="verb">like</span> pizza.</p>
+                            <p style="margin-top: var(--spacing-md); color: var(--text-tertiary);">
+                                📝 <em>Ingat: tambah -s/es untuk He/She/It!</em>
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Negative Formula -->
+                    <div class="formula-card negative" onclick="toggleFormula(this)">
+                        <h3 style="color: var(--error-color); margin-bottom: var(--spacing-sm);">❌ Negative Form</h3>
+                        <p style="font-weight: 600; margin-bottom: var(--spacing-sm);">
+                            Subject + do/does + not + Verb1
+                        </p>
+                        <div class="badge badge-error">Klik untuk lihat contoh!</div>
+
+                        <div class="formula-examples">
+                            <p><strong>Contoh:</strong></p>
+                            <p>• I <span class="verb">don't like</span> spicy food.</p>
+                            <p>• He <span class="verb">doesn't play</span> football.</p>
+                            <p>• We <span class="verb">don't watch</span> TV.</p>
+                            <p style="margin-top: var(--spacing-md); color: var(--text-tertiary);">
+                                📝 <em>Don't = do not, Doesn't = does not</em>
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Interrogative Formula -->
+                    <div class="formula-card interrogative" onclick="toggleFormula(this)">
+                        <h3 style="color: var(--warning-color); margin-bottom: var(--spacing-sm);">❓ Question Form</h3>
+                        <p style="font-weight: 600; margin-bottom: var(--spacing-sm);">
+                            Do/Does + Subject + Verb1 + ?
+                        </p>
+                        <div class="badge badge-warning">Klik untuk lihat contoh!</div>
+
+                        <div class="formula-examples">
+                            <p><strong>Contoh:</strong></p>
+                            <p>• <span class="verb">Do</span> you speak English?</p>
+                            <p>• <span class="verb">Does</span> she study here?</p>
+                            <p>• <span class="verb">Do</span> they like music?</p>
+                            <p style="margin-top: var(--spacing-md); color: var(--text-tertiary);">
+                                📝 <em>Pakai 'Does' untuk He/She/It, 'Do' untuk yang lain</em>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 3: Live Sentence Builder -->
+            <div class="section-card">
+                <h2 class="section-title">
+                    <span>🎮</span>
+                    <span>Live Sentence Builder - Coba Sendiri!</span>
+                </h2>
+                <p>Pilih Subject, Verb, dan Object. Lihat kalimat yang benar terbentuk otomatis!</p>
+
+                <div class="sentence-builder">
+                    <div class="builder-controls">
+                        <select class="builder-select" id="sentenceType" onchange="buildSentence()">
+                            <option value="positive">✅ Positive</option>
+                            <option value="negative">❌ Negative</option>
+                            <option value="question">❓ Question</option>
+                        </select>
+
+                        <select class="builder-select" id="subjectSelect" onchange="buildSentence()">
+                            <option value="I">I (Saya)</option>
+                            <option value="You">You (Kamu)</option>
+                            <option value="He">He (Dia laki-laki)</option>
+                            <option value="She">She (Dia perempuan)</option>
+                            <option value="It">It (Benda/hewan)</option>
+                            <option value="We">We (Kami/Kita)</option>
+                            <option value="They">They (Mereka)</option>
+                        </select>
+
+                        <select class="builder-select" id="verbSelect" onchange="buildSentence()">
+                            <option value="study">study (belajar)</option>
+                            <option value="play">play (bermain)</option>
+                            <option value="eat">eat (makan)</option>
+                            <option value="watch">watch (menonton)</option>
+                            <option value="read">read (membaca)</option>
+                            <option value="write">write (menulis)</option>
+                            <option value="go">go (pergi)</option>
+                            <option value="like">like (suka)</option>
+                        </select>
+
+                        <select class="builder-select" id="objectSelect" onchange="buildSentence()">
+                            <option value="English">English</option>
+                            <option value="football">football</option>
+                            <option value="pizza">pizza</option>
+                            <option value="movies">movies</option>
+                            <option value="books">books</option>
+                            <option value="music">music</option>
+                            <option value="to school">to school</option>
+                        </select>
+                    </div>
+
+                    <div class="sentence-output" id="sentenceOutput">
+                        <span>Pilih options di atas untuk membuat kalimat!</span>
+                    </div>
+                </div>
+
+                <div style="text-align: center; margin-top: var(--spacing-lg);">
+                    <p style="color: var(--text-secondary);">
+                        <strong>Legend:</strong>
+                        <span class="subject">■ Subject</span>
+                        <span class="verb">■ Verb</span>
+                        <span class="object">■ Object</span>
+                    </p>
+                </div>
+            </div>
+
+            <!-- Section 4: Verb Conjugation Game -->
+            <div class="section-card">
+                <h2 class="section-title">
+                    <span>📊</span>
+                    <span>Verb Conjugation - Klik untuk Reveal!</span>
+                </h2>
+                <p>Klik pada cell untuk melihat conjugation yang benar!</p>
+
+                <table class="conjugation-table">
+                    <thead>
+                        <tr>
+                            <th>Subject</th>
+                            <th>go (pergi)</th>
+                            <th>study (belajar)</th>
+                            <th>watch (menonton)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>I</strong></td>
+                            <td onclick="revealVerb(this, 'go')"><span class="hidden-verb">go</span></td>
+                            <td onclick="revealVerb(this, 'study')"><span class="hidden-verb">study</span></td>
+                            <td onclick="revealVerb(this, 'watch')"><span class="hidden-verb">watch</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>You</strong></td>
+                            <td onclick="revealVerb(this, 'go')"><span class="hidden-verb">go</span></td>
+                            <td onclick="revealVerb(this, 'study')"><span class="hidden-verb">study</span></td>
+                            <td onclick="revealVerb(this, 'watch')"><span class="hidden-verb">watch</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>He/She/It</strong></td>
+                            <td onclick="revealVerb(this, 'goes')"><span class="hidden-verb">goes</span></td>
+                            <td onclick="revealVerb(this, 'studies')"><span class="hidden-verb">studies</span></td>
+                            <td onclick="revealVerb(this, 'watches')"><span class="hidden-verb">watches</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>We</strong></td>
+                            <td onclick="revealVerb(this, 'go')"><span class="hidden-verb">go</span></td>
+                            <td onclick="revealVerb(this, 'study')"><span class="hidden-verb">study</span></td>
+                            <td onclick="revealVerb(this, 'watch')"><span class="hidden-verb">watch</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>They</strong></td>
+                            <td onclick="revealVerb(this, 'go')"><span class="hidden-verb">go</span></td>
+                            <td onclick="revealVerb(this, 'study')"><span class="hidden-verb">study</span></td>
+                            <td onclick="revealVerb(this, 'watch')"><span class="hidden-verb">watch</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="badge badge-info mt-lg">💡 Perhatikan: Hanya He/She/It yang dapat tambahan -s/es!</div>
+            </div>
+
+            <!-- Section 5: Frequency Adverbs -->
+            <div class="section-card">
+                <h2 class="section-title">
+                    <span>⏰</span>
+                    <span>Time Expressions & Frequency</span>
+                </h2>
+                <p>Simple Present sering pakai kata-kata ini untuk tunjukkan seberapa sering kamu melakukan sesuatu:</p>
+
+                <div class="frequency-line" style="margin-top: 3rem;">
+                    <div class="frequency-marker" style="left: 5%;">Never<br>0%</div>
+                    <div class="frequency-marker" style="left: 25%;">Rarely<br>25%</div>
+                    <div class="frequency-marker" style="left: 45%;">Sometimes<br>45%</div>
+                    <div class="frequency-marker" style="left: 70%;">Usually<br>70%</div>
+                    <div class="frequency-marker" style="left: 95%;">Always<br>100%</div>
+                </div>
+                <div class="frequency-labels">
+                    <span>❌ Tidak pernah</span>
+                    <span>✅ Selalu</span>
+                </div>
+
+                <div style="margin-top: var(--spacing-xl);">
+                    <h4>📅 Time Expressions lainnya:</h4>
+                    <div style="display: flex; flex-wrap: wrap; gap: var(--spacing-sm); margin-top: var(--spacing-md);">
+                        <span class="badge badge-primary">every day</span>
+                        <span class="badge badge-primary">every week</span>
+                        <span class="badge badge-primary">every morning</span>
+                        <span class="badge badge-primary">on Monday</span>
+                        <span class="badge badge-primary">once a week</span>
+                        <span class="badge badge-primary">twice a month</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 6: Real-Life Examples Carousel -->
+            <div class="section-card">
+                <h2 class="section-title">
+                    <span>🖼️</span>
+                    <span>Contoh Kalimat - Klik untuk Flip!</span>
+                </h2>
+                <p>Klik kartu untuk lihat terjemahan Bahasa Indonesia!</p>
+
+                <div class="examples-carousel">
+                    <div class="example-flip-card" onclick="flipCard(this)">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <div style="font-size: 2rem; margin-bottom: var(--spacing-md);">🎒</div>
+                                <p style="font-weight: 600;">I go to school every day.</p>
+                            </div>
+                            <div class="flip-card-back">
+                                <p style="font-weight: 600; margin-bottom: var(--spacing-sm);">🇮🇩 Terjemahan:</p>
+                                <p>Saya pergi ke sekolah setiap hari.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="example-flip-card" onclick="flipCard(this)">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <div style="font-size: 2rem; margin-bottom: var(--spacing-md);">🎮</div>
+                                <p style="font-weight: 600;">My friend plays mobile games.</p>
+                            </div>
+                            <div class="flip-card-back">
+                                <p style="font-weight: 600; margin-bottom: var(--spacing-sm);">🇮🇩 Terjemahan:</p>
+                                <p>Teman saya bermain game HP.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="example-flip-card" onclick="flipCard(this)">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <div style="font-size: 2rem; margin-bottom: var(--spacing-md);">📚</div>
+                                <p style="font-weight: 600;">We study English on Monday.</p>
+                            </div>
+                            <div class="flip-card-back">
+                                <p style="font-weight: 600; margin-bottom: var(--spacing-sm);">🇮🇩 Terjemahan:</p>
+                                <p>Kami belajar bahasa Inggris hari Senin.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="example-flip-card" onclick="flipCard(this)">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <div style="font-size: 2rem; margin-bottom: var(--spacing-md);">🌞</div>
+                                <p style="font-weight: 600;">The sun rises in the east.</p>
+                            </div>
+                            <div class="flip-card-back">
+                                <p style="font-weight: 600; margin-bottom: var(--spacing-sm);">🇮🇩 Terjemahan:</p>
+                                <p>Matahari terbit di timur.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="example-flip-card" onclick="flipCard(this)">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <div style="font-size: 2rem; margin-bottom: var(--spacing-md);">⚽</div>
+                                <p style="font-weight: 600;">She doesn't play football.</p>
+                            </div>
+                            <div class="flip-card-back">
+                                <p style="font-weight: 600; margin-bottom: var(--spacing-sm);">🇮🇩 Terjemahan:</p>
+                                <p>Dia tidak bermain sepak bola.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="example-flip-card" onclick="flipCard(this)">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <div style="font-size: 2rem; margin-bottom: var(--spacing-md);">❓</div>
+                                <p style="font-weight: 600;">Do you like pizza?</p>
+                            </div>
+                            <div class="flip-card-back">
+                                <p style="font-weight: 600; margin-bottom: var(--spacing-sm);">🇮🇩 Terjemahan:</p>
+                                <p>Apakah kamu suka pizza?</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 7: Spot the Error Game -->
+            <div class="section-card">
+                <h2 class="section-title">
+                    <span>🔍</span>
+                    <span>Spot the Error Detective!</span>
+                </h2>
+                <p>Klik pada kata yang <strong>salah</strong> dalam kalimat!</p>
+
+                <div class="error-game">
+                    <div class="error-sentence" id="errorSentence">
+                        <!-- Will be populated by JavaScript -->
+                    </div>
+                    <div class="error-feedback" id="errorFeedback"></div>
+                    <button class="btn btn-secondary" onclick="nextErrorQuestion()"
+                        style="margin-top: var(--spacing-lg);">
+                        Soal Berikutnya →
+                    </button>
+                </div>
+            </div>
+
+            <!-- Progress Checkpoint -->
+            <div class="checkpoint">
+                <h3>🎯 Checkpoint: Sudah Paham?</h3>
+                <p>Klik tombol di bawah jika kamu sudah paham materinya!</p>
+                <div class="checkpoint-buttons">
+                    <button class="btn btn-outline" onclick="alert('Coba baca lagi bagian yang belum jelas ya! 📖')">
+                        Belum Paham
+                    </button>
+                    <button class="btn btn-primary" onclick="completeMaterial()">
+                        ✅ Sudah Paham!
+                    </button>
+                </div>
+            </div>
+
+            <!-- Completion Badge -->
+            <div class="completion-badge" id="completionBadge">
+                <h2>🎉 Selamat!</h2>
+                <p>Kamu telah menyelesaikan materi Simple Present Tense!</p>
+                <p style="margin-top: var(--spacing-md);">
+                    <a href="practice.html" class="btn btn-primary btn-lg"
+                        style="background: white; color: var(--success-color);">
+                        Lanjut ke Latihan Soal! →
+                    </a>
+                </p>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-info">
+                    <h3>📚 E-Modul Simple Present Tense</h3>
+                    <p>Platform pembelajaran interaktif untuk siswa SMP</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="../index.html">Beranda</a></li>
+                        <li><a href="material.html">Materi</a></li>
+                        <li><a href="practice.html">Latihan</a></li>
+                        <li><a href="quiz.html">Quiz</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 E-Modul ELT Simple Present. Made with ❤️</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="../js/main.js"></script>
+    <script>
+        // Toggle Formula Card
+        function toggleFormula(card) {
+            card.classList.toggle('expanded');
+        }
+
+        // Live Sentence Builder
+        function buildSentence() {
+            const type = document.getElementById('sentenceType').value;
+            const subject = document.getElementById('subjectSelect').value;
+            const verb = document.getElementById('verbSelect').value;
+            const object = document.getElementById('objectSelect').value;
+
+            const output = document.getElementById('sentenceOutput');
+            const needsS = ['He', 'She', 'It'].includes(subject);
+
+            let sentence = '';
+            let conjugatedVerb = verb;
+
+            // Add -s/es for third person singular
+            if (needsS && type === 'positive') {
+                if (verb.endsWith('y')) {
+                    conjugatedVerb = verb.slice(0, -1) + 'ies'; // study -> studies
+                } else if (verb.endsWith('ch') || verb.endsWith('sh') || verb.endsWith('s') || verb.endsWith('x')) {
+                    conjugatedVerb = verb + 'es'; // watch -> watches
+                } else if (verb === 'go') {
+                    conjugatedVerb = 'goes';
+                } else {
+                    conjugatedVerb = verb + 's';
+                }
+            }
+
+            if (type === 'positive') {
+                sentence = `<span class="word-colored subject">${subject}</span> <span class="word-colored verb">${conjugatedVerb}</span> <span class="word-colored object">${object}</span>`;
+            } else if (type === 'negative') {
+                const auxiliary = needsS ? "doesn't" : "don't";
+                sentence = `<span class="word-colored subject">${subject}</span> <span class="word-colored verb">${auxiliary} ${verb}</span> <span class="word-colored object">${object}</span>`;
+            } else if (type === 'question') {
+                const auxiliary = needsS ? "Does" : "Do";
+                sentence = `<span class="word-colored verb">${auxiliary}</span> <span class="word-colored subject">${subject.toLowerCase()}</span> <span class="word-colored verb">${verb}</span> <span class="word-colored object">${object}</span>?`;
+            }
+
+            output.innerHTML = sentence;
+        }
+
+        // Initialize sentence builder on load
+        buildSentence();
+
+        // Reveal Verb in Table
+        function revealVerb(cell, correctVerb) {
+            const span = cell.querySelector('span');
+            if (span && span.classList.contains('hidden-verb')) {
+                span.classList.remove('hidden-verb');
+                cell.classList.add('revealed');
+
+                // Show checkmark
+                setTimeout(() => {
+                    cell.innerHTML = correctVerb + ' ✓';
+                }, 100);
+            }
+        }
+
+        // Flip Card
+        function flipCard(card) {
+            card.classList.toggle('flipped');
+        }
+
+        // Spot the Error Game
+        const errorQuestions = [
+            {
+                sentence: ['He', 'play', 'football', 'every', 'day'],
+                errorIndex: 1,
+                correction: 'plays',
+                explanation: 'Untuk He/She/It, tambahkan -s/es pada verb!'
+            },
+            {
+                sentence: ['She', 'dont', 'like', 'coffee'],
+                errorIndex: 1,
+                correction: "doesn't",
+                explanation: 'Untuk She/He/It gunakan "doesn\'t", bukan "don\'t"!'
+            },
+            {
+                sentence: ['They', 'goes', 'to', 'school', 'together'],
+                errorIndex: 1,
+                correction: 'go',
+                explanation: 'Untuk They/We/You/I gunakan verb tanpa -s/es!'
+            },
+            {
+                sentence: ['Do', 'she', 'speaks', 'English?'],
+                errorIndex: 2,
+                correction: 'speak',
+                explanation: 'Setelah Do/Does, gunakan verb bentuk dasar (tanpa -s/es)!'
+            },
+            {
+                sentence: ['I', 'doesnt', 'watch', 'TV'],
+                errorIndex: 1,
+                correction: "don't",
+                explanation: 'Untuk I/You/We/They gunakan "don\'t", bukan "doesn\'t"!'
+            }
+        ];
+
+        let currentErrorQuestion = 0;
+
+        function displayErrorQuestion() {
+            currentErrorQuestion = currentErrorQuestion % errorQuestions.length;
+            const question = errorQuestions[currentErrorQuestion];
+            const container = document.getElementById('errorSentence');
+            const feedback = document.getElementById('errorFeedback');
+
+            container.innerHTML = '';
+            feedback.innerHTML = '';
+
+            question.sentence.forEach((word, index) => {
+                const span = document.createElement('span');
+                span.className = 'error-word';
+                span.textContent = word;
+                span.onclick = () => checkError(index, question);
+                container.appendChild(span);
+            });
+        }
+
+        function checkError(clickedIndex, question) {
+            const words = document.querySelectorAll('.error-word');
+            const feedback = document.getElementById('errorFeedback');
+
+            words.forEach(word => {
+                word.classList.remove('correct-click', 'wrong-click');
+                word.onclick = null;
+            });
+
+            if (clickedIndex === question.errorIndex) {
+                words[clickedIndex].classList.add('correct-click');
+                feedback.innerHTML = `✅ <span style="color: var(--success-color);">Benar!</span> ${question.explanation}<br>Yang benar: "<strong>${question.correction}</strong>"`;
+            } else {
+                words[clickedIndex].classList.add('wrong-click');
+                feedback.innerHTML = `❌ <span style="color: var(--error-color);">Coba lagi!</span> Bukan kata itu yang salah.`;
+
+                setTimeout(() => {
+                    words[clickedIndex].classList.remove('wrong-click');
+                    words.forEach((word, index) => {
+                        word.onclick = () => checkError(index, question);
+                    });
+                    feedback.innerHTML = '';
+                }, 1500);
+            }
+        }
+
+        function nextErrorQuestion() {
+            currentErrorQuestion++;
+            displayErrorQuestion();
+        }
+
+        // Initialize error game
+        displayErrorQuestion();
+
+        // ======================================================
+        // SECTION 5: Interactive Time Expressions & Frequency
+        // ======================================================
+
+        // --- 5a: Frequency Slider ---
+        const freqAdverbs = [
+            { word: 'Never', pct: 0, desc: 'Tidak pernah sama sekali', color: '#ef4444', example: 'I <em>never</em> eat vegetables. (Saya tidak pernah makan sayur.)' },
+            { word: 'Rarely', pct: 15, desc: 'Sangat jarang terjadi', color: '#f97316', example: 'She <em>rarely</em> wakes up late. (Dia sangat jarang bangun kesiangan.)' },
+            { word: 'Sometimes', pct: 45, desc: 'Kadang-kadang, tidak tentu', color: '#eab308', example: 'We <em>sometimes</em> play games after school. (Kami kadang bermain game setelah sekolah.)' },
+            { word: 'Often', pct: 60, desc: 'Sering, lebih dari setengah', color: '#84cc16', example: 'He <em>often</em> reads books at night. (Dia sering membaca buku di malam hari.)' },
+            { word: 'Usually', pct: 75, desc: 'Biasanya, hampir selalu', color: '#22c55e', example: 'They <em>usually</em> study together. (Mereka biasanya belajar bersama.)' },
+            { word: 'Always', pct: 100, desc: 'Selalu, setiap saat', color: '#10b981', example: 'My mom <em>always</em> cooks dinner. (Ibuku selalu memasak makan malam.)' },
+        ];
+
+        const freqTrack = document.getElementById('freqTrack');
+        const freqThumb = document.getElementById('freqThumb');
+        const freqBubble = document.getElementById('freqBubble');
+        const freqPct = document.getElementById('freqPercentLabel');
+        const freqExBox = document.getElementById('freqExampleBox');
+        let isDragging = false;
+
+        function getAdverbForPct(pct) {
+            let best = freqAdverbs[0];
+            let bestDist = Infinity;
+            for (const a of freqAdverbs) {
+                const d = Math.abs(a.pct - pct);
+                if (d < bestDist) { bestDist = d; best = a; }
+            }
+            return best;
+        }
+
+        function updateSlider(pct) {
+            pct = Math.max(0, Math.min(100, pct));
+            const adv = getAdverbForPct(pct);
+            const pos = pct + '%';
+            freqThumb.style.left = pos;
+            freqBubble.style.left = pos;
+            freqBubble.textContent = adv.word;
+            freqBubble.style.background = adv.color;
+            freqBubble.style.borderBottomColor = adv.color;
+            // Update bubble arrow color
+            freqBubble.style.cssText = freqBubble.style.cssText +
+                '; --arrow-color:' + adv.color;
+            freqPct.textContent = adv.pct + '% — ' + adv.desc;
+            freqPct.style.color = adv.color;
+            freqExBox.innerHTML = '📝 Contoh: ' + adv.example;
+            freqExBox.style.borderLeftColor = adv.color;
+        }
+
+        function pctFromEvent(e) {
+            const rect = freqTrack.getBoundingClientRect();
+            const x = (e.touches ? e.touches[0].clientX : e.clientX) - rect.left;
+            return Math.round((x / rect.width) * 100);
+        }
+
+        freqThumb.addEventListener('mousedown', () => isDragging = true);
+        freqThumb.addEventListener('touchstart', () => isDragging = true, { passive: true });
+        document.addEventListener('mousemove', e => { if (isDragging) updateSlider(pctFromEvent(e)); });
+        document.addEventListener('touchmove', e => { if (isDragging) updateSlider(pctFromEvent(e)); }, { passive: true });
+        document.addEventListener('mouseup', () => isDragging = false);
+        document.addEventListener('touchend', () => isDragging = false);
+        freqTrack.addEventListener('click', e => updateSlider(pctFromEvent(e)));
+        updateSlider(0);
+
+        // --- 5b: Frequency Adverb Cards ---
+        const freqCardData = [
+            { word: 'Never', pct: 0, color: '#ef4444', example: '"I never skip breakfast."\nSaya tidak pernah melewatkan sarapan.' },
+            { word: 'Rarely', pct: 15, color: '#f97316', example: '"She rarely comes late."\nDia sangat jarang terlambat.' },
+            { word: 'Sometimes', pct: 45, color: '#eab308', example: '"We sometimes watch movies."\nKami kadang-kadang menonton film.' },
+            { word: 'Often', pct: 60, color: '#84cc16', example: '"He often plays football."\nDia sering bermain sepak bola.' },
+            { word: 'Usually', pct: 75, color: '#22c55e', example: '"They usually study at night."\nMereka biasanya belajar malam.' },
+            { word: 'Always', pct: 100, color: '#10b981', example: '"My cat always sleeps here."\nKucingku selalu tidur di sini.' },
+        ];
+
+        const freqCardsGrid = document.getElementById('freqCardsGrid');
+        freqCardData.forEach((fc, i) => {
+            const card = document.createElement('div');
+            card.className = 'freq-card';
+            card.style.setProperty('--card-color', fc.color);
+            card.innerHTML = `
+                <div class="fc-word">${fc.word}</div>
+                <div class="fc-pct">${fc.pct}% frekuensi</div>
+                <div class="fc-bar"><div class="fc-bar-fill" style="width:${fc.pct}%"></div></div>
+                <div class="fc-example">${fc.example.replace(/\n/g, '<br>')}</div>
+                <div style="font-size:0.75rem; color:var(--text-tertiary); margin-top:0.4rem;">👆 Klik untuk contoh</div>
+            `;
+            card.addEventListener('click', () => {
+                document.querySelectorAll('.freq-card').forEach(c => c.classList.remove('active'));
+                card.classList.add('active');
+                card.querySelector('.fc-example').style.display = 'block';
+                card.querySelector('div:last-child').textContent = '👆 Klik lagi untuk tutup';
+            });
+            freqCardsGrid.appendChild(card);
+        });
+
+        // --- 5c: Expression Matcher Game ---
+        const matcherPairs = [
+            { activity: '🍳 I cook breakfast', expression: 'every morning' },
+            { activity: '📚 We study English', expression: 'on Monday' },
+            { activity: '⚽ He plays football', expression: 'twice a week' },
+            { activity: '🛒 She goes shopping', expression: 'once a month' },
+            { activity: '🏃 They exercise', expression: 'every day' },
+        ];
+
+        let matcherSelectedActivity = null;
+        let matcherSelectedExpr = null;
+        let matcherMatched = 0;
+
+        function buildMatcher() {
+            const activitiesEl = document.getElementById('matcherActivities');
+            const expressionsEl = document.getElementById('matcherExpressions');
+            activitiesEl.innerHTML = '';
+            expressionsEl.innerHTML = '';
+            matcherMatched = 0;
+            matcherSelectedActivity = null;
+            matcherSelectedExpr = null;
+            document.getElementById('matcherFeedback').textContent = '';
+            document.getElementById('matcherScoreText').textContent = 'Skor: 0 / ' + matcherPairs.length;
+
+            // Shuffle expressions
+            const shuffled = [...matcherPairs].sort(() => Math.random() - 0.5);
+
+            matcherPairs.forEach((pair, i) => {
+                const a = document.createElement('div');
+                a.className = 'matcher-item';
+                a.textContent = pair.activity;
+                a.dataset.idx = i;
+                a.dataset.type = 'activity';
+                a.addEventListener('click', () => selectMatcherItem(a, 'activity', i));
+                activitiesEl.appendChild(a);
+            });
+
+            shuffled.forEach((pair, i) => {
+                const e = document.createElement('div');
+                e.className = 'matcher-item';
+                e.textContent = '📅 ' + pair.expression;
+                e.dataset.expr = pair.expression;
+                e.dataset.type = 'expression';
+                e.addEventListener('click', () => selectMatcherItem(e, 'expression', pair.expression));
+                expressionsEl.appendChild(e);
+            });
+        }
+
+        function selectMatcherItem(el, type, val) {
+            if (el.classList.contains('matched-ok')) return;
+            const feedback = document.getElementById('matcherFeedback');
+
+            if (type === 'activity') {
+                document.querySelectorAll('#matcherActivities .matcher-item').forEach(x => x.classList.remove('selected'));
+                el.classList.add('selected');
+                matcherSelectedActivity = { el, idx: val };
+            } else {
+                document.querySelectorAll('#matcherExpressions .matcher-item').forEach(x => x.classList.remove('selected'));
+                el.classList.add('selected');
+                matcherSelectedExpr = { el, expr: val };
+            }
+
+            if (matcherSelectedActivity && matcherSelectedExpr) {
+                const correctExpr = matcherPairs[matcherSelectedActivity.idx].expression;
+                if (matcherSelectedExpr.expr === correctExpr) {
+                    matcherSelectedActivity.el.classList.replace('selected', 'matched-ok');
+                    matcherSelectedExpr.el.classList.replace('selected', 'matched-ok');
+                    feedback.innerHTML = '✅ <span style="color:var(--success-color)">Benar! Cocok! 🎉</span>';
+                    matcherMatched++;
+                    document.getElementById('matcherScoreText').textContent = 'Skor: ' + matcherMatched + ' / ' + matcherPairs.length;
+                    if (matcherMatched === matcherPairs.length) {
+                        feedback.innerHTML += '<br>🏆 <strong>Semua cocok! Kamu hebat!</strong>';
+                    }
+                } else {
+                    matcherSelectedActivity.el.classList.add('matched-err');
+                    matcherSelectedExpr.el.classList.add('matched-err');
+                    feedback.innerHTML = '❌ <span style="color:var(--error-color)">Belum tepat, coba lagi!</span>';
+                    setTimeout(() => {
+                        matcherSelectedActivity.el.classList.remove('matched-err', 'selected');
+                        matcherSelectedExpr.el.classList.remove('matched-err', 'selected');
+                        feedback.textContent = '';
+                    }, 1200);
+                }
+                matcherSelectedActivity = null;
+                matcherSelectedExpr = null;
+            }
+        }
+
+        function resetMatcher() { buildMatcher(); }
+        buildMatcher();
+
+        // --- 5d: Daily Routine Builder ---
+        const routineActivities = [
+            { icon: '🌅', label: 'wake up', subject: 'I wake up' },
+            { icon: '🍳', label: 'eat breakfast', subject: 'I eat breakfast' },
+            { icon: '🏫', label: 'go to school', subject: 'I go to school' },
+            { icon: '📚', label: 'study', subject: 'I study' },
+            { icon: '🎮', label: 'play games', subject: 'I play games' },
+            { icon: '😴', label: 'sleep', subject: 'I sleep' },
+        ];
+        const routineExprOptions = [
+            'every day', 'every morning', 'every night',
+            'on weekdays', 'every week', 'once a week',
+            'twice a week', 'on Monday', 'on Sunday',
+            'at 6 AM', 'at noon', 'at 10 PM',
+        ];
+
+        const routineSlotsEl = document.getElementById('routineSlots');
+        routineActivities.forEach((act, i) => {
+            const slot = document.createElement('div');
+            slot.className = 'routine-slot';
+            const options = routineExprOptions.map(o => `<option value="${o}">${o}</option>`).join('');
+            slot.innerHTML = `
+                <div class="routine-activity">${act.icon} ${act.label}</div>
+                <div class="routine-plus">+</div>
+                <select class="routine-select" id="routineSelect${i}">
+                    <option value="">-- pilih ekspresi --</option>
+                    ${options}
+                </select>
+            `;
+            routineSlotsEl.appendChild(slot);
+        });
+
+        function buildRoutine() {
+            const output = document.getElementById('routineOutput');
+            let html = '';
+            routineActivities.forEach((act, i) => {
+                const sel = document.getElementById('routineSelect' + i);
+                const expr = sel.value;
+                if (expr) {
+                    html += `<div class="routine-sentence">
+                        <span class="rs-icon">${act.icon}</span>
+                        <span class="rs-activity">${act.subject}</span>
+                        <span class="rs-expr">${expr}</span>.
+                    </div>`;
+                }
+            });
+            if (!html) {
+                output.innerHTML = '<em style="color:var(--text-tertiary)">Pilih minimal satu ekspresi dulu ya! 😊</em>';
+            } else {
+                output.innerHTML = html;
+            }
+            output.style.display = 'block';
+        }
+
+        // Complete Material
+        function completeMaterial() {
+            localStorage.setItem('materialCompleted', 'true');
+            document.getElementById('completionBadge').classList.add('show');
+
+            // Scroll to badge
+            document.getElementById('completionBadge').scrollIntoView({ behavior: 'smooth' });
+
+            // Show toast
+            if (typeof showToast === 'function') {
+                showToast('🎉 Materi selesai! Progress kamu tersimpan!', 'success');
+            }
+
+            // Celebrate
+            if (typeof celebrateAchievement === 'function') {
+                celebrateAchievement('Material Master');
+            }
+        }
+    </script>
+</body>
+
+</html>

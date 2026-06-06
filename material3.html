@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Materi Interaktif: Keluarga & Teman — E-Module PKBM</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    body { padding-bottom: 2rem; background: var(--gray-100); }
+    .top-bar {
+      background: var(--navy); color: var(--white);
+      padding: 1rem; position: sticky; top: 0; z-index: 100;
+      display: flex; align-items: center; gap: 1rem;
+      box-shadow: var(--shadow-md);
+    }
+    .back-btn {
+      color: var(--white); background: rgba(255,255,255,0.1);
+      border-radius: 50%; width: 36px; height: 36px;
+      display: flex; align-items: center; justify-content: center;
+      text-decoration: none; font-size: 1.2rem; transition: var(--transition);
+    }
+    .back-btn:hover { background: rgba(255,255,255,0.2); }
+    
+    .learning-section {
+      background: var(--white); border-radius: var(--radius-xl);
+      padding: 1.5rem; margin-bottom: 1.5rem;
+      box-shadow: var(--shadow-sm); border: 1.5px solid var(--gray-200);
+      position: relative; overflow: hidden;
+    }
+    .section-idx {
+      position: absolute; top: -15px; right: -15px;
+      font-size: 5rem; font-weight: 800; color: var(--gray-100);
+      line-height: 1; z-index: 0; pointer-events: none;
+    }
+    .learning-content { position: relative; z-index: 1; }
+    
+    .interactive-box {
+      background: var(--navy); color: var(--white);
+      border-radius: var(--radius-lg); padding: 1.25rem;
+      margin: 1.25rem 0; cursor: pointer; transition: var(--transition);
+      display: flex; flex-direction: column; align-items: center; text-align: center;
+    }
+    .interactive-box:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); background: var(--navy-light); }
+    .interactive-box .emoji { font-size: 3rem; margin-bottom: 10px; }
+    .interactive-box .eng { font-size: 1.2rem; font-weight: 700; color: var(--yellow); margin-bottom: 4px; }
+    .interactive-box .ind { font-size: 0.9rem; color: rgba(255,255,255,0.8); }
+    
+    .formula-card {
+      background: var(--yellow-soft); border: 2px dashed var(--yellow-hover);
+      border-radius: var(--radius-md); padding: 1rem; text-align: center;
+      margin-bottom: 1rem;
+    }
+    .formula-card strong { color: var(--navy); font-size: 1.1rem; }
+    
+    /* ===== Section 2 Interactive Styles ===== */
+
+    /* Sentence Builder */
+    .subject-grid {
+      display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px;
+      margin: 1rem 0;
+    }
+    .subject-btn {
+      background: var(--white); border: 2.5px solid var(--gray-300);
+      border-radius: var(--radius-md); padding: 12px 8px;
+      display: flex; flex-direction: column; align-items: center; gap: 4px;
+      cursor: pointer; transition: all 0.25s ease; user-select: none;
+      font-weight: 700; color: var(--navy); font-size: 0.85rem;
+    }
+    .subject-btn .s-emoji { font-size: 1.6rem; }
+    .subject-btn .s-tag {
+      font-size: 0.65rem; padding: 2px 7px; border-radius: 20px;
+      font-weight: 800; letter-spacing: 0.03em;
+    }
+    .subject-btn:hover { transform: translateY(-3px); box-shadow: 0 6px 18px rgba(0,0,0,0.12); }
+    .subject-btn.active-singular { border-color: #06B6D4; background: #ECFEFF; }
+    .subject-btn.active-plural   { border-color: #10B981; background: #DCFEF0; }
+    .subject-btn.selected { transform: scale(1.04); }
+
+    .sentence-display {
+      background: var(--navy); border-radius: var(--radius-lg);
+      padding: 1.25rem 1rem; margin: 1rem 0;
+      display: flex; flex-wrap: wrap; align-items: center;
+      gap: 8px; justify-content: center; min-height: 70px;
+    }
+    .sentence-display .word {
+      font-size: 1.15rem; font-weight: 700; color: var(--white);
+      padding: 4px 10px; border-radius: 8px;
+      transition: all 0.35s ease;
+    }
+    .sentence-display .word.subject-word { color: var(--yellow); }
+    .sentence-display .word.verb-word {
+      color: #86efac; border: 2px solid #86efac;
+      animation: verbPop 0.4s ease;
+    }
+    @keyframes verbPop {
+      0% { transform: scale(0.7); opacity:0; }
+      60% { transform: scale(1.15); }
+      100% { transform: scale(1); opacity:1; }
+    }
+    .sentence-display .placeholder-text {
+      color: rgba(255,255,255,0.4); font-style: italic; font-size: 0.95rem;
+    }
+    .type-badge {
+      display: inline-block; padding: 4px 14px; border-radius: 20px;
+      font-size: 0.78rem; font-weight: 800; letter-spacing: 0.05em;
+      margin-top: 6px; transition: all 0.3s;
+    }
+    .type-badge.singular { background: #ECFEFF; color: #0E7490; }
+    .type-badge.plural   { background: #DCFEF0; color: #15803D; }
+
+    /* Live Toggle */
+    .live-toggle-card {
+      background: linear-gradient(135deg, #1E3A5F, #0f2544);
+      border-radius: var(--radius-lg); padding: 1.5rem;
+      color: white; margin: 1rem 0;
+    }
+    .toggle-sentence {
+      font-size: 1.3rem; font-weight: 800; text-align: center;
+      line-height: 1.6; margin-bottom: 1rem;
+      display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; align-items: center;
+    }
+    .toggle-sentence .t-subject { color: #FCD34D; }
+    .toggle-sentence .t-verb {
+      color: #6EE7B7; border-bottom: 3px solid #6EE7B7;
+      transition: all 0.3s ease;
+      display: inline-block;
+    }
+    .toggle-sentence .t-verb.changing {
+      animation: verbChange 0.35s ease;
+    }
+    @keyframes verbChange {
+      0%   { opacity:1; transform:translateY(0); }
+      40%  { opacity:0; transform:translateY(-10px); }
+      60%  { opacity:0; transform:translateY(10px); }
+      100% { opacity:1; transform:translateY(0); }
+    }
+    .person-toggle {
+      display: flex; gap: 8px; justify-content: center; margin-bottom: 1rem;
+    }
+    .person-btn {
+      background: rgba(255,255,255,0.1); border: 2px solid rgba(255,255,255,0.25);
+      color: white; border-radius: var(--radius-md); padding: 10px 16px;
+      cursor: pointer; font-weight: 700; font-size: 0.85rem;
+      transition: all 0.22s ease; flex: 1; text-align: center;
+    }
+    .person-btn.active { background: #FCD34D; color: #1E3A5F; border-color: #FCD34D; transform: scale(1.05); }
+    .rule-hint {
+      background: rgba(255,255,255,0.08); border-radius: var(--radius-md);
+      padding: 10px 14px; font-size: 0.85rem; text-align: center;
+      border-left: 4px solid #FCD34D; transition: all 0.3s ease;
+    }
+
+    /* Mini Quiz */
+    .quiz-card {
+      background: var(--white); border: 2px solid var(--gray-200);
+      border-radius: var(--radius-lg); padding: 1.25rem;
+      margin-top: 1rem; transition: border-color 0.3s;
+    }
+    .quiz-progress {
+      display: flex; gap: 6px; margin-bottom: 1rem;
+    }
+    .quiz-pip {
+      flex:1; height: 6px; border-radius: 10px;
+      background: var(--gray-200); transition: background 0.4s;
+    }
+    .quiz-pip.done-correct { background: #10B981; }
+    .quiz-pip.done-wrong   { background: #EF4444; }
+    .quiz-question {
+      font-size: 1rem; font-weight: 700; color: var(--navy); margin-bottom: 1rem;
+      line-height: 1.5;
+    }
+    .quiz-options { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .quiz-opt {
+      background: var(--gray-100); border: 2px solid var(--gray-200);
+      border-radius: var(--radius-md); padding: 12px 8px;
+      font-weight: 700; font-size: 0.9rem; cursor: pointer;
+      transition: all 0.2s; text-align: center; color: var(--navy);
+    }
+    .quiz-opt:hover:not(:disabled) { border-color: var(--navy); background: var(--white); transform: translateY(-2px); }
+    .quiz-opt.correct-ans { background: #DCFEF0; border-color: #10B981; color: #15803D; }
+    .quiz-opt.wrong-ans   { background: #FEE2E2; border-color: #EF4444; color: #B91C1C; }
+    .quiz-score-panel {
+      text-align: center; padding: 1.5rem 1rem;
+    }
+    .quiz-score-num {
+      font-size: 3.5rem; font-weight: 900;
+      background: linear-gradient(135deg, #06B6D4, #10B981);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      line-height: 1;
+    }
+
+    /* Subject Drag Area */
+    .drag-container {
+      display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center;
+      margin: 1.5rem 0;
+    }
+    .drop-zone {
+      border: 3px dashed var(--gray-400); border-radius: var(--radius-md);
+      padding: 1.5rem 1rem; text-align: center; min-width: 140px;
+      min-height: 120px; background: var(--gray-100);
+      transition: var(--transition);
+    }
+    .drop-zone.active { border-color: var(--navy); background: var(--navy-light); color: white; }
+    .drop-zone.correct { border-color: var(--green); background: var(--green-soft); }
+    .drop-zone.wrong { border-color: var(--red); background: var(--red-soft); }
+    
+    .drag-item {
+      background: var(--white); color: var(--navy); font-weight: 700;
+      padding: 10px 16px; border-radius: 20px; border: 2px solid var(--navy);
+      cursor: grab; display: inline-block; margin: 4px;
+      box-shadow: 0 4px 0 var(--navy); transition: transform 0.1s;
+    }
+    .drag-item:active { cursor: grabbing; transform: translateY(4px); box-shadow: 0 0 0 var(--navy); }
+    
+    .flip-card {
+      background-color: transparent; width: 100%; height: 120px;
+      perspective: 1000px; margin-bottom: 1rem;
+    }
+    .flip-card-inner {
+      position: relative; width: 100%; height: 100%; text-align: center;
+      transition: transform 0.6s; transform-style: preserve-3d; cursor: pointer;
+    }
+    .flip-card.flipped .flip-card-inner { transform: rotateY(180deg); }
+    .flip-card-front, .flip-card-back {
+      position: absolute; width: 100%; height: 100%; backface-visibility: hidden;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      border-radius: var(--radius-md); border: 2px solid var(--gray-200);
+    }
+    .flip-card-front { background-color: var(--white); color: var(--navy); }
+    .flip-card-back { background-color: var(--navy); color: var(--yellow); transform: rotateY(180deg); }
+  </style>
+</head>
+<body>
+
+  <div class="top-bar">
+    <a href="student.html" class="back-btn">⬅</a>
+    <div>
+      <div style="font-size:0.75rem; color:var(--yellow); font-weight:700">MODUL 3</div>
+      <div style="font-weight:800">Keluarga & Teman (Family)</div>
+    </div>
+  </div>
+
+  <main class="container" style="margin-top:1.5rem">
+
+    <!-- Section 1: Konsep Dasar -->
+    <section class="learning-section">
+      <div class="section-idx">1</div>
+      <div class="learning-content">
+        <h2 style="color:var(--navy); margin-bottom:8px">Menceritakan Orang Terdekat 👨‍👩‍👧‍👦</h2>
+        <p>Gunakan Simple Present Tense untuk menceritakan <strong>karakter, kebiasaan, atau tempat tinggal</strong> keluarga dan teman-temanmu.</p>
+        
+        <div style="background:var(--gray-100); border-left: 4px solid var(--yellow); padding: 1rem; border-radius: var(--radius-md); margin: 1rem 0;">
+          <h4 style="color:var(--navy); margin-bottom:4px">🏠 Analogi Rumah</h4>
+          <p style="font-size: 0.9rem; margin:0">Tempat tinggal seseorang umumnya tidak berubah tiap jam. Kalau temanmu tinggal di Bandung, itu adalah fakta. <em>"My friend lives in Bandung"</em>.</p>
+        </div>
+
+        <div class="interactive-box" onclick="playAudio('My parents live in a village')">
+          <div class="emoji">🏡</div>
+          <div class="eng">"My parents live in a village"</div>
+          <div class="ind">(Orang tuaku tinggal di desa)</div>
+          <small style="margin-top:8px; opacity:0.7">👉 Orang tua = Plural (Mereka/They). Klik untuk mendengar!</small>
+        </div>
+      </div>
+    </section>
+
+    <!-- VIDEO PEMBELAJARAN -->
+    <section class="learning-section" style="padding:1.25rem">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
+        <div style="background:#FF0000;border-radius:8px;padding:6px 10px;color:white;font-size:0.8rem;font-weight:800">▶ YouTube</div>
+        <div>
+          <div style="font-weight:800;color:var(--navy);font-size:0.95rem">Video: Aturan S/ES – Third Person Singular</div>
+          <div style="font-size:0.78rem;color:var(--gray-600)">Ejaan Kata Kerja untuk He/She/It — oleh engVid</div>
+        </div>
+      </div>
+      <div style="position:relative;padding-bottom:56.25%;height:0;border-radius:var(--radius-md);overflow:hidden;background:#000">
+        <iframe
+          src="https://www.youtube.com/embed/HzYuhkC4brg"
+          title="Spelling Rules for Third Person S - engVid"
+          style="position:absolute;top:0;left:0;width:100%;height:100%;border:none"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen loading="lazy">
+        </iframe>
+      </div>
+      <p style="font-size:0.8rem;color:var(--gray-500);margin-top:8px;text-align:center">💡 Kapan tambah -S? Kapan tambah -ES? Tonton dan pahami!</p>
+    </section>
+
+    <!-- Section 2: Singular vs Plural – INTERACTIVE -->
+    <section class="learning-section">
+      <div class="section-idx">2</div>
+      <div class="learning-content">
+        <h2 style="color:var(--navy); margin-bottom:4px">Hati-hati Jumlah Orangnya! 👥</h2>
+        <p style="margin-bottom:1.2rem">Klik subjek di bawah untuk melihat bagaimana kalimatnya berubah!</p>
+
+        <!-- === PART A: Sentence Builder === -->
+        <div class="subject-grid">
+          <button class="subject-btn" onclick="buildSentence('My Mother','cooks','cook','singular','👩')" id="sbtn-0">
+            <span class="s-emoji">👩</span>
+            <span>My Mother</span>
+            <span class="s-tag" style="background:#ECFEFF;color:#0E7490">1 ORANG</span>
+          </button>
+          <button class="subject-btn" onclick="buildSentence('My Brothers','play','plays','plural','👦👦')" id="sbtn-1">
+            <span class="s-emoji">👦👦</span>
+            <span>My Brothers</span>
+            <span class="s-tag" style="background:#DCFEF0;color:#15803D">BANYAK</span>
+          </button>
+          <button class="subject-btn" onclick="buildSentence('My Sister','reads','read','singular','👧')" id="sbtn-2">
+            <span class="s-emoji">👧</span>
+            <span>My Sister</span>
+            <span class="s-tag" style="background:#ECFEFF;color:#0E7490">1 ORANG</span>
+          </button>
+          <button class="subject-btn" onclick="buildSentence('My Parents','cook','cooks','plural','👨👩')" id="sbtn-3">
+            <span class="s-emoji">👨👩</span>
+            <span>My Parents</span>
+            <span class="s-tag" style="background:#DCFEF0;color:#15803D">BANYAK</span>
+          </button>
+        </div>
+
+        <!-- Live sentence output -->
+        <div class="sentence-display" id="sentence-display">
+          <span class="placeholder-text">👆 Pilih salah satu subjek di atas!</span>
+        </div>
+        <div style="text-align:center" id="type-badge-area"></div>
+
+        <hr style="margin:1.5rem 0; border-color:var(--gray-200)">
+
+        <!-- === PART B: Live Toggle === -->
+        <h3 style="color:var(--navy); font-size:1rem; margin-bottom:10px">🔄 Ubah orangnya, kata kerja ikut berubah!</h3>
+        <div class="live-toggle-card">
+          <div class="person-toggle">
+            <button class="person-btn active" id="tbtn-singular" onclick="setToggle('singular')">👤 1 Orang<br><small style="font-weight:400;opacity:0.8">(Singular)</small></button>
+            <button class="person-btn" id="tbtn-plural" onclick="setToggle('plural')">👥 Banyak<br><small style="font-weight:400;opacity:0.8">(Plural)</small></button>
+          </div>
+          <div class="toggle-sentence">
+            <span class="t-subject" id="t-subject">My brother</span>
+            <span id="t-verb" class="t-verb">plays</span>
+            <span style="color:rgba(255,255,255,0.8)">football</span>
+            <span style="color:rgba(255,255,255,0.5)">.</span>
+          </div>
+          <div class="rule-hint" id="toggle-hint">
+            👤 1 orang → seperti <strong>He/She</strong> → kata kerja ditambah <strong>S/ES</strong>
+          </div>
+        </div>
+
+        <hr style="margin:1.5rem 0; border-color:var(--gray-200)">
+
+        <!-- === PART C: Mini Quiz === -->
+        <h3 style="color:var(--navy); font-size:1rem; margin-bottom:6px">🧠 Tes Pemahamanmu!</h3>
+        <p style="font-size:0.85rem; color:var(--gray-600); margin-bottom:10px">Pilih kata kerja yang tepat untuk setiap kalimat.</p>
+
+        <div class="quiz-progress" id="quiz-progress">
+          <div class="quiz-pip" id="pip-0"></div>
+          <div class="quiz-pip" id="pip-1"></div>
+          <div class="quiz-pip" id="pip-2"></div>
+        </div>
+
+        <div class="quiz-card" id="quiz-card">
+          <div class="quiz-question" id="quiz-q"></div>
+          <div class="quiz-options" id="quiz-opts"></div>
+        </div>
+        <div id="quiz-score-area"></div>
+
+      </div>
+    </section>
+
+    <!-- Section 3: Balik Kartu -->
+    <section class="learning-section">
+      <div class="section-idx">3</div>
+      <div class="learning-content">
+        <h2 style="color:var(--navy); margin-bottom:8px">Coba Tebak! 🃏</h2>
+        <p>Apakah kalimat di balik kartu ini pakai S/ES atau tidak? Coba tebak dan klik kartunya!</p>
+        
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:1rem">
+          <div class="flip-card" onclick="this.classList.toggle('flipped')">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <span style="font-size:2rem">🧑</span>
+                <strong>My Uncle ... (live) in Jakarta</strong>
+              </div>
+              <div class="flip-card-back">
+                <span style="font-size:1.5rem">LIVES</span>
+                <small>(Pakai S, karena Paman cuma 1 orang = HE)</small>
+              </div>
+            </div>
+          </div>
+          <div class="flip-card" onclick="this.classList.toggle('flipped')">
+            <div class="flip-card-inner">
+              <div class="flip-card-front" style="background:var(--gray-100)">
+                <span style="font-size:2rem">👨‍👩‍👦</span>
+                <strong>My Family ... (love) holiday</strong>
+              </div>
+              <div class="flip-card-back" style="background:var(--navy-light)">
+                <span style="font-size:1.5rem">LOVES</span>
+                <small>(Pakai S, karena "Family" dihitung 1 unit/kelompok tunggal)</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 4: Game Memilah -->
+    <section class="learning-section">
+      <div class="section-idx">4</div>
+      <div class="learning-content">
+        <h2 style="color:var(--navy); margin-bottom:8px">Pilahlah Kalimat Ini! 🧩</h2>
+        <p>Tarik subjek ke kotak yang tepat berdasarkan jumlah orangnya (Apakah dia menyebabkan kata kerja pakai S/ES?)</p>
+        
+        <div style="text-align:center; padding:10px" id="wordbank">
+          <div class="drag-item" draggable="true" id="drag-mother">My Mother</div>
+          <div class="drag-item" draggable="true" id="drag-friends">My Friends</div>
+          <div class="drag-item" draggable="true" id="drag-budi">Budi & I</div>
+          <div class="drag-item" draggable="true" id="drag-sister">My Sister</div>
+        </div>
+
+        <div class="drag-container">
+          <div class="drop-zone" id="zone-plural" ondragover="allowDrop(event)" ondrop="drop(event, 'plural')">
+            <h4 style="color:var(--navy)">Pakai Kata Kerja ASLI</h4>
+            <div style="font-size:0.8rem; color:var(--gray-600); margin-bottom:10px">(Plural / Banyak)</div>
+            <div class="drop-target" style="min-height:50px"></div>
+          </div>
+          
+          <div class="drop-zone" id="zone-singular" ondragover="allowDrop(event)" ondrop="drop(event, 'singular')">
+            <h4 style="color:var(--navy)">Pakai Kata Kerja + S/ES</h4>
+            <div style="font-size:0.8rem; color:var(--gray-600); margin-bottom:10px">(Singular / Tunggal)</div>
+            <div class="drop-target" style="min-height:50px"></div>
+          </div>
+        </div>
+        
+        <div id="drag-feedback" style="text-align:center; font-weight:700; min-height:24px; color:var(--navy)"></div>
+      </div>
+    </section>
+    
+    <button class="btn btn-primary btn-full btn-lg" onclick="window.location.href='student.html'">
+      ✅ Selesai Belajar Modul 3
+    </button>
+
+  </main>
+
+  <script>
+    /* =============================================
+       SECTION 2 — INTERACTIVE LOGIC
+    ============================================= */
+
+    // --- PART A: Sentence Builder ---
+    function buildSentence(subject, verbSingular, verbPlural, type, emoji) {
+      const display = document.getElementById('sentence-display');
+      const verb = type === 'singular' ? verbSingular : verbPlural;
+      const rest = type === 'singular' ? 'every day.' : 'every day.';
+      const typeLabel = type === 'singular'
+        ? '<span class="type-badge singular">👤 SINGULAR — Kata kerja +S/ES</span>'
+        : '<span class="type-badge plural">👥 PLURAL — Kata kerja NORMAL</span>';
+
+      display.innerHTML = `
+        <span class="word subject-word">${subject}</span>
+        <span class="word verb-word">${verb}</span>
+        <span class="word">${rest}</span>
+      `;
+      document.getElementById('type-badge-area').innerHTML = typeLabel;
+
+      // Highlight selected button
+      document.querySelectorAll('.subject-btn').forEach(b => b.classList.remove('selected', 'active-singular', 'active-plural'));
+      event.currentTarget.classList.add('selected', type === 'singular' ? 'active-singular' : 'active-plural');
+
+      // Speak the sentence
+      if ('speechSynthesis' in window) {
+        const u = new SpeechSynthesisUtterance(`${subject} ${verb} every day`);
+        u.lang = 'en-US'; u.rate = 0.88;
+        window.speechSynthesis.cancel();
+        window.speechSynthesis.speak(u);
+      }
+    }
+
+    // --- PART B: Live Toggle ---
+    const toggleData = {
+      singular: { subject: 'My brother',  verb: 'plays',   hint: '👤 1 orang → seperti <strong>He/She</strong> → kata kerja ditambah <strong>S/ES</strong>' },
+      plural:   { subject: 'My brothers', verb: 'play',    hint: '👥 Banyak orang → seperti <strong>They</strong> → kata kerja tetap <strong>NORMAL</strong>' }
+    };
+    let currentToggle = 'singular';
+
+    function setToggle(type) {
+      if (currentToggle === type) return;
+      currentToggle = type;
+      const data = toggleData[type];
+
+      document.getElementById('t-subject').textContent = data.subject;
+
+      const verbEl = document.getElementById('t-verb');
+      verbEl.classList.add('changing');
+      setTimeout(() => {
+        verbEl.textContent = data.verb;
+        verbEl.classList.remove('changing');
+      }, 180);
+
+      document.getElementById('toggle-hint').innerHTML = data.hint;
+
+      ['singular','plural'].forEach(t => {
+        document.getElementById('tbtn-' + t).classList.toggle('active', t === type);
+      });
+    }
+
+    // --- PART C: Mini Quiz ---
+    const quizData = [
+      {
+        q: 'My sister ___ to school every day.',
+        options: ['go', 'goes', 'gos', 'going'],
+        answer: 'goes',
+        explain: '"My sister" = 1 orang (she) → pakai GOES'
+      },
+      {
+        q: 'My parents ___ vegetables in the garden.',
+        options: ['grows', 'grow', 'growing', 'growed'],
+        answer: 'grow',
+        explain: '"My parents" = banyak (they) → pakai GROW (normal)'
+      },
+      {
+        q: 'My uncle ___ in a big city.',
+        options: ['live', 'lives', 'liveing', 'lived'],
+        answer: 'lives',
+        explain: '"My uncle" = 1 orang (he) → pakai LIVES'
+      }
+    ];
+    let quizIdx = 0;
+    let quizScore = 0;
+    let quizAnswered = false;
+    let quizResults = [];
+
+    function renderQuiz() {
+      if (quizIdx >= quizData.length) { showQuizScore(); return; }
+      const q = quizData[quizIdx];
+      quizAnswered = false;
+      document.getElementById('quiz-q').innerHTML =
+        `<span style="color:var(--gray-500);font-size:0.8rem;font-weight:600">Soal ${quizIdx+1} dari ${quizData.length}</span><br>${q.q.replace('___', '<u style="color:#06B6D4">___</u>')}`;
+
+      const optsEl = document.getElementById('quiz-opts');
+      optsEl.innerHTML = '';
+      q.options.forEach(opt => {
+        const btn = document.createElement('button');
+        btn.className = 'quiz-opt';
+        btn.textContent = opt;
+        btn.onclick = () => answerQuiz(opt, btn);
+        optsEl.appendChild(btn);
+      });
+    }
+
+    function answerQuiz(chosen, btn) {
+      if (quizAnswered) return;
+      quizAnswered = true;
+      const q = quizData[quizIdx];
+      const isCorrect = chosen === q.answer;
+
+      document.querySelectorAll('.quiz-opt').forEach(b => {
+        b.disabled = true;
+        if (b.textContent === q.answer) b.classList.add('correct-ans');
+      });
+      if (!isCorrect) btn.classList.add('wrong-ans');
+
+      if (isCorrect) { quizScore++; playCorrectSound(); } else { playWrongSound(); }
+
+      const pip = document.getElementById('pip-' + quizIdx);
+      pip.classList.add(isCorrect ? 'done-correct' : 'done-wrong');
+      quizResults.push(isCorrect);
+
+      // Explain feedback
+      const fb = document.createElement('div');
+      fb.style.cssText = 'margin-top:10px;font-size:0.82rem;padding:8px 12px;border-radius:8px;font-weight:600;';
+      fb.style.background = isCorrect ? '#DCFEF0' : '#FEE2E2';
+      fb.style.color = isCorrect ? '#15803D' : '#B91C1C';
+      fb.innerHTML = (isCorrect ? '✅ ' : '❌ ') + q.explain;
+      document.getElementById('quiz-card').appendChild(fb);
+
+      setTimeout(() => {
+        quizIdx++;
+        document.getElementById('quiz-card').querySelectorAll('div[style]').forEach(d => d.remove && d.remove());
+        renderQuiz();
+      }, 1800);
+    }
+
+    function showQuizScore() {
+      document.getElementById('quiz-card').style.display = 'none';
+      const perfect = quizScore === quizData.length;
+      const emoji = perfect ? '🏆' : quizScore >= 2 ? '👍' : '📚';
+      const msg = perfect ? 'Sempurna! Kamu sudah paham!' : quizScore >= 2 ? 'Bagus! Hampir sempurna!' : 'Yuk belajar lagi ya!';
+      document.getElementById('quiz-score-area').innerHTML = `
+        <div class="quiz-score-panel">
+          <div style="font-size:3rem">${emoji}</div>
+          <div class="quiz-score-num">${quizScore}/${quizData.length}</div>
+          <div style="font-size:1rem;font-weight:700;color:var(--navy);margin:8px 0">${msg}</div>
+          <button class="btn btn-primary" style="margin-top:10px" onclick="restartQuiz()">🔁 Ulangi Quiz</button>
+        </div>
+      `;
+      if (perfect) playCorrectSound();
+    }
+
+    function restartQuiz() {
+      quizIdx = 0; quizScore = 0; quizAnswered = false; quizResults = [];
+      document.getElementById('quiz-card').style.display = '';
+      document.getElementById('quiz-score-area').innerHTML = '';
+      ['pip-0','pip-1','pip-2'].forEach(id => {
+        const p = document.getElementById(id);
+        p.className = 'quiz-pip';
+      });
+      renderQuiz();
+    }
+
+    // Boot quiz on load
+    document.addEventListener('DOMContentLoaded', renderQuiz);
+
+    /* =============================================
+       EXISTING FUNCTIONS
+    ============================================= */
+    function playAudio(text) {
+      if ('speechSynthesis' in window) {
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = "en-US";
+        utterance.rate = 0.9;
+        window.speechSynthesis.speak(utterance);
+      } else {
+        alert("Browser tidak mendukung fitur suara.");
+      }
+    }
+
+    // --- Efek Suara Benar & Salah ---
+    function playCorrectSound() {
+      const ctx = new (window.AudioContext || window.webkitAudioContext)();
+      const times = [[0, 523.25], [0.12, 659.25], [0.24, 783.99]]; // C5 E5 G5
+      times.forEach(([when, freq]) => {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.type = 'sine';
+        osc.frequency.value = freq;
+        gain.gain.setValueAtTime(0.35, ctx.currentTime + when);
+        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + when + 0.3);
+        osc.start(ctx.currentTime + when);
+        osc.stop(ctx.currentTime + when + 0.35);
+      });
+    }
+
+    function playWrongSound() {
+      const ctx = new (window.AudioContext || window.webkitAudioContext)();
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.type = 'sawtooth';
+      osc.frequency.setValueAtTime(300, ctx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(100, ctx.currentTime + 0.35);
+      gain.gain.setValueAtTime(0.4, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.4);
+      osc.start(ctx.currentTime);
+      osc.stop(ctx.currentTime + 0.45);
+    }
+
+    // Drag and Drop Logic
+    const correctMap = {
+      'drag-mother': 'singular',
+      'drag-friends': 'plural',
+      'drag-budi': 'plural', // Budi & I = We (Kami)
+      'drag-sister': 'singular'
+    };
+    
+    let draggedId = null;
+
+    document.querySelectorAll('.drag-item').forEach(item => {
+      item.addEventListener('dragstart', (e) => {
+        draggedId = e.target.id;
+        e.target.style.opacity = '0.5';
+      });
+      item.addEventListener('dragend', (e) => {
+        e.target.style.opacity = '1';
+        document.querySelectorAll('.drop-zone').forEach(z => z.classList.remove('active'));
+      });
+      item.addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        draggedId = e.target.id;
+        document.getElementById('drag-feedback').textContent = "Pilih kotak yang sesuai!";
+      });
+    });
+
+    document.querySelectorAll('.drop-zone').forEach(zone => {
+      zone.addEventListener('touchend', (e) => {
+        if(draggedId) {
+          const expected = zone.id === 'zone-plural' ? 'plural' : 'singular';
+          handleDrop(draggedId, expected, zone);
+        }
+      });
+    });
+
+    function allowDrop(ev) {
+      ev.preventDefault();
+      ev.currentTarget.classList.add('active');
+    }
+
+    function drop(ev, expectedId) {
+      ev.preventDefault();
+      const zone = ev.currentTarget;
+      zone.classList.remove('active');
+      handleDrop(draggedId, expectedId, zone);
+    }
+    
+    function handleDrop(itemId, zoneType, zoneEl) {
+      if (!itemId) return;
+      const el = document.getElementById(itemId);
+      const fb = document.getElementById('drag-feedback');
+      
+      if (correctMap[itemId] === zoneType) {
+        zoneEl.querySelector('.drop-target').appendChild(el);
+        zoneEl.classList.add('correct');
+        setTimeout(() => zoneEl.classList.remove('correct'), 800);
+        fb.textContent = "✅ Tepat Sekali!";
+        fb.style.color = "#15803D";
+        playCorrectSound();
+      } else {
+        zoneEl.classList.add('wrong');
+        setTimeout(() => zoneEl.classList.remove('wrong'), 800);
+        fb.textContent = "❌ Coba hitung lagi jumlah orangnya!";
+        fb.style.color = "#B91C1C";
+        playWrongSound();
+      }
+      draggedId = null;
+    }
+  </script>
+</body>
+</html>
