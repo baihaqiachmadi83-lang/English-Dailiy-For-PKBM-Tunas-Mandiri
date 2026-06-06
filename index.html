@@ -148,20 +148,44 @@
     .obj-ck.u2 { background: var(--unit2-light); color: var(--unit2); }
     .obj-ck.u3 { background: var(--unit3-light); color: var(--unit3); }
 
-    /* ── VOCAB GRID ── */
-    .vocab-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; }
-    @media(min-width:520px){ .vocab-grid { grid-template-columns: repeat(3,1fr); } }
-    @media(min-width:720px){ .vocab-grid { grid-template-columns: repeat(4,1fr); } }
-    .vc {
-      background: var(--surface); border-radius: var(--r-md);
-      border: 1.5px solid var(--border); padding: 11px 9px; text-align: center;
+    /* ── VOCAB CARDS ── */
+    .vocab-cards { display: flex; flex-direction: column; gap: 16px; }
+    .vc-card {
+      background: var(--surface); border-radius: var(--r-lg);
+      border: 2px solid var(--border); padding: 20px;
       transition: var(--tr); box-shadow: var(--sh-sm);
+      display: flex; flex-direction: column; gap: 14px;
     }
-    .vc:hover { transform: translateY(-3px); box-shadow: var(--sh-md); border-color: var(--unit1); }
-    .vc-word { font-family: 'Poppins',sans-serif; font-size: .98rem; font-weight: 700; color: var(--unit1); }
-    .vc-pos { font-size: .7rem; color: var(--text-sub); font-style: italic; margin: 2px 0 4px; }
-    .vc-trans { font-size: .8rem; font-weight: 700; color: var(--text-main); margin-bottom: 5px; }
-    .vc-ex { font-size: .72rem; color: var(--text-sub); font-style: italic; line-height: 1.5; border-top: 1px solid var(--border); padding-top: 5px; }
+    .vc-card:hover { transform: translateY(-2px); box-shadow: var(--sh-md); border-color: var(--unit1-light); }
+    .vc-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
+    .vc-word-box { display: flex; flex-direction: column; gap: 6px; }
+    .vc-word { font-family: 'Poppins',sans-serif; font-size: 1.7rem; font-weight: 800; color: var(--unit1); line-height: 1.1; }
+    .vc-pos { font-size: .8rem; color: var(--text-sub); font-style: italic; background: var(--bg); padding: 3px 12px; border-radius: 50px; display: inline-block; width: max-content; }
+    .vc-trans { font-size: 1.15rem; font-weight: 700; color: var(--text-main); margin-top: 4px; }
+    .vc-ex-box { background: var(--unit1-light); padding: 14px 18px; border-radius: var(--r-md); border-left: 4px solid var(--unit1); }
+    .vc-ex { font-size: .95rem; color: var(--text-main); font-style: italic; font-weight: 700; margin-bottom: 6px; line-height: 1.4; }
+    .vc-ex-trans { font-size: .85rem; color: var(--text-sub); line-height: 1.4; }
+    .vc-speaker {
+      background: var(--accent); color: #fff; border: none;
+      width: 52px; height: 52px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.5rem; cursor: pointer; transition: var(--tr);
+      box-shadow: 0 6px 16px rgba(244,164,35,.35);
+      flex-shrink: 0;
+    }
+    .vc-speaker:hover { transform: scale(1.08); background: #e3961c; }
+    .vc-speaker:active { transform: scale(0.95); }
+
+    /* ── FILTER BUTTONS ── */
+    .filter-bar { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 12px; margin-bottom: 4px; scrollbar-width: none; }
+    .filter-bar::-webkit-scrollbar { display: none; }
+    .f-btn { 
+      padding: 8px 18px; border-radius: 50px; border: 2px solid var(--border); 
+      background: var(--surface); color: var(--text-sub); font-family: 'Poppins', sans-serif;
+      font-weight: 600; font-size: .88rem; cursor: pointer; white-space: nowrap; transition: var(--tr);
+    }
+    .f-btn:hover { border-color: var(--unit1-light); background: var(--bg); }
+    .f-btn.active { background: var(--unit1); border-color: var(--unit1); color: #fff; box-shadow: 0 4px 12px rgba(37,99,235,.3); }
 
     /* ── EXPRESSIONS TABLE ── */
     .tscroll { overflow-x: auto; border-radius: var(--r-md); }
@@ -310,6 +334,162 @@
     .vn-item { font-size: .83rem; }
     .vn-item strong { color: var(--text-main); } .vn-item span { color: var(--text-sub); }
 
+    /* ── FLASHCARDS (UNIT 1) ── */
+    .fc-grid { display: flex; flex-direction: column; gap: 16px; margin-top: 10px; }
+    .fc-card { background: transparent; width: 100%; height: 160px; perspective: 1000px; cursor: pointer; }
+    .fc-inner { position: relative; width: 100%; height: 100%; text-align: center; transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1); transform-style: preserve-3d; }
+    .fc-card.flipped .fc-inner { transform: rotateY(180deg); }
+    .fc-front, .fc-back { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: var(--r-md); box-shadow: var(--sh-sm); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; }
+    .fc-front { background: #fff; border: 2px solid var(--unit1-light); }
+    .fc-back { background: var(--unit1); color: #fff; transform: rotateY(180deg); }
+    .fc-svg { width: 64px; height: 64px; margin-bottom: 12px; }
+    .fc-word { font-family: 'Poppins',sans-serif; font-size: 1.5rem; font-weight: 700; color: var(--unit1); }
+    .fc-back-word { font-family: 'Poppins',sans-serif; font-size: 1.4rem; font-weight: 700; margin-bottom: 8px; }
+    .fc-back-trans { font-size: 1.1rem; opacity: 0.9; }
+
+    /* ── ANAGRAM (UNIT 1) ── */
+    .ang-wrap { text-align: center; background: #fff; padding: 24px 16px; border-radius: var(--r-md); box-shadow: var(--sh-sm); margin-top: 12px; }
+    .ang-hint { font-size: 1.05rem; color: var(--text-sub); margin-bottom: 20px; font-style: italic; }
+    .ang-slots { display: flex; justify-content: center; gap: 8px; margin-bottom: 24px; flex-wrap: wrap; }
+    .ang-slot { width: 44px; height: 50px; border: 2px dashed var(--unit1-light); border-radius: var(--r-sm); display: flex; align-items: center; justify-content: center; font-family: 'Poppins',sans-serif; font-size: 1.6rem; font-weight: 700; color: var(--primary-dark); transition: var(--tr); }
+    .ang-slot.filled { border-style: solid; border-color: var(--unit1); background: var(--unit1-light); }
+    .ang-letters { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; margin-bottom: 24px; }
+    .ang-ltr { width: 44px; height: 50px; background: #fff; border: 2px solid var(--unit1); border-radius: var(--r-sm); box-shadow: 0 4px 0 var(--unit1); display: flex; align-items: center; justify-content: center; font-family: 'Poppins',sans-serif; font-size: 1.6rem; font-weight: 700; color: var(--unit1); cursor: pointer; transition: all 0.15s ease; user-select: none; }
+    .ang-ltr:active { transform: translateY(4px); box-shadow: 0 0 0 var(--unit1); }
+    .ang-ltr.used { opacity: 0; pointer-events: none; transform: scale(0.8); }
+    .ang-actions { display: flex; justify-content: center; gap: 12px; }
+    .btn-ang-rst { padding: 10px 20px; border-radius: var(--r-sm); background: var(--surface); color: var(--text-main); border: 1px solid #ddd; font-weight: 600; cursor: pointer; }
+    
+    /* Confetti */
+    .confetti { position: fixed; width: 10px; height: 10px; z-index: 9999; pointer-events: none; animation: fall linear forwards; }
+    @keyframes fall { to { transform: translateY(100vh) rotate(720deg); opacity: 0; } }
+
+    /* ── UNIT 2 TAB SYSTEM ── */
+    .tab-nav { display: flex; gap: 8px; overflow-x: auto; margin-bottom: 16px; padding-bottom: 4px; }
+    .tab-btn { padding: 10px 16px; background: var(--surface); border: 2px solid var(--unit2-light); border-radius: var(--r-md); color: var(--text-sub); font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 0.9rem; cursor: pointer; transition: var(--tr); white-space: nowrap; }
+    .tab-btn.active { background: var(--unit2); border-color: var(--unit2); color: #fff; }
+    .tab-pane { display: none; animation: fadeIn 0.3s ease; }
+    .tab-pane.show { display: block; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* CHAT BUBBLES */
+    .chat-wrap { display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px; }
+    .chat-msg { display: flex; align-items: flex-end; gap: 8px; max-width: 85%; }
+    .chat-msg.right { align-self: flex-end; flex-direction: row-reverse; }
+    .chat-av { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.8rem; color: #fff; flex-shrink: 0; }
+    .av-r { background: #ec4899; } .av-b { background: #3b82f6; } .av-s { background: #10b981; } .av-p { background: #8b5cf6; }
+    .chat-bub { background: #f1f5f9; padding: 12px 16px; border-radius: 16px 16px 16px 4px; color: var(--text-main); position: relative; font-size: 0.95rem; line-height: 1.5; }
+    .chat-msg.right .chat-bub { background: var(--unit2-light); border-radius: 16px 16px 4px 16px; }
+    .chat-play { position: absolute; bottom: -12px; right: -12px; width: 28px; height: 28px; background: #fff; border-radius: 50%; box-shadow: 0 2px 5px rgba(0,0,0,0.15); border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; transition: transform 0.2s; }
+    .chat-play:hover { transform: scale(1.1); }
+    .chat-msg.right .chat-play { right: auto; left: -12px; }
+
+    /* SCENARIOS */
+    .scen-card { background: #fff; border: 1px solid #e2e8f0; border-radius: var(--r-md); padding: 16px; margin-bottom: 16px; }
+    .scen-hdr { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid #f1f5f9; }
+    .scen-icon { width: 48px; height: 48px; background: var(--unit2-light); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; }
+    .scen-title { font-family: 'Poppins', sans-serif; font-weight: 700; color: var(--unit2); font-size: 1.1rem; }
+    .scen-hl { background: #f8fafc; padding: 12px; border-radius: var(--r-sm); margin-top: 16px; border-left: 3px solid var(--unit2); }
+    .scen-hl strong { color: var(--unit2); }
+
+    /* ROLEPLAY */
+    .rp-sys { background: var(--unit2); color: #fff; padding: 20px; border-radius: var(--r-md); text-align: center; margin-bottom: 24px; font-family: 'Poppins', sans-serif; font-size: 1.2rem; font-weight: 600; box-shadow: 0 4px 12px rgba(34,197,94,0.2); }
+    .rp-opts { display: flex; flex-direction: column; gap: 12px; }
+    .rp-opt { background: #fff; border: 2px solid #e2e8f0; padding: 16px; border-radius: var(--r-sm); text-align: left; font-size: 1rem; color: var(--text-main); font-weight: 500; cursor: pointer; transition: all 0.2s; }
+    .rp-opt:hover { border-color: var(--unit2); background: #f0fdf4; }
+    .rp-opt.correct { border-color: var(--correct); background: var(--correct-light); color: var(--correct); }
+    .rp-opt.wrong { border-color: var(--wrong); background: var(--wrong-light); color: var(--wrong); }
+    .rp-fb { margin-top: 16px; font-size: 0.95rem; font-weight: 500; text-align: center; display: none; padding: 12px; border-radius: var(--r-sm); }
+
+    /* CUSTOM NAME */
+    .cn-form { display: flex; flex-direction: column; gap: 12px; margin-bottom: 24px; }
+    .cn-input { padding: 12px 16px; border: 2px solid #e2e8f0; border-radius: var(--r-sm); font-size: 1rem; font-family: inherit; }
+    .cn-input:focus { outline: none; border-color: var(--unit2); }
+    .cn-output { margin-top: 24px; padding-top: 24px; border-top: 2px dashed #e2e8f0; display: none; }
+    @media print {
+      body * { visibility: hidden; }
+      #cn-output-area, #cn-output-area * { visibility: visible; }
+      #cn-output-area { position: absolute; left: 0; top: 0; width: 100%; margin: 0; padding: 20px; }
+    }
+
+    /* ── UNIT 3 STYLES ── */
+    .u3-tabs { background: var(--unit3-light); border-radius: 16px 16px 0 0; }
+    .u3-tabs .tab-btn.active { color: var(--unit3); border-bottom-color: var(--unit3); }
+    .u3-tabs .tab-btn:hover { background: rgba(22,163,74,0.05); }
+
+    .func-grid { display: grid; gap: 24px; grid-template-columns: 1fr; }
+    @media(min-width:768px){ .func-grid { grid-template-columns: repeat(3, 1fr); } }
+    .func-item { display:flex; flex-direction:column; gap:16px; }
+    .func-doc { background:#fff; border-radius:8px; padding:16px; box-shadow:0 2px 8px rgba(0,0,0,0.08); font-size:0.85rem; font-family: 'Courier New', monospace; margin-bottom: auto; }
+    
+    .receipt-card { text-align:center; }
+    .rcpt-title { font-weight:700; font-size:1.1rem; margin-bottom:4px; }
+    .rcpt-sep { margin:8px 0; letter-spacing:2px; overflow:hidden; white-space:nowrap; }
+    .rcpt-row { display:flex; justify-content:space-between; margin-bottom:4px; }
+
+    .nutrition-card { font-family: 'Arial', sans-serif; border:2px solid #000; padding:12px; }
+    .nutri-title { font-weight:900; font-size:1.2rem; border-bottom:1px solid #000; padding-bottom:4px; }
+    .nutri-bar-thick { height:6px; background:#000; margin:6px 0; }
+    .nutri-bar-thin { height:2px; background:#000; margin:4px 0; }
+    .nutri-row { display:flex; justify-content:space-between; border-bottom:1px solid #ddd; padding:4px 0; }
+
+    .bus-card { font-family: 'Arial', sans-serif; padding:12px; border:1px solid #e2e8f0; background:#f8fafc; }
+    .bus-title { font-weight:700; text-align:center; color:#1e293b; margin-bottom:12px; }
+    .bus-table { width:100%; border-collapse:collapse; text-align:left; font-size:0.8rem; }
+    .bus-table th, .bus-table td { padding:6px; border-bottom:1px solid #cbd5e1; }
+    .bus-table th { background:#e2e8f0; }
+
+    .func-qbox { background:#f1f5f9; padding:12px; border-radius:8px; }
+    .fq-title { font-weight:700; font-size:0.85rem; margin-bottom:12px; color:#334155; }
+    .u3-mcq .mopt { padding:8px 12px; font-size:0.8rem; margin-bottom:6px; }
+    .u3-fb { font-size:0.8rem; font-weight:600; margin-top:8px; display:none; }
+    .u3-fb.show { display:block; }
+    .u3-fb.ok { color: var(--correct); }
+    .u3-fb.err { color: var(--wrong); }
+
+    .int-text { font-size:1.1rem; line-height:1.8; color:#1e293b; position:relative; }
+    .int-word { cursor:pointer; display:inline-block; margin-right:4px; padding:2px 4px; border-radius:4px; transition:all 0.2s; }
+    .int-word:hover { background:var(--unit3-light); color:var(--unit3); }
+    .int-word.hard { background:#fef08a; font-weight:600; }
+    .int-word.active { background:var(--unit3); color:#fff; }
+
+    .tooltip-u3 { position:absolute; z-index:100; background:#1e293b; color:#fff; padding:12px; border-radius:8px; width:220px; font-size:0.85rem; box-shadow:0 4px 15px rgba(0,0,0,0.2); pointer-events:none; opacity:0; transition:opacity 0.2s; margin-top: 8px; left:0; }
+    .tooltip-u3.show { opacity:1; }
+    .tt-word { font-weight:700; color:#38bdf8; font-size:1rem; margin-bottom:4px; }
+    .tt-mean { font-style:italic; margin-bottom:8px; }
+    .tt-ex { color:#cbd5e1; font-size:0.75rem; border-top:1px solid #475569; padding-top:6px; }
+
+    .var-box { margin-bottom:24px; padding-bottom:24px; border-bottom:1px solid #e2e8f0; }
+    .var-title { font-weight:700; font-size:1.05rem; color:#334155; margin-bottom:16px; }
+    .tf-item { display:flex; justify-content:space-between; align-items:center; background:#f8fafc; padding:12px; border-radius:8px; margin-bottom:8px; gap: 8px; }
+    .tf-stmt { font-size:0.9rem; }
+    .tf-btns { display:flex; gap:8px; flex-shrink:0; }
+    .btn-tf { padding:6px 12px; border:1px solid #cbd5e1; border-radius:6px; background:#fff; font-size:0.8rem; cursor:pointer; font-weight:600; }
+    .btn-tf:hover { background:#f1f5f9; }
+    .btn-tf.correct { background:var(--correct); color:#fff; border-color:var(--correct); }
+    .btn-tf.wrong { background:var(--wrong); color:#fff; border-color:var(--wrong); }
+
+    .u3-mb { background:#fff; border:2px solid var(--unit3); color:var(--unit3); }
+    .u3-mb.selected { background:var(--unit3-light); }
+    .u3-mb.matched { background:var(--unit3); color:#fff; border-color:var(--unit3); }
+
+    .fill-item { font-size: 0.95rem; margin-bottom: 12px; }
+    .f-drop { display:inline-block; min-width:80px; padding:4px 8px; border-bottom:2px dashed #94a3b8; text-align:center; color:#334155; cursor:pointer; background:#f8fafc; font-weight:600; border-radius:4px 4px 0 0; }
+    .f-drop.filled { background: var(--unit3-light); color: var(--unit3); border-bottom-style:solid; border-bottom-color: var(--unit3); }
+    .f-drop.correct { background: var(--correct-light); color: var(--correct); border-bottom-color: var(--correct); }
+    .f-drop.wrong { background: var(--wrong-light); color: var(--wrong); border-bottom-color: var(--wrong); }
+    .f-chips { display:flex; gap:8px; margin-top:16px; padding:12px; background:#f1f5f9; border-radius:8px; flex-wrap:wrap; }
+    .f-chip { padding:6px 16px; background:#fff; border:1px solid #cbd5e1; border-radius:16px; cursor:pointer; font-size:0.9rem; font-weight:500; transition:all 0.2s; }
+    .f-chip:hover { border-color:var(--unit3); color:var(--unit3); }
+    .f-chip.used { opacity:0.5; pointer-events:none; }
+
+    .story-card { display:flex; gap:16px; background:#f0fdf4; padding:20px; border-radius:12px; margin-bottom:16px; align-items:flex-start; flex-wrap: wrap; }
+    @media(min-width:600px){ .story-card { flex-wrap: nowrap; } }
+    .story-avatar { width:80px; flex-shrink:0; }
+    .story-content { font-size:0.95rem; line-height:1.6; color:#166534; }
+    .story-content p { margin-bottom:12px; }
+    .vocab-inline { background:#dcfce7; padding:12px; border-radius:8px; font-size:0.85rem; color:#166534; }
+
     /* ── FINAL SCORE ── */
     .final-card {
       background: linear-gradient(145deg, var(--primary-dark), var(--primary));
@@ -404,8 +584,8 @@
       <button class="hero-cta" onclick="next()">✨ Mulai Belajar →</button>
       <div class="unit-cards-preview">
         <button class="ucp" onclick="goTo(1)"><div class="ucp-icon">📖</div><div style="font-weight:700">Unit 1</div><div class="ucp-label">Vocabulary</div></button>
-        <button class="ucp" onclick="goTo(6)"><div class="ucp-icon">💬</div><div style="font-weight:700">Unit 2</div><div class="ucp-label">Speaking</div></button>
-        <button class="ucp" onclick="goTo(11)"><div class="ucp-icon">📰</div><div style="font-weight:700">Unit 3</div><div class="ucp-label">Reading</div></button>
+        <button class="ucp" onclick="goTo(7)"><div class="ucp-icon">💬</div><div style="font-weight:700">Unit 2</div><div class="ucp-label">Speaking</div></button>
+        <button class="ucp" onclick="goTo(9)"><div class="ucp-icon">📰</div><div style="font-weight:700">Unit 3</div><div class="ucp-label">Reading</div></button>
       </div>
     </div>
   </div>
@@ -439,18 +619,144 @@
     <h2 class="s-title">Daftar Kosakata</h2>
     <div class="s-div u1"></div>
     <div class="card">
-      <div class="card-title"><span>📝</span> Daftar Kosakata — 10 Kata Penting</div>
-      <div class="vocab-grid">
-        <div class="vc"><div class="vc-word">Work</div><div class="vc-pos">[verb]</div><div class="vc-trans">Bekerja</div><div class="vc-ex">"I work at a small shop near my house."</div></div>
-        <div class="vc"><div class="vc-word">Buy</div><div class="vc-pos">[verb]</div><div class="vc-trans">Membeli</div><div class="vc-ex">"She buys vegetables at the market every morning."</div></div>
-        <div class="vc"><div class="vc-word">Cook</div><div class="vc-pos">[verb]</div><div class="vc-trans">Memasak</div><div class="vc-ex">"My mother cooks rice for breakfast."</div></div>
-        <div class="vc"><div class="vc-word">Study</div><div class="vc-pos">[verb]</div><div class="vc-trans">Belajar</div><div class="vc-ex">"They study English at PKBM Tunas Mandiri."</div></div>
-        <div class="vc"><div class="vc-word">Help</div><div class="vc-pos">[verb]</div><div class="vc-trans">Membantu</div><div class="vc-ex">"He helps his neighbor carry heavy bags."</div></div>
-        <div class="vc"><div class="vc-word">Market</div><div class="vc-pos">[noun]</div><div class="vc-trans">Pasar</div><div class="vc-ex">"The market opens at five in the morning."</div></div>
-        <div class="vc"><div class="vc-word">Family</div><div class="vc-pos">[noun]</div><div class="vc-trans">Keluarga</div><div class="vc-ex">"My family eats dinner together every night."</div></div>
-        <div class="vc"><div class="vc-word">Neighbor</div><div class="vc-pos">[noun]</div><div class="vc-trans">Tetangga</div><div class="vc-ex">"Our neighbor is very kind and friendly."</div></div>
-        <div class="vc"><div class="vc-word">Tired</div><div class="vc-pos">[adjective]</div><div class="vc-trans">Lelah</div><div class="vc-ex">"She feels tired after a long day of work."</div></div>
-        <div class="vc"><div class="vc-word">Happy</div><div class="vc-pos">[adjective]</div><div class="vc-trans">Senang/Bahagia</div><div class="vc-ex">"The children are happy when they play outside."</div></div>
+      <div class="card-title"><span>📝</span> Kosakata Profesi — 20 Kata Penting</div>
+      
+      <div class="filter-bar">
+        <button class="f-btn active" onclick="filterVocab('all', this)">🌟 Semua</button>
+        <button class="f-btn" onclick="filterVocab('pedagang', this)">🛒 Pedagang Pasar</button>
+        <button class="f-btn" onclick="filterVocab('buruh', this)">🏭 Buruh Pabrik</button>
+        <button class="f-btn" onclick="filterVocab('petani', this)">🌾 Petani</button>
+        <button class="f-btn" onclick="filterVocab('irt', this)">🏠 Ibu Rumah Tangga</button>
+      </div>
+
+      <div class="vocab-cards">
+        <!-- 🛒 PEDAGANG PASAR -->
+        <div class="vc-card" data-category="pedagang">
+          <div class="vc-top"><div class="vc-word-box">
+            <div class="vc-word">Buy 🛒</div><div class="vc-pos">verb (kata kerja)</div><div class="vc-trans">Membeli</div>
+          </div><button class="vc-speaker" onclick="speakWord('Buy')" aria-label="Dengarkan kata Buy">🔊</button></div>
+          <div class="vc-ex-box"><div class="vc-ex">"She buys vegetables at the market every morning."</div><div class="vc-ex-trans">"Dia membeli sayuran di pasar setiap pagi."</div></div>
+        </div>
+        <div class="vc-card" data-category="pedagang">
+          <div class="vc-top"><div class="vc-word-box">
+            <div class="vc-word">Customer 🛍️</div><div class="vc-pos">noun (kata benda)</div><div class="vc-trans">Pelanggan</div>
+          </div><button class="vc-speaker" onclick="speakWord('Customer')" aria-label="Dengarkan kata Customer">🔊</button></div>
+          <div class="vc-ex-box"><div class="vc-ex">"The seller is talking to a customer."</div><div class="vc-ex-trans">"Penjual itu sedang berbicara dengan pelanggan."</div></div>
+        </div>
+        <div class="vc-card" data-category="pedagang">
+          <div class="vc-top"><div class="vc-word-box">
+            <div class="vc-word">Bargain 🤝</div><div class="vc-pos">verb (kata kerja)</div><div class="vc-trans">Tawar-menawar</div>
+          </div><button class="vc-speaker" onclick="speakWord('Bargain')" aria-label="Dengarkan kata Bargain">🔊</button></div>
+          <div class="vc-ex-box"><div class="vc-ex">"They bargain the price of the fish."</div><div class="vc-ex-trans">"Mereka menawar harga ikan tersebut."</div></div>
+        </div>
+        <div class="vc-card" data-category="pedagang">
+          <div class="vc-top"><div class="vc-word-box">
+            <div class="vc-word">Weigh ⚖️</div><div class="vc-pos">verb (kata kerja)</div><div class="vc-trans">Menimbang</div>
+          </div><button class="vc-speaker" onclick="speakWord('Weigh')" aria-label="Dengarkan kata Weigh">🔊</button></div>
+          <div class="vc-ex-box"><div class="vc-ex">"The seller weighs the rice accurately."</div><div class="vc-ex-trans">"Penjual menimbang beras dengan akurat."</div></div>
+        </div>
+        <div class="vc-card" data-category="pedagang">
+          <div class="vc-top"><div class="vc-word-box">
+            <div class="vc-word">Stall 🛖</div><div class="vc-pos">noun (kata benda)</div><div class="vc-trans">Kios / Lapak</div>
+          </div><button class="vc-speaker" onclick="speakWord('Stall')" aria-label="Dengarkan kata Stall">🔊</button></div>
+          <div class="vc-ex-box"><div class="vc-ex">"His stall is always full of fresh fruits."</div><div class="vc-ex-trans">"Lapaknya selalu penuh dengan buah-buahan segar."</div></div>
+        </div>
+
+        <!-- 🏭 BURUH PABRIK -->
+        <div class="vc-card" data-category="buruh">
+          <div class="vc-top"><div class="vc-word-box">
+            <div class="vc-word">Work 🏭</div><div class="vc-pos">verb (kata kerja)</div><div class="vc-trans">Bekerja</div>
+          </div><button class="vc-speaker" onclick="speakWord('Work')" aria-label="Dengarkan kata Work">🔊</button></div>
+          <div class="vc-ex-box"><div class="vc-ex">"I work at a small shoe factory."</div><div class="vc-ex-trans">"Saya bekerja di pabrik sepatu kecil."</div></div>
+        </div>
+        <div class="vc-card" data-category="buruh">
+          <div class="vc-top"><div class="vc-word-box">
+            <div class="vc-word">Tired 🥱</div><div class="vc-pos">adjective (kata sifat)</div><div class="vc-trans">Lelah</div>
+          </div><button class="vc-speaker" onclick="speakWord('Tired')" aria-label="Dengarkan kata Tired">🔊</button></div>
+          <div class="vc-ex-box"><div class="vc-ex">"He feels tired after a long night shift."</div><div class="vc-ex-trans">"Dia merasa lelah setelah shift malam yang panjang."</div></div>
+        </div>
+        <div class="vc-card" data-category="buruh">
+          <div class="vc-top"><div class="vc-word-box">
+            <div class="vc-word">Shift ⏱️</div><div class="vc-pos">noun (kata benda)</div><div class="vc-trans">Giliran kerja</div>
+          </div><button class="vc-speaker" onclick="speakWord('Shift')" aria-label="Dengarkan kata Shift">🔊</button></div>
+          <div class="vc-ex-box"><div class="vc-ex">"My morning shift starts at 7 AM."</div><div class="vc-ex-trans">"Shift pagi saya dimulai jam 7 pagi."</div></div>
+        </div>
+        <div class="vc-card" data-category="buruh">
+          <div class="vc-top"><div class="vc-word-box">
+            <div class="vc-word">Uniform 👕</div><div class="vc-pos">noun (kata benda)</div><div class="vc-trans">Seragam</div>
+          </div><button class="vc-speaker" onclick="speakWord('Uniform')" aria-label="Dengarkan kata Uniform">🔊</button></div>
+          <div class="vc-ex-box"><div class="vc-ex">"All workers must wear a blue uniform."</div><div class="vc-ex-trans">"Semua pekerja harus memakai seragam biru."</div></div>
+        </div>
+        <div class="vc-card" data-category="buruh">
+          <div class="vc-top"><div class="vc-word-box">
+            <div class="vc-word">Machine ⚙️</div><div class="vc-pos">noun (kata benda)</div><div class="vc-trans">Mesin</div>
+          </div><button class="vc-speaker" onclick="speakWord('Machine')" aria-label="Dengarkan kata Machine">🔊</button></div>
+          <div class="vc-ex-box"><div class="vc-ex">"She knows how to operate the sewing machine."</div><div class="vc-ex-trans">"Dia tahu cara mengoperasikan mesin jahit."</div></div>
+        </div>
+
+        <!-- 🌾 PETANI -->
+        <div class="vc-card" data-category="petani">
+          <div class="vc-top"><div class="vc-word-box">
+            <div class="vc-word">Harvest 🌾</div><div class="vc-pos">verb (kata kerja)</div><div class="vc-trans">Memanen</div>
+          </div><button class="vc-speaker" onclick="speakWord('Harvest')" aria-label="Dengarkan kata Harvest">🔊</button></div>
+          <div class="vc-ex-box"><div class="vc-ex">"The farmers harvest the rice in summer."</div><div class="vc-ex-trans">"Para petani memanen padi di musim panas."</div></div>
+        </div>
+        <div class="vc-card" data-category="petani">
+          <div class="vc-top"><div class="vc-word-box">
+            <div class="vc-word">Plant 🌱</div><div class="vc-pos">verb (kata kerja)</div><div class="vc-trans">Menanam</div>
+          </div><button class="vc-speaker" onclick="speakWord('Plant')" aria-label="Dengarkan kata Plant">🔊</button></div>
+          <div class="vc-ex-box"><div class="vc-ex">"They plant corn in the field."</div><div class="vc-ex-trans">"Mereka menanam jagung di ladang."</div></div>
+        </div>
+        <div class="vc-card" data-category="petani">
+          <div class="vc-top"><div class="vc-word-box">
+            <div class="vc-word">Field 🏞️</div><div class="vc-pos">noun (kata benda)</div><div class="vc-trans">Sawah / Ladang</div>
+          </div><button class="vc-speaker" onclick="speakWord('Field')" aria-label="Dengarkan kata Field">🔊</button></div>
+          <div class="vc-ex-box"><div class="vc-ex">"The green field looks very beautiful."</div><div class="vc-ex-trans">"Sawah yang hijau itu terlihat sangat indah."</div></div>
+        </div>
+        <div class="vc-card" data-category="petani">
+          <div class="vc-top"><div class="vc-word-box">
+            <div class="vc-word">Tractor 🚜</div><div class="vc-pos">noun (kata benda)</div><div class="vc-trans">Traktor</div>
+          </div><button class="vc-speaker" onclick="speakWord('Tractor')" aria-label="Dengarkan kata Tractor">🔊</button></div>
+          <div class="vc-ex-box"><div class="vc-ex">"He drives a tractor to plow the land."</div><div class="vc-ex-trans">"Dia mengemudikan traktor untuk membajak tanah."</div></div>
+        </div>
+        <div class="vc-card" data-category="petani">
+          <div class="vc-top"><div class="vc-word-box">
+            <div class="vc-word">Seed 🌰</div><div class="vc-pos">noun (kata benda)</div><div class="vc-trans">Benih / Biji</div>
+          </div><button class="vc-speaker" onclick="speakWord('Seed')" aria-label="Dengarkan kata Seed">🔊</button></div>
+          <div class="vc-ex-box"><div class="vc-ex">"We need good seeds to get a good harvest."</div><div class="vc-ex-trans">"Kita butuh benih yang bagus untuk mendapat panen yang baik."</div></div>
+        </div>
+
+        <!-- 🏠 IBU RUMAH TANGGA -->
+        <div class="vc-card" data-category="irt">
+          <div class="vc-top"><div class="vc-word-box">
+            <div class="vc-word">Family 👨‍👩‍👧</div><div class="vc-pos">noun (kata benda)</div><div class="vc-trans">Keluarga</div>
+          </div><button class="vc-speaker" onclick="speakWord('Family')" aria-label="Dengarkan kata Family">🔊</button></div>
+          <div class="vc-ex-box"><div class="vc-ex">"My family eats dinner together every night."</div><div class="vc-ex-trans">"Keluarga saya makan malam bersama setiap malam."</div></div>
+        </div>
+        <div class="vc-card" data-category="irt">
+          <div class="vc-top"><div class="vc-word-box">
+            <div class="vc-word">Neighbor 🙋‍♀️</div><div class="vc-pos">noun (kata benda)</div><div class="vc-trans">Tetangga</div>
+          </div><button class="vc-speaker" onclick="speakWord('Neighbor')" aria-label="Dengarkan kata Neighbor">🔊</button></div>
+          <div class="vc-ex-box"><div class="vc-ex">"Our neighbor is very kind and friendly."</div><div class="vc-ex-trans">"Tetangga kami sangat baik hati dan ramah."</div></div>
+        </div>
+        <div class="vc-card" data-category="irt">
+          <div class="vc-top"><div class="vc-word-box">
+            <div class="vc-word">Cook 🍳</div><div class="vc-pos">verb (kata kerja)</div><div class="vc-trans">Memasak</div>
+          </div><button class="vc-speaker" onclick="speakWord('Cook')" aria-label="Dengarkan kata Cook">🔊</button></div>
+          <div class="vc-ex-box"><div class="vc-ex">"My mother cooks delicious food for us."</div><div class="vc-ex-trans">"Ibu saya memasak makanan lezat untuk kami."</div></div>
+        </div>
+        <div class="vc-card" data-category="irt">
+          <div class="vc-top"><div class="vc-word-box">
+            <div class="vc-word">Clean 🧹</div><div class="vc-pos">verb (kata kerja)</div><div class="vc-trans">Membersihkan</div>
+          </div><button class="vc-speaker" onclick="speakWord('Clean')" aria-label="Dengarkan kata Clean">🔊</button></div>
+          <div class="vc-ex-box"><div class="vc-ex">"She cleans the house every morning."</div><div class="vc-ex-trans">"Dia membersihkan rumah setiap pagi."</div></div>
+        </div>
+        <div class="vc-card" data-category="irt">
+          <div class="vc-top"><div class="vc-word-box">
+            <div class="vc-word">Broom 🪄</div><div class="vc-pos">noun (kata benda)</div><div class="vc-trans">Sapu</div>
+          </div><button class="vc-speaker" onclick="speakWord('Broom')" aria-label="Dengarkan kata Broom">🔊</button></div>
+          <div class="vc-ex-box"><div class="vc-ex">"I use a broom to sweep the floor."</div><div class="vc-ex-trans">"Saya menggunakan sapu untuk menyapu lantai."</div></div>
+        </div>
       </div>
     </div>
     <div class="page-nav">
@@ -517,8 +823,152 @@
   </div></div>
 </div>
 
-<!-- ══════════════════ 5: UNIT 2 — SEKAT ══════════════════ -->
+<!-- ══════════════════ 5: UNIT 1 — LATIHAN 3 (FLASHCARDS) ══════════════════ -->
 <div class="page" id="p5">
+  <div class="pw"><div class="s-wrap">
+    <div class="s-tag u1">📖 Unit 1 · Materi 5 dari 6</div>
+    <h2 class="s-title">Latihan 3: Flashcards Interaktif</h2>
+    <div class="s-div u1"></div>
+    <div class="ex-card">
+      <div class="ex-label"><div class="ex-num u1">3</div>Flashcards: Balik Kartu</div>
+      <div class="ex-instr">Klik kartu di bawah ini untuk melihat terjemahannya. Pelajari baik-baik!</div>
+      
+      <div class="fc-grid">
+        <!-- Card 1 -->
+        <div class="fc-card" onclick="this.classList.toggle('flipped')">
+          <div class="fc-inner">
+            <div class="fc-front">
+              <svg class="fc-svg" viewBox="0 0 64 64" fill="none" stroke="var(--unit1)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="12" y="36" width="40" height="20" rx="3"></rect>
+                <path d="M22 36V24a10 10 0 0 1 20 0v12"></path>
+              </svg>
+              <div class="fc-word">Work</div>
+            </div>
+            <div class="fc-back">
+              <div class="fc-back-word">Bekerja</div>
+              <div class="fc-back-trans">(melakukan pekerjaan/tugas)</div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Card 2 -->
+        <div class="fc-card" onclick="this.classList.toggle('flipped')">
+          <div class="fc-inner">
+            <div class="fc-front">
+              <svg class="fc-svg" viewBox="0 0 64 64" fill="none" stroke="var(--unit1)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M10 12h8l6.5 28h21l5-16H21"></path>
+                <circle cx="28" cy="48" r="4"></circle>
+                <circle cx="44" cy="48" r="4"></circle>
+              </svg>
+              <div class="fc-word">Buy</div>
+            </div>
+            <div class="fc-back">
+              <div class="fc-back-word">Membeli</div>
+              <div class="fc-back-trans">(belanja barang)</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="fc-card" onclick="this.classList.toggle('flipped')">
+          <div class="fc-inner">
+            <div class="fc-front">
+              <svg class="fc-svg" viewBox="0 0 64 64" fill="none" stroke="var(--unit1)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14 26h36v20a8 8 0 0 1-8 8H22a8 8 0 0 1-8-8V26z"></path>
+                <path d="M10 26h44"></path>
+                <path d="M20 16v-6c0-2 2-4 4-4h16c2 0 4 2 4 4v6"></path>
+                <path d="M26 18v8"></path>
+                <path d="M38 18v8"></path>
+              </svg>
+              <div class="fc-word">Cook</div>
+            </div>
+            <div class="fc-back">
+              <div class="fc-back-word">Memasak</div>
+              <div class="fc-back-trans">(menyiapkan makanan)</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 4 -->
+        <div class="fc-card" onclick="this.classList.toggle('flipped')">
+          <div class="fc-inner">
+            <div class="fc-front">
+              <svg class="fc-svg" viewBox="0 0 64 64" fill="none" stroke="var(--unit1)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="20" cy="24" r="7"></circle>
+                <circle cx="44" cy="24" r="7"></circle>
+                <path d="M10 48c0-8 6-12 10-12h24c4 0 10 4 10 12"></path>
+                <circle cx="32" cy="34" r="5"></circle>
+              </svg>
+              <div class="fc-word">Family</div>
+            </div>
+            <div class="fc-back">
+              <div class="fc-back-word">Keluarga</div>
+              <div class="fc-back-trans">(ayah, ibu, anak, dll)</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 5 -->
+        <div class="fc-card" onclick="this.classList.toggle('flipped')">
+          <div class="fc-inner">
+            <div class="fc-front">
+              <svg class="fc-svg" viewBox="0 0 64 64" fill="none" stroke="var(--unit1)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="32" cy="32" r="22"></circle>
+                <path d="M22 26l6 6M28 26l-6 6M36 26l6 6M42 26l-6 6"></path>
+                <path d="M26 44h12"></path>
+              </svg>
+              <div class="fc-word">Tired</div>
+            </div>
+            <div class="fc-back">
+              <div class="fc-back-word">Kelelahan</div>
+              <div class="fc-back-trans">(butuh istirahat)</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="page-nav">
+      <button class="bn bn-prev" onclick="prev()">← Latihan 2</button>
+      <button class="bn bn-next u1" onclick="next()">Latihan 4 →</button>
+    </div>
+  </div></div>
+</div>
+
+<!-- ══════════════════ 6: UNIT 1 — LATIHAN 4 (ANAGRAM) ══════════════════ -->
+<div class="page" id="p6">
+  <div class="pw"><div class="s-wrap">
+    <div class="s-tag u1">📖 Unit 1 · Materi 6 dari 6</div>
+    <h2 class="s-title">Latihan 4: Game Susun Huruf</h2>
+    <div class="s-div u1"></div>
+    <div class="ex-card">
+      <div class="ex-label"><div class="ex-num u1">4</div>Mini Game: Anagram</div>
+      <div class="ex-instr">Susun kembali huruf-huruf acak di bawah ini menjadi kata yang benar! Klik huruf untuk memasukkannya ke dalam kotak.</div>
+      
+      <div class="ang-wrap">
+        <div class="ang-hint" id="ang-hint">"Pekerjaan / Bekerja"</div>
+        <div class="ang-slots" id="ang-slots">
+          <!-- Slots will be injected here -->
+        </div>
+        <div class="ang-letters" id="ang-letters">
+          <!-- Letters will be injected here -->
+        </div>
+        <div class="ang-actions">
+          <button class="btn-ang-rst" onclick="resetAnagramWord()">🔄 Ulangi Kata</button>
+          <button class="btn-p" id="ang-next-btn" style="display:none;" onclick="nextAnagramWord()">Kata Berikutnya →</button>
+        </div>
+      </div>
+      
+      <div class="score-disp" id="ex-ang-score"><div class="score-num-big" id="ex-ang-sn">0/5</div><div class="score-lbl">Skor Latihan 4</div></div>
+    </div>
+    <div class="page-nav">
+      <button class="bn bn-prev" onclick="prev()">← Flashcards</button>
+      <button class="bn bn-next u2" onclick="next()">Unit 2 →</button>
+    </div>
+  </div></div>
+</div>
+
+<!-- ══════════════════ 5: UNIT 2 — SEKAT ══════════════════ -->
+<div class="page" id="p7">
   <div class="pw"><div class="s-wrap">
     <div class="s-tag u2">💬 Unit 2 · Mulai</div>
     <h2 class="s-title">Unit 2 — Berbicara untuk Komunikasi Sehari-hari</h2>
@@ -535,153 +985,181 @@
   </div></div>
 </div>
 
-<!-- ══════════════════ 6: UNIT 2 — TUJUAN ══════════════════ -->
-<div class="page" id="p6">
-  <div class="pw" style="background:var(--surface);"><div class="s-wrap">
-    <div class="s-tag u2">💬 Unit 2 · Materi 1 dari 4</div>
-    <h2 class="s-title">Tujuan Pembelajaran</h2>
-    <div class="s-div u2"></div>
-    <div class="card">
-      <div class="card-title"><span>🎯</span> Tujuan Pembelajaran — Unit 2</div>
-      <ul class="obj-list">
-        <li><div class="obj-ck u2">✓</div><span>Memahami dan menggunakan ekspresi Bahasa Inggris untuk percakapan sehari-hari</span></li>
-        <li><div class="obj-ck u2">✓</div><span>Mempraktikkan dialog sederhana dalam konteks kehidupan nyata</span></li>
-        <li><div class="obj-ck u2">✓</div><span>Menyusun kalimat percakapan dengan struktur yang benar</span></li>
-      </ul>
-    </div>
-    <div class="page-nav">
-      <button class="bn bn-prev" onclick="prev()">← Kembali</button>
-      <button class="bn bn-next u2" onclick="next()">Ekspresi →</button>
-    </div>
-  </div></div>
-</div>
-
-<!-- ══════════════════ 7: UNIT 2 — EKSPRESI ══════════════════ -->
-<div class="page" id="p7">
-  <div class="pw" style="background:var(--surface);"><div class="s-wrap">
-    <div class="s-tag u2">💬 Unit 2 · Materi 2 dari 4</div>
-    <h2 class="s-title">Ekspresi yang Berguna</h2>
-    <div class="s-div u2"></div>
-    <div class="card">
-      <div class="card-title"><span>💡</span> Ekspresi Sehari-hari</div>
-      <div class="tscroll">
-        <table class="etable">
-          <thead><tr><th>Situasi</th><th>Ekspresi Bahasa Inggris</th><th>Artinya</th></tr></thead>
-          <tbody>
-            <tr><td>Menyapa</td><td>"Good morning! How are you?"</td><td>Selamat pagi! Apa kabar?</td></tr>
-            <tr><td>Menjawab sapaan</td><td>"I'm fine, thank you. And you?"</td><td>Saya baik, terima kasih. Kamu?</td></tr>
-            <tr><td>Memperkenalkan diri</td><td>"My name is ___. I live in ___."</td><td>Nama saya ___. Saya tinggal di ___.</td></tr>
-            <tr><td>Meminta bantuan</td><td>"Excuse me, can you help me?"</td><td>Permisi, bisakah kamu membantu saya?</td></tr>
-            <tr><td>Berterima kasih</td><td>"Thank you very much!"</td><td>Terima kasih banyak!</td></tr>
-            <tr><td>Berpamitan</td><td>"See you tomorrow. Take care!"</td><td>Sampai jumpa besok. Jaga diri!</td></tr>
-            <tr><td>Menanyakan rutinitas</td><td>"What do you usually do in the morning?"</td><td>Apa yang biasanya kamu lakukan di pagi hari?</td></tr>
-            <tr><td>Menjawab rutinitas</td><td>"I usually wake up at five and cook breakfast."</td><td>Saya biasanya bangun jam lima dan memasak sarapan.</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-    <div class="page-nav">
-      <button class="bn bn-prev" onclick="prev()">← Tujuan</button>
-      <button class="bn bn-next u2" onclick="next()">Contoh Percakapan →</button>
-    </div>
-  </div></div>
-</div>
-
-<!-- ══════════════════ 8: UNIT 2 — CONTOH DIALOG ══════════════════ -->
+<!-- ══════════════════ 6: UNIT 2 — INTERACTIVE SPEAKING MODULE ══════════════════ -->
 <div class="page" id="p8">
   <div class="pw" style="background:var(--surface);"><div class="s-wrap">
-    <div class="s-tag u2">💬 Unit 2 · Materi 3 dari 4</div>
-    <h2 class="s-title">Contoh Percakapan</h2>
+    <div class="s-tag u2">💬 Unit 2 · Modul Lengkap</div>
+    <h2 class="s-title">Speaking & Percakapan</h2>
     <div class="s-div u2"></div>
-    <div class="card">
-      <div class="card-title"><span>🗣️</span> Contoh Percakapan: Di Tempat Kerja</div>
-      <div class="ex-instr">Baca percakapan di bawah ini. Perhatikan ekspresi yang digunakan dalam situasi sehari-hari.</div>
-      <div class="dlg-sit">📍 Rini bertemu dengan rekan kerjanya, Budi, di tempat kerja pada pagi hari.</div>
-      <div class="dlg-wrap">
-        <div class="dlg-line"><div class="dlg-av ri">Ri</div><div><div class="dlg-name">Rini</div><div class="dlg-bub">"Good morning, Budi! How are you today?"</div></div></div>
-        <div class="dlg-line r"><div class="dlg-av bu">Bu</div><div><div class="dlg-name">Budi</div><div class="dlg-bub">"Good morning, Rini! I'm a little tired, but I'm okay. Thank you for asking."</div></div></div>
-        <div class="dlg-line"><div class="dlg-av ri">Ri</div><div><div class="dlg-name">Rini</div><div class="dlg-bub">"Oh, I see. Did you work late yesterday?"</div></div></div>
-        <div class="dlg-line r"><div class="dlg-av bu">Bu</div><div><div class="dlg-name">Budi</div><div class="dlg-bub">"Yes, I worked until nine o'clock last night. What about you?"</div></div></div>
-        <div class="dlg-line"><div class="dlg-av ri">Ri</div><div><div class="dlg-name">Rini</div><div class="dlg-bub">"I went home early. I cooked dinner for my family."</div></div></div>
-        <div class="dlg-line r"><div class="dlg-av bu">Bu</div><div><div class="dlg-name">Budi</div><div class="dlg-bub">"That sounds nice. By the way, can you help me with this report later?"</div></div></div>
-        <div class="dlg-line"><div class="dlg-av ri">Ri</div><div><div class="dlg-name">Rini</div><div class="dlg-bub">"Of course! I'm happy to help. See you at the office."</div></div></div>
-        <div class="dlg-line r"><div class="dlg-av bu">Bu</div><div><div class="dlg-name">Budi</div><div class="dlg-bub">"Thank you so much, Rini. See you!"</div></div></div>
-      </div>
-      <div class="vh-box">
-        <button class="vh-hdr" onclick="toggleVH(this)" aria-expanded="false"><span>📌 Kosakata dalam Percakapan</span><span class="vh-arr">▼</span></button>
-        <div class="vh-body" id="vh-body"><span class="hl-chip">tired</span><span class="hl-chip">worked</span><span class="hl-chip">cooked</span><span class="hl-chip">help</span><span class="hl-chip">happy</span></div>
-      </div>
+    
+    <!-- Tab Navigation -->
+    <div class="tab-nav">
+      <button class="tab-btn active" onclick="openU2Tab('t1', this)">1. Dialog Rini & Budi</button>
+      <button class="tab-btn" onclick="openU2Tab('t2', this)">2. Skenario Kontekstual</button>
+      <button class="tab-btn" onclick="openU2Tab('t3', this)">3. Role-play Pilihan</button>
+      <button class="tab-btn" onclick="openU2Tab('t4', this)">4. Custom Dialog</button>
     </div>
-    <div class="page-nav">
-      <button class="bn bn-prev" onclick="prev()">← Ekspresi</button>
-      <button class="bn bn-next u2" onclick="next()">Latihan 3 →</button>
-    </div>
-  </div></div>
-</div>
 
-<!-- ══════════════════ 9: UNIT 2 — LATIHAN 3 (ARRANGE) ══════════════════ -->
-<div class="page" id="p9">
-  <div class="pw" style="background:var(--surface);"><div class="s-wrap">
-    <div class="s-tag u2">💬 Unit 2 · Materi 4 dari 5</div>
-    <h2 class="s-title">Latihan 3: Susun Percakapan</h2>
-    <div class="s-div u2"></div>
-    <div class="ex-card">
-      <div class="ex-label"><div class="ex-num u2">3</div>Latihan 3: Susun Percakapan</div>
-      <div class="ex-instr">Susun kalimat-kalimat berikut menjadi percakapan yang benar. Klik kalimat satu per satu sesuai urutan yang tepat.</div>
-      <p style="font-size:.78rem;color:var(--text-sub);margin-bottom:7px;">Kalimat yang tersedia:</p>
-      <div class="arr-pool" id="arr-pool">
-        <button class="arr-btn" id="ab-A" onclick="pickA('A',this)"><span class="arr-ltr">A</span><span>"Good morning! How are you?"</span></button>
-        <button class="arr-btn" id="ab-B" onclick="pickA('B',this)"><span class="arr-ltr">B</span><span>"I'm fine, thank you. What about you?"</span></button>
-        <button class="arr-btn" id="ab-C" onclick="pickA('C',this)"><span class="arr-ltr">C</span><span>"I'm good too. Can you help me find the market?"</span></button>
-        <button class="arr-btn" id="ab-D" onclick="pickA('D',this)"><span class="arr-ltr">D</span><span>"Of course! The market is not far from here."</span></button>
-        <button class="arr-btn" id="ab-E" onclick="pickA('E',this)"><span class="arr-ltr">E</span><span>"Thank you so much! You are very kind."</span></button>
-        <button class="arr-btn" id="ab-F" onclick="pickA('F',this)"><span class="arr-ltr">F</span><span>"You're welcome. Have a great day!"</span></button>
+    <!-- TAB 1: DIALOG RINI & BUDI -->
+    <div id="t1" class="tab-pane show">
+      <div class="card">
+        <div class="card-title"><span>🗣️</span> Dialog: Di Tempat Kerja</div>
+        <div class="ex-instr">Dengarkan dan baca percakapan Rini & Budi di pagi hari. Klik ikon 🔊 untuk mendengarkan.</div>
+        <div class="chat-wrap" id="chat-t1">
+          <div class="chat-msg">
+            <div class="chat-av av-r">Ri</div>
+            <div class="chat-bub">"Good morning, Budi! How are you today?"<button class="chat-play" onclick="speakLine(this, 'Good morning, Budi! How are you today?')">🔊</button></div>
+          </div>
+          <div class="chat-msg right">
+            <div class="chat-av av-b">Bu</div>
+            <div class="chat-bub">"Good morning, Rini! I'm a little tired, but I'm okay."<button class="chat-play" onclick="speakLine(this, 'Good morning, Rini! I am a little tired, but I am okay.')">🔊</button></div>
+          </div>
+          <div class="chat-msg">
+            <div class="chat-av av-r">Ri</div>
+            <div class="chat-bub">"Did you work late yesterday?"<button class="chat-play" onclick="speakLine(this, 'Did you work late yesterday?')">🔊</button></div>
+          </div>
+          <div class="chat-msg right">
+            <div class="chat-av av-b">Bu</div>
+            <div class="chat-bub">"Yes, I worked until nine o'clock. What about you?"<button class="chat-play" onclick="speakLine(this, 'Yes, I worked until nine o clock. What about you?')">🔊</button></div>
+          </div>
+          <div class="chat-msg">
+            <div class="chat-av av-r">Ri</div>
+            <div class="chat-bub">"I went home early. I cooked dinner for my family."<button class="chat-play" onclick="speakLine(this, 'I went home early. I cooked dinner for my family.')">🔊</button></div>
+          </div>
+          <div class="chat-msg right">
+            <div class="chat-av av-b">Bu</div>
+            <div class="chat-bub">"That sounds nice. See you at the office!"<button class="chat-play" onclick="speakLine(this, 'That sounds nice. See you at the office!')">🔊</button></div>
+          </div>
+        </div>
+        <button class="btn-s" style="margin-bottom:20px;" onclick="speakLine(this, 'Good morning, Budi! How are you today? Good morning, Rini! I am a little tired, but I am okay. Did you work late yesterday? Yes, I worked until nine o clock. What about you? I went home early. I cooked dinner for my family. That sounds nice. See you at the office!')">🔊 Putar Seluruh Dialog</button>
+        <div class="vh-box">
+          <button class="vh-hdr" onclick="toggleVH(this)" aria-expanded="false"><span>📌 Kosakata Penting</span><span class="vh-arr">▼</span></button>
+          <div class="vh-body" id="vh-body">
+            <div style="font-size:0.9rem; line-height:1.6;">
+              <strong>tired</strong>: lelah/capek<br>
+              <strong>worked late</strong>: bekerja lembur/sampai larut<br>
+              <strong>cooked dinner</strong>: memasak makan malam<br>
+              <strong>sounds nice</strong>: kedengarannya menyenangkan
+            </div>
+          </div>
+        </div>
       </div>
-      <p style="font-size:.78rem;color:var(--text-sub);margin-bottom:5px;">Urutan pilihanmu:</p>
-      <div class="arr-seq" id="arr-seq"><span style="font-size:.76rem;color:var(--text-sub);font-style:italic;" id="arr-ph">Klik kalimat di atas untuk menyusunnya di sini...</span></div>
-      <div class="arr-actions">
-        <button class="btn-p" onclick="chkA()">Cek Jawaban</button>
-        <button class="btn-s" onclick="rstA()">Ulangi</button>
-      </div>
-      <div id="ex3-fb" class="fb"></div>
-      <div class="cor-reveal" id="cor-rev">
-        <strong>Urutan yang benar adalah:</strong>
-        <ol><li>A — "Good morning! How are you?"</li><li>B — "I'm fine, thank you. What about you?"</li><li>C — "I'm good too. Can you help me find the market?"</li><li>D — "Of course! The market is not far from here."</li><li>E — "Thank you so much! You are very kind."</li><li>F — "You're welcome. Have a great day!"</li></ol>
-      </div>
-      <div class="score-disp" id="ex3-score"><div class="score-num-big" id="ex3-sn">0/6</div><div class="score-lbl">Skor Latihan 3</div></div>
     </div>
-    <div class="page-nav">
-      <button class="bn bn-prev" onclick="prev()">← Percakapan</button>
-      <button class="bn bn-next u2" onclick="next()">Latihan 4 →</button>
-    </div>
-  </div></div>
-</div>
 
-<!-- ══════════════════ 10: UNIT 2 — LATIHAN 4 (COMPLETE DIALOGUE) ══════════════════ -->
-<div class="page" id="p10">
-  <div class="pw" style="background:var(--surface);"><div class="s-wrap">
-    <div class="s-tag u2">💬 Unit 2 · Materi 5 dari 5</div>
-    <h2 class="s-title">Latihan 4: Lengkapi Percakapan</h2>
-    <div class="s-div u2"></div>
-    <div class="ex-card">
-      <div class="ex-label"><div class="ex-num u2">4</div>Latihan 4: Lengkapi Percakapan</div>
-      <div class="ex-instr">Pilih jawaban yang paling tepat untuk melengkapi percakapan berikut.</div>
-      <div class="dc-q"><div class="dc-bub"><strong>A:</strong> "Good morning! How are you?"<br><strong>B:</strong> "_____"</div><div class="dc-opts"><button class="dopt" onclick="chkD(1,'correct',this)">💬 "I'm fine, thank you!"</button><button class="dopt" onclick="chkD(1,'wrong',this)">💬 "Yes, I work here."</button><button class="dopt" onclick="chkD(1,'wrong',this)">💬 "The market is open."</button></div><div class="mfb" id="dfb1"></div></div>
-      <hr class="sep">
-      <div class="dc-q"><div class="dc-bub"><strong>A:</strong> "Can you help me with this?"<br><strong>B:</strong> "_____"</div><div class="dc-opts"><button class="dopt" onclick="chkD(2,'wrong',this)">💬 "See you tomorrow."</button><button class="dopt" onclick="chkD(2,'correct',this)">💬 "Of course! I'm happy to help."</button><button class="dopt" onclick="chkD(2,'wrong',this)">💬 "My name is Sari."</button></div><div class="mfb" id="dfb2"></div></div>
-      <hr class="sep">
-      <div class="dc-q"><div class="dc-bub"><strong>A:</strong> "Thank you very much!"<br><strong>B:</strong> "_____"</div><div class="dc-opts"><button class="dopt" onclick="chkD(3,'wrong',this)">💬 "Good night!"</button><button class="dopt" onclick="chkD(3,'wrong',this)">💬 "I am tired."</button><button class="dopt" onclick="chkD(3,'correct',this)">💬 "You're welcome!"</button></div><div class="mfb" id="dfb3"></div></div>
-      <div class="score-disp" id="ex4-score"><div class="score-num-big" id="ex4-sn">0/3</div><div class="score-lbl">Skor Latihan 4</div></div>
+    <!-- TAB 2: SKENARIO KONTEKSTUAL -->
+    <div id="t2" class="tab-pane">
+      <!-- Scenario 1 -->
+      <div class="scen-card">
+        <div class="scen-hdr">
+          <div class="scen-icon">🛒</div>
+          <div class="scen-title">Skenario 1: Di Pasar Tradisional</div>
+        </div>
+        <div class="chat-wrap">
+          <div class="chat-msg">
+            <div class="chat-av av-p">P</div>
+            <div class="chat-bub">"Excuse me, how much is this spinach?"<button class="chat-play" onclick="speakLine(this, 'Excuse me, how much is this spinach?')">🔊</button></div>
+          </div>
+          <div class="chat-msg right">
+            <div class="chat-av av-s">V</div>
+            <div class="chat-bub">"It is three thousand rupiah a bunch."<button class="chat-play" onclick="speakLine(this, 'It is three thousand rupiah a bunch.')">🔊</button></div>
+          </div>
+        </div>
+        <div class="scen-hl"><strong>how much is this...</strong> = "berapa harga... ini?"</div>
+      </div>
+      <!-- Scenario 2 -->
+      <div class="scen-card">
+        <div class="scen-hdr">
+          <div class="scen-icon">🏥</div>
+          <div class="scen-title">Skenario 2: Di Puskesmas</div>
+        </div>
+        <div class="chat-wrap">
+          <div class="chat-msg">
+            <div class="chat-av av-p">N</div>
+            <div class="chat-bub">"What seems to be the problem?"<button class="chat-play" onclick="speakLine(this, 'What seems to be the problem?')">🔊</button></div>
+          </div>
+          <div class="chat-msg right">
+            <div class="chat-av av-b">Pa</div>
+            <div class="chat-bub">"I have a terrible headache since last night."<button class="chat-play" onclick="speakLine(this, 'I have a terrible headache since last night.')">🔊</button></div>
+          </div>
+        </div>
+        <div class="scen-hl"><strong>What seems to be the problem?</strong> = "Apa keluhannya?"</div>
+      </div>
+      <!-- Scenario 3 -->
+      <div class="scen-card">
+        <div class="scen-hdr">
+          <div class="scen-icon">🍛</div>
+          <div class="scen-title">Skenario 3: Di Warung Makan</div>
+        </div>
+        <div class="chat-wrap">
+          <div class="chat-msg">
+            <div class="chat-av av-r">C</div>
+            <div class="chat-bub">"Can I have a plate of fried rice, please?"<button class="chat-play" onclick="speakLine(this, 'Can I have a plate of fried rice, please?')">🔊</button></div>
+          </div>
+          <div class="chat-msg right">
+            <div class="chat-av av-s">O</div>
+            <div class="chat-bub">"Sure, do you want it spicy?"<button class="chat-play" onclick="speakLine(this, 'Sure, do you want it spicy?')">🔊</button></div>
+          </div>
+        </div>
+        <div class="scen-hl"><strong>Can I have...</strong> = "Bolehkah saya pesan/minta..."</div>
+      </div>
     </div>
+
+    <!-- TAB 3: ROLE-PLAY -->
+    <div id="t3" class="tab-pane">
+      <div class="card">
+        <div class="card-title"><span>🎭</span> Role-play: Berbelanja</div>
+        <div class="ex-instr">Kamu sedang berada di pasar. Jawablah sapaan penjual dengan memilih respons yang paling tepat!</div>
+        
+        <div id="rp-game-area">
+          <div class="rp-sys" id="rp-sys-msg">"Good morning! What can I help you with?"</div>
+          <div class="rp-opts" id="rp-opts-area">
+            <!-- Options will be injected here -->
+          </div>
+          <div class="rp-fb" id="rp-fb"></div>
+          <div class="score-disp show" style="margin-top:20px; box-shadow:none;"><div class="score-num-big" id="rp-score-txt">0/5</div><div class="score-lbl">Skor Ronde</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 4: CUSTOM NAMA -->
+    <div id="t4" class="tab-pane">
+      <div class="card">
+        <div class="card-title"><span>📝</span> Buat Dialog Sendiri</div>
+        <div class="ex-instr">Masukkan nama kamu dan temanmu untuk membuat skrip perkenalan diri otomatis.</div>
+        <div class="cn-form">
+          <input type="text" id="cn-n1" class="cn-input" placeholder="Nama Karakter 1 (Misal: Siti)">
+          <input type="text" id="cn-n2" class="cn-input" placeholder="Nama Karakter 2 (Misal: Agus)">
+          <button class="btn-p" onclick="generateCustomDialog()">Buat Dialog</button>
+        </div>
+        <div id="cn-output-area" class="cn-output">
+          <div class="scen-hdr">
+            <div class="scen-title">Dialog Perkenalan</div>
+          </div>
+          <div class="chat-wrap" id="cn-chat-wrap">
+            <!-- Dialog injected here -->
+          </div>
+          <button class="btn-s" onclick="window.print()" style="margin-top:16px;">🖨️ Cetak / Simpan PDF</button>
+        </div>
+      </div>
+    </div>
+
     <div class="page-nav">
-      <button class="bn bn-prev" onclick="prev()">← Latihan 3</button>
+      <button class="bn bn-prev" onclick="prev()">← Mulai Unit</button>
       <button class="bn bn-next u3" onclick="next()">Unit 3 →</button>
     </div>
   </div></div>
 </div>
 
+
+
+
+
+
+
+
+
 <!-- ══════════════════ 11: UNIT 3 — SEKAT ══════════════════ -->
-<div class="page" id="p11">
+<div class="page" id="p9">
   <div class="pw"><div class="s-wrap">
     <div class="s-tag u3">📰 Unit 3 · Mulai</div>
     <h2 class="s-title">Unit 3 — Membaca untuk Kehidupan Sehari-hari</h2>
@@ -698,165 +1176,228 @@
   </div></div>
 </div>
 
-<!-- ══════════════════ 12: UNIT 3 — TUJUAN ══════════════════ -->
-<div class="page" id="p12">
-  <div class="pw"><div class="s-wrap">
-    <div class="s-tag u3">📰 Unit 3 · Materi 1 dari 4</div>
-    <h2 class="s-title">Tujuan Pembelajaran</h2>
-    <div class="s-div u3"></div>
-    <div class="card">
-      <div class="card-title"><span>🎯</span> Tujuan Pembelajaran — Unit 3</div>
-      <ul class="obj-list">
-        <li><div class="obj-ck u3">✓</div><span>Memahami isi teks fungsional berbahasa Inggris yang ditemui dalam kehidupan sehari-hari</span></li>
-        <li><div class="obj-ck u3">✓</div><span>Mengidentifikasi informasi penting dari teks pendek</span></li>
-        <li><div class="obj-ck u3">✓</div><span>Menjawab pertanyaan pemahaman berdasarkan teks yang dibaca</span></li>
-      </ul>
+<!-- ══════════════════ 12: UNIT 3 — READING MODULE ══════════════════ -->
+<div class="page" id="p10">
+  <div class="pw" style="max-width:800px; padding: 24px 16px;"><div class="s-wrap">
+    
+    <div class="u3-head">
+      <div class="s-tag u3">📰 Unit 3 · Reading Interactive</div>
+      <h2 class="s-title" style="margin-bottom:8px;">Interactive Reading Module</h2>
+      <p style="color:var(--text-sub);font-size:0.95rem;margin-bottom:20px;">Pilih tab di bawah ini untuk belajar membaca teks fungsional, teks cerita, dan melatih pemahamanmu!</p>
     </div>
-    <div class="page-nav">
-      <button class="bn bn-prev" onclick="prev()">← Kembali</button>
-      <button class="bn bn-next u3" onclick="next()">Teks 1 →</button>
-    </div>
-  </div></div>
-</div>
 
-<!-- ══════════════════ 13: UNIT 3 — TEKS 1 ══════════════════ -->
-<div class="page" id="p13">
-  <div class="pw"><div class="s-wrap">
-    <div class="s-tag u3">📰 Unit 3 · Materi 2 dari 4</div>
-    <h2 class="s-title">Teks 1: Pengumuman</h2>
-    <div class="s-div u3"></div>
-    <div class="card">
-      <div class="card-title"><span>📋</span> Teks 1: Community Announcement</div>
-      <div class="notice-card">
-        <div class="notice-title">Community Announcement</div>
-        <p>Dear Residents of RW 05,</p>
-        <p>We would like to inform you that there will be a <strong>community clean-up activity</strong> this <strong>Sunday, June 8, 2026</strong>, starting at <strong>07.00 AM</strong>.</p>
-        <p>All residents are kindly requested to participate. Please bring your own cleaning tools such as <strong>brooms and trash bags</strong>.</p>
-        <p>After the clean-up, we will have a short meeting to discuss the <strong>community garden project</strong>.</p>
-        <p>Thank you for your cooperation.</p>
-        <div class="notice-foot">Best regards,<br><strong>The Neighborhood Committee</strong></div>
-      </div>
-      <div class="vocab-new-box">
-        <div class="vn-title">📖 Kosakata Baru</div>
-        <div class="vn-list">
-          <div class="vn-item"><strong>inform</strong> <span>= memberitahukan</span></div>
-          <div class="vn-item"><strong>residents</strong> <span>= warga/penghuni</span></div>
-          <div class="vn-item"><strong>participate</strong> <span>= ikut serta/berpartisipasi</span></div>
-          <div class="vn-item"><strong>cooperation</strong> <span>= kerja sama</span></div>
-          <div class="vn-item"><strong>committee</strong> <span>= panitia/pengurus</span></div>
+    <!-- TAB NAV -->
+    <div class="tab-nav u3-tabs">
+      <button class="tab-btn active" onclick="openU3Tab('u3t1', this)">1. Teks Fungsional</button>
+      <button class="tab-btn" onclick="openU3Tab('u3t2', this)">2. Baca Interaktif</button>
+      <button class="tab-btn" onclick="openU3Tab('u3t3', this)">3. Variasi Latihan</button>
+      <button class="tab-btn" onclick="openU3Tab('u3t4', this)">4. Kisah Inspiratif</button>
+    </div>
+
+    <div class="tab-container u3-container" style="background:#fff;border-radius:0 0 16px 16px;box-shadow:0 8px 30px rgba(0,0,0,0.06);padding:24px;min-height:500px;position:relative;">
+      
+      <!-- TAB 1: TEKS FUNGSIONAL -->
+      <div class="tab-pane show" id="u3t1">
+        <h3 class="tab-title" style="color:var(--unit3);margin-bottom:16px;">Teks Fungsional Sehari-hari</h3>
+        <p style="margin-bottom:24px;color:var(--text-sub);">Perhatikan 3 jenis teks fungsional di bawah ini dan jawablah pertanyaannya.</p>
+        
+        <div class="func-grid">
+          <!-- Text A: Receipt -->
+          <div class="func-item">
+            <div class="func-doc receipt-card">
+              <div class="rcpt-title">FRESH MART</div>
+              <div class="rcpt-sub">Jl. Kaliurang Km 5, Yogyakarta</div>
+              <div class="rcpt-sep">------------------------</div>
+              <div class="rcpt-row"><span>Milk 1L</span><span>Rp 18.000</span></div>
+              <div class="rcpt-row"><span>Bread</span><span>Rp 15.000</span></div>
+              <div class="rcpt-row"><span>Eggs (10)</span><span>Rp 22.000</span></div>
+              <div class="rcpt-sep">------------------------</div>
+              <div class="rcpt-row"><strong>TOTAL</strong><strong>Rp 55.000</strong></div>
+              <div class="rcpt-row"><span>CASH</span><span>Rp 100.000</span></div>
+              <div class="rcpt-row"><span>CHANGE</span><span>Rp 45.000</span></div>
+              <div class="rcpt-sub" style="margin-top:10px;">Thank You!</div>
+            </div>
+            <div class="func-qbox">
+              <div class="fq-title">Q1: How much is the change?</div>
+              <div class="mcq-opts u3-mcq">
+                <button class="mopt" onclick="chkU3MCQ('t1q1','Rp 18.000','Rp 45.000',this)"><span class="opt-m"></span>Rp 18.000</button>
+                <button class="mopt" onclick="chkU3MCQ('t1q1','Rp 45.000','Rp 45.000',this)"><span class="opt-m"></span>Rp 45.000</button>
+                <button class="mopt" onclick="chkU3MCQ('t1q1','Rp 55.000','Rp 45.000',this)"><span class="opt-m"></span>Rp 55.000</button>
+              </div>
+              <div class="u3-fb" id="fb-t1q1"></div>
+            </div>
+          </div>
+          
+          <!-- Text B: Nutrition -->
+          <div class="func-item">
+            <div class="func-doc nutrition-card">
+              <div class="nutri-title">Nutrition Facts</div>
+              <div class="nutri-sub">Serving Size 1 cup (228g)</div>
+              <div class="nutri-bar-thick"></div>
+              <div class="nutri-row"><strong>Calories</strong> 250</div>
+              <div class="nutri-bar-thin"></div>
+              <div class="nutri-row"><span>Total Fat 12g</span><strong>18%</strong></div>
+              <div class="nutri-row"><span>Sodium 470mg</span><strong>20%</strong></div>
+              <div class="nutri-row"><span>Total Carbs 31g</span><strong>10%</strong></div>
+              <div class="nutri-row"><span>Protein 5g</span></div>
+            </div>
+            <div class="func-qbox">
+              <div class="fq-title">Q2: How much protein is in 1 serving?</div>
+              <div class="mcq-opts u3-mcq">
+                <button class="mopt" onclick="chkU3MCQ('t1q2','12g','5g',this)"><span class="opt-m"></span>12g</button>
+                <button class="mopt" onclick="chkU3MCQ('t1q2','31g','5g',this)"><span class="opt-m"></span>31g</button>
+                <button class="mopt" onclick="chkU3MCQ('t1q2','5g','5g',this)"><span class="opt-m"></span>5g</button>
+              </div>
+              <div class="u3-fb" id="fb-t1q2"></div>
+            </div>
+          </div>
+
+          <!-- Text C: Bus Schedule -->
+          <div class="func-item">
+            <div class="func-doc bus-card">
+              <div class="bus-title">🚌 TRANS JOGJA SCHEDULE</div>
+              <table class="bus-table">
+                <tr><th>Route</th><th>Departure</th><th>Arrival</th></tr>
+                <tr><td>Malioboro</td><td>08:15 AM</td><td>09:00 AM</td></tr>
+                <tr><td>Prambanan</td><td>10:00 AM</td><td>11:30 AM</td></tr>
+                <tr><td>Jombor</td><td>01:45 PM</td><td>02:20 PM</td></tr>
+              </table>
+            </div>
+            <div class="func-qbox">
+              <div class="fq-title">Q3: What time does the bus to Prambanan depart?</div>
+              <div class="mcq-opts u3-mcq">
+                <button class="mopt" onclick="chkU3MCQ('t1q3','08:15 AM','10:00 AM',this)"><span class="opt-m"></span>08:15 AM</button>
+                <button class="mopt" onclick="chkU3MCQ('t1q3','10:00 AM','10:00 AM',this)"><span class="opt-m"></span>10:00 AM</button>
+                <button class="mopt" onclick="chkU3MCQ('t1q3','11:30 AM','10:00 AM',this)"><span class="opt-m"></span>11:30 AM</button>
+              </div>
+              <div class="u3-fb" id="fb-t1q3"></div>
+            </div>
+          </div>
+
         </div>
       </div>
-    </div>
-    <div class="page-nav">
-      <button class="bn bn-prev" onclick="prev()">← Tujuan</button>
-      <button class="bn bn-next u3" onclick="next()">Latihan 5 →</button>
-    </div>
-  </div></div>
-</div>
 
-<!-- ══════════════════ 14: UNIT 3 — LATIHAN 5 ══════════════════ -->
-<div class="page" id="p14">
-  <div class="pw"><div class="s-wrap">
-    <div class="s-tag u3">📰 Unit 3 · Materi 3 dari 4</div>
-    <h2 class="s-title">Latihan 5: Pertanyaan Teks 1</h2>
-    <div class="s-div u3"></div>
-    <div class="ex-card">
-      <div class="ex-label"><div class="ex-num u3">5</div>Latihan 5: Pertanyaan Pemahaman Teks 1</div>
-      <div class="ex-instr">Jawab pertanyaan berikut berdasarkan teks pengumuman yang sudah kamu baca.</div>
-      <div class="mcq-q"><div class="mcq-qn">Pertanyaan 1 dari 5</div><div class="mcq-qt">What is the announcement about?</div><div class="mcq-opts"><button class="mopt" onclick="chkM(5,1,'wrong',this)"><span class="opt-m"></span>A school holiday</button><button class="mopt" onclick="chkM(5,1,'correct',this)"><span class="opt-m"></span>A community clean-up activity</button><button class="mopt" onclick="chkM(5,1,'wrong',this)"><span class="opt-m"></span>A neighborhood election</button></div><div class="mfb" id="m51"></div></div>
-      <hr class="sep">
-      <div class="mcq-q"><div class="mcq-qn">Pertanyaan 2 dari 5</div><div class="mcq-qt">When will the activity take place?</div><div class="mcq-opts"><button class="mopt" onclick="chkM(5,2,'wrong',this)"><span class="opt-m"></span>Saturday, June 7</button><button class="mopt" onclick="chkM(5,2,'correct',this)"><span class="opt-m"></span>Sunday, June 8</button><button class="mopt" onclick="chkM(5,2,'wrong',this)"><span class="opt-m"></span>Monday, June 9</button></div><div class="mfb" id="m52"></div></div>
-      <hr class="sep">
-      <div class="mcq-q"><div class="mcq-qn">Pertanyaan 3 dari 5</div><div class="mcq-qt">What time does the activity start?</div><div class="mcq-opts"><button class="mopt" onclick="chkM(5,3,'wrong',this)"><span class="opt-m"></span>06.00 AM</button><button class="mopt" onclick="chkM(5,3,'correct',this)"><span class="opt-m"></span>07.00 AM</button><button class="mopt" onclick="chkM(5,3,'wrong',this)"><span class="opt-m"></span>08.00 AM</button></div><div class="mfb" id="m53"></div></div>
-      <hr class="sep">
-      <div class="mcq-q"><div class="mcq-qn">Pertanyaan 4 dari 5</div><div class="mcq-qt">What should residents bring?</div><div class="mcq-opts"><button class="mopt" onclick="chkM(5,4,'wrong',this)"><span class="opt-m"></span>Food and drinks</button><button class="mopt" onclick="chkM(5,4,'correct',this)"><span class="opt-m"></span>Cleaning tools like brooms and trash bags</button><button class="mopt" onclick="chkM(5,4,'wrong',this)"><span class="opt-m"></span>Tables and chairs</button></div><div class="mfb" id="m54"></div></div>
-      <hr class="sep">
-      <div class="mcq-q"><div class="mcq-qn">Pertanyaan 5 dari 5</div><div class="mcq-qt">What will happen after the clean-up?</div><div class="mcq-opts"><button class="mopt" onclick="chkM(5,5,'wrong',this)"><span class="opt-m"></span>A community dinner</button><button class="mopt" onclick="chkM(5,5,'correct',this)"><span class="opt-m"></span>A short meeting about the garden project</button><button class="mopt" onclick="chkM(5,5,'wrong',this)"><span class="opt-m"></span>A sports competition</button></div><div class="mfb" id="m55"></div></div>
-      <div class="score-disp" id="ex5-score"><div class="score-num-big" id="ex5-sn">0/5</div><div class="score-lbl">Skor Latihan 5</div></div>
-    </div>
-    <div class="page-nav">
-      <button class="bn bn-prev" onclick="prev()">← Teks 1</button>
-      <button class="bn bn-next u3" onclick="next()">Teks 2 →</button>
-    </div>
-  </div></div>
-</div>
-
-<!-- ══════════════════ 15: UNIT 3 — TEKS 2 ══════════════════ -->
-<div class="page" id="p15">
-  <div class="pw"><div class="s-wrap">
-    <div class="s-tag u3">📰 Unit 3 · Materi 4 dari 5</div>
-    <h2 class="s-title">Teks 2: My Daily Routine</h2>
-    <div class="s-div u3"></div>
-    <div class="card">
-      <div class="card-title"><span>📄</span> Teks 2: Teks Informasi Singkat</div>
-      <div class="article-card">
-        <div class="article-title">My Daily Routine</div>
-        <p>My name is Dewi. I am 32 years old and I live in Yogyakarta. I work at a small food stall near my house from Monday to Saturday.</p>
-        <p>Every morning, I wake up at four-thirty. I cook rice and prepare breakfast for my family before I go to work. I open the food stall at six o'clock.</p>
-        <p>At noon, I take a short break and eat lunch with my husband. In the evening, after closing the stall, I attend English classes at PKBM Tunas Mandiri. I study English because I want to communicate better with customers and improve my skills.</p>
-        <p>I believe that learning is important at any age. I am proud to keep studying even though I am busy every day.</p>
-      </div>
-      <div class="vocab-new-box">
-        <div class="vn-title">📖 Kosakata Baru</div>
-        <div class="vn-list">
-          <div class="vn-item"><strong>routine</strong> <span>= rutinitas</span></div>
-          <div class="vn-item"><strong>prepare</strong> <span>= menyiapkan</span></div>
-          <div class="vn-item"><strong>attend</strong> <span>= menghadiri/mengikuti</span></div>
-          <div class="vn-item"><strong>communicate</strong> <span>= berkomunikasi</span></div>
-          <div class="vn-item"><strong>improve</strong> <span>= meningkatkan</span></div>
-          <div class="vn-item"><strong>proud</strong> <span>= bangga</span></div>
+      <!-- TAB 2: INTERACTIVE READING -->
+      <div class="tab-pane" id="u3t2">
+        <h3 class="tab-title" style="color:var(--unit3);margin-bottom:8px;">My Daily Routine</h3>
+        <div class="instr-box" style="margin-bottom:16px;">💡 Klik setiap kata pada teks di bawah ini untuk melihat artinya. Kata dengan latar warna adalah kata-kata penting.</div>
+        <div class="int-text" id="int-text">
+          <!-- Populated by JS -->
         </div>
       </div>
+
+      <!-- TAB 3: VARIASI LATIHAN -->
+      <div class="tab-pane" id="u3t3">
+        <h3 class="tab-title" style="color:var(--unit3);margin-bottom:16px;">Pemahaman Teks: Pengumuman</h3>
+        <div class="notice-card" style="margin-bottom:24px;font-size:.9rem;padding:16px;background:#f8fafc;border-left:4px solid var(--unit3);">
+          <strong>Community Clean-up</strong><br>
+          Dear Residents, there will be a community clean-up this Sunday, June 8, 2026 at 07.00 AM. Please bring brooms and trash bags. We will discuss the garden project after the activity.
+        </div>
+
+        <div class="var-box">
+          <div class="var-title">A. True or False (Benar atau Salah)</div>
+          <div class="tf-item">
+            <span class="tf-stmt">1. The clean-up is on Monday.</span>
+            <div class="tf-btns">
+              <button class="btn-tf" onclick="chkTf(1,false,this)">True</button>
+              <button class="btn-tf" onclick="chkTf(1,true,this)">False</button>
+            </div>
+          </div>
+          <div class="tf-item">
+            <span class="tf-stmt">2. Residents should bring brooms.</span>
+            <div class="tf-btns">
+              <button class="btn-tf" onclick="chkTf(2,true,this)">True</button>
+              <button class="btn-tf" onclick="chkTf(2,false,this)">False</button>
+            </div>
+          </div>
+          <div class="tf-item">
+            <span class="tf-stmt">3. They will discuss a garden project.</span>
+            <div class="tf-btns">
+              <button class="btn-tf" onclick="chkTf(3,true,this)">True</button>
+              <button class="btn-tf" onclick="chkTf(3,false,this)">False</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="var-box">
+          <div class="var-title">B. Matching (Cocokkan)</div>
+          <p style="font-size:0.85rem;color:var(--text-sub);margin-bottom:8px;">Klik informasi di kiri, lalu klik pasangannya di kanan.</p>
+          <div class="match-grid" id="u3-match">
+            <div class="match-col">
+              <button class="mb u3-mb" onclick="selU3L('Time',this)">Time of event</button>
+              <button class="mb u3-mb" onclick="selU3L('Date',this)">Date of event</button>
+              <button class="mb u3-mb" onclick="selU3L('Tools',this)">What to bring</button>
+            </div>
+            <div class="match-col">
+              <button class="mb u3-mb" onclick="selU3R('Date',this)">Sunday, June 8</button>
+              <button class="mb u3-mb" onclick="selU3R('Tools',this)">Brooms and trash bags</button>
+              <button class="mb u3-mb" onclick="selU3R('Time',this)">07.00 AM</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="var-box">
+          <div class="var-title">C. Fill in the Blanks</div>
+          <div class="fill-item">1. Please <span class="f-drop" id="u3f1" onclick="dropU3F(1)">_____</span> your own cleaning tools.</div>
+          <div class="fill-item">2. We will have a <span class="f-drop" id="u3f2" onclick="dropU3F(2)">_____</span> meeting.</div>
+          <div class="f-chips" id="u3-f-chips">
+            <button class="f-chip" onclick="selU3F('short',this)">short</button>
+            <button class="f-chip" onclick="selU3F('bring',this)">bring</button>
+            <button class="f-chip" onclick="selU3F('eat',this)">eat</button>
+          </div>
+        </div>
+        
+      </div>
+
+      <!-- TAB 4: ALUMNI STORY -->
+      <div class="tab-pane" id="u3t4">
+        <h3 class="tab-title" style="color:var(--unit3);margin-bottom:16px;">Kisah Inspiratif: Sari's Success</h3>
+        <div class="story-card">
+          <div class="story-avatar">
+            <svg viewBox="0 0 100 100" fill="none"><circle cx="50" cy="50" r="50" fill="#fbcfe8"/><circle cx="50" cy="35" r="18" fill="#be185d"/><path d="M20 100 Q 50 60 80 100" fill="#be185d"/></svg>
+          </div>
+          <div class="story-content">
+            <p>Sari is a 38-year-old woman. She used to work as a factory worker. Now, she has a small souvenir shop in Malioboro. Sari learned English at PKBM Tunas Mandiri. At first, she thought English was very difficult. She could not understand what foreign tourists said. However, she practiced every day with her friends and teachers.</p>
+            <p>Today, Sari can serve customers from other countries easily. She can explain the price, the materials of the souvenirs, and give directions. Her business is growing because tourists feel comfortable buying from her. Sari says, "Learning English opens new doors for my life."</p>
+          </div>
+        </div>
+        <div class="vocab-inline">
+          <strong>Kosakata:</strong> <em>factory worker</em> (buruh pabrik), <em>foreign tourists</em> (turis asing), <em>serve</em> (melayani), <em>materials</em> (bahan), <em>directions</em> (arah).
+        </div>
+        <div class="var-box" style="margin-top:20px;border:none;padding:0;">
+          <div class="var-title">Soal Pemahaman</div>
+          <div class="mcq-q"><div class="mcq-qt" style="font-size:.9rem;">1. Where does Sari have her shop?</div><div class="mcq-opts u3-mcq"><button class="mopt" onclick="chkU3S('s1','In Malioboro',true,this)"><span class="opt-m"></span>In Malioboro</button><button class="mopt" onclick="chkU3S('s1','In a factory',false,this)"><span class="opt-m"></span>In a factory</button></div><div class="u3-fb" id="fbs1"></div></div>
+          <div class="mcq-q"><div class="mcq-qt" style="font-size:.9rem;">2. What did she think about English at first?</div><div class="mcq-opts u3-mcq"><button class="mopt" onclick="chkU3S('s2','Very easy',false,this)"><span class="opt-m"></span>Very easy</button><button class="mopt" onclick="chkU3S('s2','Very difficult',true,this)"><span class="opt-m"></span>Very difficult</button></div><div class="u3-fb" id="fbs2"></div></div>
+          <div class="mcq-q"><div class="mcq-qt" style="font-size:.9rem;">3. Who did she practice English with?</div><div class="mcq-opts u3-mcq"><button class="mopt" onclick="chkU3S('s3','Her friends and teachers',true,this)"><span class="opt-m"></span>Her friends and teachers</button><button class="mopt" onclick="chkU3S('s3','Tourists only',false,this)"><span class="opt-m"></span>Tourists only</button></div><div class="u3-fb" id="fbs3"></div></div>
+          <div class="mcq-q"><div class="mcq-qt" style="font-size:.9rem;">4. Why is her business growing?</div><div class="mcq-opts u3-mcq"><button class="mopt" onclick="chkU3S('s4','She sells cheap items',false,this)"><span class="opt-m"></span>She sells cheap items</button><button class="mopt" onclick="chkU3S('s4','Tourists feel comfortable',true,this)"><span class="opt-m"></span>Tourists feel comfortable</button></div><div class="u3-fb" id="fbs4"></div></div>
+          <div class="mcq-q"><div class="mcq-qt" style="font-size:.9rem;">5. What does learning English do for her life?</div><div class="mcq-opts u3-mcq"><button class="mopt" onclick="chkU3S('s5','Makes her tired',false,this)"><span class="opt-m"></span>Makes her tired</button><button class="mopt" onclick="chkU3S('s5','Opens new doors',true,this)"><span class="opt-m"></span>Opens new doors</button></div><div class="u3-fb" id="fbs5"></div></div>
+        </div>
+      </div>
+
     </div>
-    <div class="page-nav">
-      <button class="bn bn-prev" onclick="prev()">← Latihan 5</button>
-      <button class="bn bn-next u3" onclick="next()">Latihan 6 →</button>
+
+    <div class="page-nav" style="margin-top:24px;">
+      <button class="bn bn-prev" onclick="prev()">← Pengantar</button>
+      <button class="bn bn-next u3" onclick="next()">Lihat Nilai Akhir 🏆</button>
     </div>
   </div></div>
 </div>
 
-<!-- ══════════════════ 16: UNIT 3 — LATIHAN 6 ══════════════════ -->
-<div class="page" id="p16">
-  <div class="pw"><div class="s-wrap">
-    <div class="s-tag u3">📰 Unit 3 · Materi 5 dari 5</div>
-    <h2 class="s-title">Latihan 6: Pertanyaan Teks 2</h2>
-    <div class="s-div u3"></div>
-    <div class="ex-card">
-      <div class="ex-label"><div class="ex-num u3">6</div>Latihan 6: Pertanyaan Pemahaman Teks 2</div>
-      <div class="ex-instr">Jawab pertanyaan berikut berdasarkan teks "My Daily Routine" yang sudah kamu baca.</div>
-      <div class="mcq-q"><div class="mcq-qn">Pertanyaan 1 dari 5</div><div class="mcq-qt">What is Dewi's job?</div><div class="mcq-opts"><button class="mopt" onclick="chkM(6,1,'wrong',this)"><span class="opt-m"></span>A teacher</button><button class="mopt" onclick="chkM(6,1,'correct',this)"><span class="opt-m"></span>A food stall worker</button><button class="mopt" onclick="chkM(6,1,'wrong',this)"><span class="opt-m"></span>A market vendor</button></div><div class="mfb" id="m61"></div></div>
-      <hr class="sep">
-      <div class="mcq-q"><div class="mcq-qn">Pertanyaan 2 dari 5</div><div class="mcq-qt">What time does Dewi wake up every morning?</div><div class="mcq-opts"><button class="mopt" onclick="chkM(6,2,'wrong',this)"><span class="opt-m"></span>Four o'clock</button><button class="mopt" onclick="chkM(6,2,'correct',this)"><span class="opt-m"></span>Four-thirty</button><button class="mopt" onclick="chkM(6,2,'wrong',this)"><span class="opt-m"></span>Five o'clock</button></div><div class="mfb" id="m62"></div></div>
-      <hr class="sep">
-      <div class="mcq-q"><div class="mcq-qn">Pertanyaan 3 dari 5</div><div class="mcq-qt">What does Dewi do before going to work?</div><div class="mcq-opts"><button class="mopt" onclick="chkM(6,3,'wrong',this)"><span class="opt-m"></span>She exercises and takes a shower</button><button class="mopt" onclick="chkM(6,3,'correct',this)"><span class="opt-m"></span>She cooks rice and prepares breakfast</button><button class="mopt" onclick="chkM(6,3,'wrong',this)"><span class="opt-m"></span>She reads the newspaper</button></div><div class="mfb" id="m63"></div></div>
-      <hr class="sep">
-      <div class="mcq-q"><div class="mcq-qn">Pertanyaan 4 dari 5</div><div class="mcq-qt">Why does Dewi study English?</div><div class="mcq-opts"><button class="mopt" onclick="chkM(6,4,'wrong',this)"><span class="opt-m"></span>Because her boss requires it</button><button class="mopt" onclick="chkM(6,4,'correct',this)"><span class="opt-m"></span>Because she wants to communicate better and improve her skills</button><button class="mopt" onclick="chkM(6,4,'wrong',this)"><span class="opt-m"></span>Because her children ask her to</button></div><div class="mfb" id="m64"></div></div>
-      <hr class="sep">
-      <div class="mcq-q"><div class="mcq-qn">Pertanyaan 5 dari 5</div><div class="mcq-qt">What does the text tell us about Dewi's attitude toward learning?</div><div class="mcq-opts"><button class="mopt" onclick="chkM(6,5,'wrong',this)"><span class="opt-m"></span>She thinks learning is only for young people</button><button class="mopt" onclick="chkM(6,5,'correct',this)"><span class="opt-m"></span>She believes learning is important at any age</button><button class="mopt" onclick="chkM(6,5,'wrong',this)"><span class="opt-m"></span>She finds studying too difficult</button></div><div class="mfb" id="m65"></div></div>
-      <div class="score-disp" id="ex6-score"><div class="score-num-big" id="ex6-sn">0/5</div><div class="score-lbl">Skor Latihan 6</div></div>
-    </div>
-    <div class="page-nav">
-      <button class="bn bn-prev" onclick="prev()">← Teks 2</button>
-      <button class="bn bn-next" onclick="next()">Lihat Nilai Akhir 🏆</button>
-    </div>
-  </div></div>
-</div>
-
-<!-- ══════════════════ 17: FINAL SCORE ══════════════════ -->
-<div class="page" id="p17">
+<!-- ══════════════════ 13: FINAL SCORE ══════════════════ -->
+<div class="page" id="p11">
   <div class="pw"><div class="s-wrap">
     <div class="final-card">
       <h2 class="f-title">🏆 Hasil Belajarmu</h2>
       <p class="f-sub">Kamu telah menyelesaikan semua latihan! Berikut adalah ringkasan nilaimu.</p>
       <div class="sc-break">
-        <div class="sc-row"><span class="sc-rl">📖 Unit 1 — Vocabulary (Latihan 1 + 2)</span><span class="sc-rv" id="fu1">0 / 10</span></div>
-        <div class="sc-row"><span class="sc-rl">💬 Unit 2 — Speaking (Latihan 3 + 4)</span><span class="sc-rv" id="fu2">0 / 9</span></div>
-        <div class="sc-row"><span class="sc-rl">📰 Unit 3 — Reading (Latihan 5 + 6)</span><span class="sc-rv" id="fu3">0 / 10</span></div>
+        <div class="sc-row"><span class="sc-rl">📖 Unit 1 — Vocabulary</span><span class="sc-rv" id="fu1">0 / 10</span></div>
+        <div class="sc-row"><span class="sc-rl">💬 Unit 2 — Speaking</span><span class="sc-rv" id="fu2">0 / 5</span></div>
+        <div class="sc-row"><span class="sc-rl">📰 Unit 3 — Reading</span><span class="sc-rv" id="fu3">0 / 16</span></div>
       </div>
       <div class="sc-total-wrap">
         <div class="sc-total-num" id="ftotal">0</div>
         <div class="sc-total-lbl">Total Skor</div>
-        <div class="sc-pct" id="fpct">0% dari 29 poin</div>
+        <div class="sc-pct" id="fpct">0% dari 31 poin</div>
       </div>
       <div class="motiv-msg" id="motiv">Selesaikan semua latihan untuk melihat pesanmu di sini! 🌟</div>
       <div class="f-actions">
@@ -865,7 +1406,7 @@
       </div>
     </div>
     <div class="page-nav">
-      <button class="bn bn-prev" onclick="prev()">← Latihan 6</button>
+      <button class="bn bn-prev" onclick="prev()">← Unit 3 Reading</button>
       <div></div>
     </div>
   </div></div>
@@ -883,7 +1424,7 @@
 'use strict';
 
 /* ── PAGE SYSTEM ── */
-const TOTAL = 17; // 0..17
+const TOTAL = 11; // 0..11
 let cur = 0;
 
 const PAGE_META = [
@@ -892,18 +1433,12 @@ const PAGE_META = [
   { label: 'Unit 1 · Daftar Kosakata' },
   { label: 'Unit 1 · Latihan 1: Cocokkan Kata' },
   { label: 'Unit 1 · Latihan 2: Lengkapi Kalimat' },
+  { label: 'Unit 1 · Latihan 3: Flashcards' },
+  { label: 'Unit 1 · Latihan 4: Anagram' },
   { label: 'Unit 2 · Pengantar' },
-  { label: 'Unit 2 · Tujuan Pembelajaran' },
-  { label: 'Unit 2 · Ekspresi yang Berguna' },
-  { label: 'Unit 2 · Contoh Percakapan' },
-  { label: 'Unit 2 · Latihan 3: Susun Percakapan' },
-  { label: 'Unit 2 · Latihan 4: Lengkapi Percakapan' },
+  { label: 'Unit 2 · Speaking & Percakapan' },
   { label: 'Unit 3 · Pengantar' },
-  { label: 'Unit 3 · Tujuan Pembelajaran' },
-  { label: 'Unit 3 · Teks 1: Pengumuman' },
-  { label: 'Unit 3 · Latihan 5: Pertanyaan Teks 1' },
-  { label: 'Unit 3 · Teks 2: My Daily Routine' },
-  { label: 'Unit 3 · Latihan 6: Pertanyaan Teks 2' },
+  { label: 'Unit 3 · Reading Module' },
   { label: 'Nilai Akhir 🏆' },
 ];
 
@@ -960,7 +1495,7 @@ function updateUI() {
 }
 
 /* ── SCORE STATE ── */
-const SC = { ex1:0,ex1d:false, ex2:0,ex2c:0, ex3:0,ex3d:false,ex3att:0, ex4:0,ex4c:0, ex5:0,ex5c:0, ex6:0,ex6c:0 };
+const SC = { ex1:0,ex1d:false, ex2:0,ex2c:0, ex3:0,ex3d:false,ex3att:0, ex4:0,ex4c:0, u3:0 };
 
 const MATCH_ANS = { Work:'Bekerja', Buy:'Membeli', Family:'Keluarga', Tired:'Lelah', Neighbor:'Tetangga' };
 
@@ -997,56 +1532,138 @@ function chkF(n,ch,cor,el){
   if(SC.ex2c===5){ showSc('ex2',SC.ex2+'/5'); if(SC.ex2===5) confetti(); updateFinal(); }
 }
 
-/* ── EX3 ARRANGE ── */
-const CORR=['A','B','C','D','E','F'];
-let arrSeq=[];
-const arrLbls={ A:'"Good morning! How are you?"', B:'"I\'m fine, thank you. What about you?"', C:'"I\'m good too. Can you help me find the market?"', D:'"Of course! The market is not far from here."', E:'"Thank you so much! You are very kind."', F:'"You\'re welcome. Have a great day!"' };
+/* ── UNIT 2 TAB & SPEAKING ── */
+function openU2Tab(tabId, btnEl) {
+  document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+  document.querySelectorAll('.tab-pane').forEach(pane => pane.classList.remove('show'));
+  btnEl.classList.add('active');
+  document.getElementById(tabId).classList.add('show');
+  
+  if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+  if (tabId === 't3' && rpRound === 0) startRP();
+}
 
-function pickA(l,el){
-  if(SC.ex3d) return;
-  document.getElementById('arr-ph')?.remove();
-  arrSeq.push(l); el.classList.add('used'); el.disabled=true;
-  const it=document.createElement('div'); it.className='seq-i'; it.id='si-'+l;
-  it.innerHTML=`<span><strong>${l}.</strong> ${arrLbls[l]}</span><button class="rm" onclick="rmA('${l}')">✕</button>`;
-  document.getElementById('arr-seq').appendChild(it);
-}
-function rmA(l){
-  if(SC.ex3d) return;
-  const i=arrSeq.indexOf(l); if(i>-1) arrSeq.splice(i,1);
-  document.getElementById('si-'+l)?.remove();
-  const b=document.getElementById('ab-'+l); if(b){ b.classList.remove('used'); b.disabled=false; }
-  if(!arrSeq.length) document.getElementById('arr-seq').innerHTML='<span style="font-size:.76rem;color:var(--text-sub);font-style:italic;" id="arr-ph">Klik kalimat di atas untuk menyusunnya di sini...</span>';
-}
-function chkA(){
-  const fb=document.getElementById('ex3-fb');
-  if(arrSeq.length<6){ fb.textContent='⚠️ Susun semua 6 kalimat terlebih dahulu!'; fb.className='fb err'; return; }
-  if(arrSeq.join('')===CORR.join('')){
-    fb.textContent='✅ Luar biasa! Urutan percakapanmu sudah benar!'; fb.className='fb ok';
-    SC.ex3=6; SC.ex3d=true; showSc('ex3','6/6'); confetti(); updateFinal();
-    document.querySelectorAll('.arr-btn').forEach(b=>b.disabled=true);
-  } else {
-    SC.ex3att++;
-    fb.textContent=`❌ Urutan belum tepat. Coba lagi! (Percobaan ke-${SC.ex3att})`; fb.className='fb err';
-    if(SC.ex3att>=2){ document.getElementById('cor-rev').classList.add('show'); SC.ex3=0; SC.ex3d=true; showSc('ex3','0/6'); updateFinal(); document.querySelectorAll('.arr-btn').forEach(b=>b.disabled=true); }
+function speakLine(btn, text) {
+  if (!('speechSynthesis' in window)) {
+    alert("Maaf, browser Anda tidak mendukung fitur suara.");
+    return;
   }
-}
-function rstA(){
-  if(SC.ex3d) return;
-  arrSeq=[]; document.getElementById('arr-seq').innerHTML='<span style="font-size:.76rem;color:var(--text-sub);font-style:italic;" id="arr-ph">Klik kalimat di atas untuk menyusunnya di sini...</span>';
-  document.querySelectorAll('.arr-btn').forEach(b=>{ b.classList.remove('used'); b.disabled=false; });
-  document.getElementById('ex3-fb').className='fb';
+  window.speechSynthesis.cancel();
+  
+  const originalHtml = btn.innerHTML;
+  btn.innerHTML = '🔊...';
+  
+  const utterance = new SpeechSynthesisUtterance(text);
+  utterance.lang = 'en-US';
+  utterance.rate = 0.9;
+  
+  utterance.onend = () => { btn.innerHTML = originalHtml; };
+  utterance.onerror = () => { btn.innerHTML = originalHtml; };
+  
+  window.speechSynthesis.speak(utterance);
 }
 
-/* ── EX4 DIALOGUE ── */
-const DLG_COR={ 1:"I'm fine, thank you!", 2:"Of course! I'm happy to help.", 3:"You're welcome!" };
-function chkD(n,res,el){
-  const c=el.closest('.dc-opts'); if(c.querySelector('.correct,.wrong')) return;
-  const fb=document.getElementById('dfb'+n);
-  if(res==='correct'){ el.classList.add('correct'); fb.textContent='✅ Tepat sekali!'; fb.className='mfb ok'; SC.ex4++; }
-  else{ el.classList.add('wrong'); c.querySelectorAll('.dopt').forEach(b=>{ if(b.textContent.includes(DLG_COR[n])) b.classList.add('correct'); }); fb.textContent='❌ Kurang tepat. Perhatikan konteksnya!'; fb.className='mfb err'; }
-  c.querySelectorAll('.dopt').forEach(b=>b.disabled=true);
-  SC.ex4c++;
-  if(SC.ex4c===3){ showSc('ex4',SC.ex4+'/3'); if(SC.ex4===3) confetti(); updateFinal(); }
+/* ── UNIT 2 ROLE-PLAY GAME ── */
+let rpRound = 0;
+let rpScore = 0;
+const rpData = [
+  { sys: '"Good morning! What can I help you with?"', opts: [{ t: '"I am looking for fresh fish."', c: true }, { t: '"I am a student."', c: false }, { t: '"Good night."', c: false }], corTxt: 'I am looking for fresh fish.' },
+  { sys: '"How much do you want?"', opts: [{ t: '"I live here."', c: false }, { t: '"One kilogram, please."', c: true }, { t: '"Thank you."', c: false }], corTxt: 'One kilogram, please.' },
+  { sys: '"Here is your fish. Anything else?"', opts: [{ t: '"No, that is all. How much is it?"', c: true }, { t: '"Yes, I like fish."', c: false }, { t: '"I want to sleep."', c: false }], corTxt: 'No, that is all. How much is it?' },
+  { sys: '"It is forty thousand rupiah."', opts: [{ t: '"Here is the money. Keep the change."', c: true }, { t: '"It is a cat."', c: false }, { t: '"I don\'t know."', c: false }], corTxt: 'Here is the money. Keep the change.' },
+  { sys: '"Thank you! Have a nice day!"', opts: [{ t: '"No, I am tired."', c: false }, { t: '"Yes, I have a car."', c: false }, { t: '"You too! Goodbye!"', c: true }], corTxt: 'You too! Goodbye!' }
+];
+
+function startRP() {
+  rpRound = 0;
+  rpScore = 0;
+  document.getElementById('rp-score-txt').textContent = '0/5';
+  document.getElementById('rp-fb').style.display = 'none';
+  loadRP();
+}
+
+function loadRP() {
+  if (rpRound >= rpData.length) {
+    document.getElementById('rp-sys-msg').textContent = "🎉 Role-play Selesai!";
+    document.getElementById('rp-opts-area').innerHTML = `<button class="btn-p" onclick="startRP()">Ulangi Role-play</button>`;
+    
+    SC.ex3 = rpScore;
+    showSc('ex3', rpScore + '/5');
+    if (rpScore === 5) confetti();
+    updateFinal();
+    return;
+  }
+  
+  const rd = rpData[rpRound];
+  document.getElementById('rp-sys-msg').textContent = rd.sys;
+  
+  let html = '';
+  const opts = [...rd.opts].sort(() => Math.random() - 0.5);
+  opts.forEach((o, i) => {
+    html += `<button class="rp-opt" onclick="checkRP(${i}, ${o.c}, '${rd.corTxt}')">${o.t}</button>`;
+  });
+  
+  document.getElementById('rp-opts-area').innerHTML = html;
+  document.getElementById('rp-fb').style.display = 'none';
+}
+
+function checkRP(idx, isCorrect, corTxt) {
+  const opts = document.querySelectorAll('.rp-opt');
+  opts.forEach(o => o.disabled = true);
+  
+  const fb = document.getElementById('rp-fb');
+  fb.style.display = 'block';
+  
+  if (isCorrect) {
+    opts[idx].classList.add('correct');
+    fb.innerHTML = '✅ Bagus sekali! Respons yang tepat.';
+    fb.style.color = 'var(--correct)';
+    rpScore++;
+  } else {
+    opts[idx].classList.add('wrong');
+    opts.forEach(o => { if(o.textContent === `"${corTxt}"`) o.classList.add('correct'); });
+    fb.innerHTML = '❌ Kurang tepat. Coba perhatikan lagi!';
+    fb.style.color = 'var(--wrong)';
+  }
+  
+  document.getElementById('rp-score-txt').textContent = `${rpScore}/5`;
+  
+  setTimeout(() => {
+    rpRound++;
+    loadRP();
+  }, 2500);
+}
+
+/* ── UNIT 2 CUSTOM DIALOG ── */
+function generateCustomDialog() {
+  const n1 = document.getElementById('cn-n1').value.trim() || 'Rini';
+  const n2 = document.getElementById('cn-n2').value.trim() || 'Budi';
+  
+  const html = `
+    <div class="chat-msg">
+      <div class="chat-av av-r">${n1.charAt(0).toUpperCase()}</div>
+      <div class="chat-bub">"Hello! My name is ${n1}. What is your name?"</div>
+    </div>
+    <div class="chat-msg right">
+      <div class="chat-av av-b">${n2.charAt(0).toUpperCase()}</div>
+      <div class="chat-bub">"Hi ${n1}! I am ${n2}. Nice to meet you."</div>
+    </div>
+    <div class="chat-msg">
+      <div class="chat-av av-r">${n1.charAt(0).toUpperCase()}</div>
+      <div class="chat-bub">"Nice to meet you too, ${n2}. Where do you live?"</div>
+    </div>
+    <div class="chat-msg right">
+      <div class="chat-av av-b">${n2.charAt(0).toUpperCase()}</div>
+      <div class="chat-bub">"I live in Yogyakarta. How about you?"</div>
+    </div>
+    <div class="chat-msg">
+      <div class="chat-av av-r">${n1.charAt(0).toUpperCase()}</div>
+      <div class="chat-bub">"I live in Sleman. See you around, ${n2}!"</div>
+    </div>
+  `;
+  
+  document.getElementById('cn-chat-wrap').innerHTML = html;
+  document.getElementById('cn-output-area').style.display = 'block';
 }
 
 /* ── EX5 & EX6 MCQ ── */
@@ -1068,14 +1685,169 @@ function showSc(id,txt){
   sd.classList.add('show');
 }
 
+/* ── UNIT 3 JS LOGIC ── */
+function openU3Tab(tabId, btn) {
+  document.querySelectorAll('.u3-tabs .tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.u3-container .tab-pane').forEach(p => p.classList.remove('show'));
+  btn.classList.add('active');
+  document.getElementById(tabId).classList.add('show');
+}
+
+function chkU3MCQ(qid, ans, correct, btn) {
+  const container = btn.parentElement;
+  container.querySelectorAll('.mopt').forEach(b => {
+    b.disabled = true;
+    if (b === btn) {
+      if (ans === correct) {
+        b.classList.add('correct');
+        SC.u3 += 1;
+      } else {
+        b.classList.add('wrong');
+      }
+    } else if (b.getAttribute('onclick')?.includes(`'${correct}'`)) {
+      b.classList.add('correct');
+    }
+  });
+  const fb = document.getElementById('fb-' + qid);
+  fb.classList.add('show', ans === correct ? 'ok' : 'err');
+  fb.textContent = ans === correct ? '✅ Benar!' : '❌ Salah. Jawaban yang benar adalah: ' + correct;
+  updateFinal();
+}
+
+const u3Text = "My name is Dewi. I am 32 years old and I live in Yogyakarta. I work at a small food stall near my house from Monday to Saturday. Every morning, I wake up at four-thirty. I cook rice and prepare breakfast for my family before I go to work. I open the food stall at six o'clock. At noon, I take a short break and eat lunch with my husband. In the evening, after closing the stall, I attend English classes at PKBM Tunas Mandiri. I study English because I want to communicate better with customers and improve my skills. I believe that learning is important at any age. I am proud to keep studying even though I am busy every day.";
+const u3Dict = {
+  'food': { mean: 'makanan', ex: 'I eat healthy food.' },
+  'stall': { mean: 'kios/warung', ex: 'He sells coffee at his stall.' },
+  'morning': { mean: 'pagi hari', ex: 'Good morning!' },
+  'wake': { mean: 'bangun', ex: 'I wake up early.' },
+  'prepare': { mean: 'menyiapkan', ex: 'She prepares the tools.' },
+  'breakfast': { mean: 'sarapan', ex: 'We have breakfast at 7 AM.' },
+  'noon': { mean: 'siang hari', ex: 'The meeting is at noon.' },
+  'break': { mean: 'istirahat', ex: 'Take a short break.' },
+  'attend': { mean: 'menghadiri/mengikuti', ex: 'I attend the class.' },
+  'communicate': { mean: 'berkomunikasi', ex: 'We communicate well.' },
+  'customers': { mean: 'pelanggan', ex: 'The customers are happy.' },
+  'improve': { mean: 'meningkatkan', ex: 'Improve your English skills.' },
+  'skills': { mean: 'keterampilan', ex: 'Reading is a good skill.' },
+  'believe': { mean: 'percaya', ex: 'I believe in you.' },
+  'proud': { mean: 'bangga', ex: 'I am proud of my family.' }
+};
+
+function renderU3Text() {
+  const container = document.getElementById('int-text');
+  if(!container) return;
+  const words = u3Text.split(' ');
+  let html = '';
+  words.forEach(w => {
+    const cleanWord = w.replace(/[.,]/g, '').toLowerCase();
+    const isHard = u3Dict[cleanWord] ? 'hard' : '';
+    html += `<span class="int-word ${isHard}" onclick="showU3Tooltip('${cleanWord}', this)">${w}</span> `;
+  });
+  html += `<div class="tooltip-u3" id="u3-tt"><div class="tt-word" id="u3-tt-w"></div><div class="tt-mean" id="u3-tt-m"></div><div class="tt-ex" id="u3-tt-e"></div></div>`;
+  container.innerHTML = html;
+}
+
+let activeU3Word = null;
+function showU3Tooltip(word, el) {
+  if (activeU3Word) activeU3Word.classList.remove('active');
+  activeU3Word = el;
+  el.classList.add('active');
+  const tt = document.getElementById('u3-tt');
+  const entry = u3Dict[word];
+  if (entry) {
+    document.getElementById('u3-tt-w').textContent = word;
+    document.getElementById('u3-tt-m').textContent = entry.mean;
+    document.getElementById('u3-tt-e').textContent = `"${entry.ex}"`;
+  } else {
+    document.getElementById('u3-tt-w').textContent = word;
+    document.getElementById('u3-tt-m').textContent = 'Kosakata umum';
+    document.getElementById('u3-tt-e').textContent = '';
+  }
+  tt.classList.add('show');
+  tt.style.top = (el.offsetTop + el.offsetHeight) + 'px';
+  tt.style.left = el.offsetLeft + 'px';
+}
+document.addEventListener('click', function(e) {
+  if (!e.target.classList.contains('int-word') && document.getElementById('u3-tt')) {
+    document.getElementById('u3-tt').classList.remove('show');
+    if (activeU3Word) activeU3Word.classList.remove('active');
+  }
+});
+
+function chkTf(n, ans, btn) {
+  const btns = btn.parentElement.querySelectorAll('.btn-tf');
+  btns.forEach(b => b.disabled = true);
+  if (ans === true) { btn.classList.add('correct'); SC.u3 += 1; }
+  else { btn.classList.add('wrong'); }
+  updateFinal();
+}
+
+let u3mL = null, u3mEl = null;
+const U3_MATCH = { Time:'07.00 AM', Date:'Sunday, June 8', Tools:'Brooms and trash bags' };
+function selU3L(key, el) {
+  if (el.classList.contains('matched')) return;
+  document.querySelectorAll('#u3-match .match-col:first-child .mb').forEach(b => b.classList.remove('selected'));
+  u3mL = key; u3mEl = el; el.classList.add('selected');
+}
+function selU3R(key, el) {
+  if (el.classList.contains('matched') || !u3mL) return;
+  if (U3_MATCH[u3mL] === el.textContent) {
+    u3mEl.classList.remove('selected'); u3mEl.classList.add('matched'); el.classList.add('matched'); SC.u3 += 1; updateFinal();
+  } else {
+    u3mEl.classList.remove('selected');
+    const oldBg = el.style.background; el.style.background = '#fef2f2'; el.style.borderColor = '#ef4444';
+    setTimeout(() => { el.style.background = oldBg; el.style.borderColor = 'var(--unit3)'; }, 500);
+  }
+  u3mL = null; u3mEl = null;
+}
+
+let activeFChip = null;
+const F_ANS = { 1: 'bring', 2: 'short' };
+function selU3F(val, el) {
+  if (el.classList.contains('used')) return;
+  document.querySelectorAll('.f-chip').forEach(c => c.style.borderColor = '#cbd5e1');
+  el.style.borderColor = 'var(--unit3)'; activeFChip = el;
+}
+function dropU3F(n) {
+  if (!activeFChip) return;
+  const drop = document.getElementById('u3f' + n);
+  if (drop.classList.contains('filled')) return;
+  const val = activeFChip.textContent;
+  drop.textContent = val; drop.classList.add('filled');
+  activeFChip.classList.add('used'); activeFChip.style.borderColor = '#cbd5e1'; activeFChip = null;
+  if (val === F_ANS[n]) { drop.classList.add('correct'); SC.u3 += 1; }
+  else { drop.classList.add('wrong'); }
+  updateFinal();
+}
+
+function chkU3S(qid, ans, isCorrect, btn) {
+  const container = btn.parentElement;
+  container.querySelectorAll('.mopt').forEach(b => {
+    b.disabled = true;
+    if (b === btn) {
+      if (isCorrect) { b.classList.add('correct'); SC.u3 += 1; }
+      else { b.classList.add('wrong'); }
+    } else if (b.getAttribute('onclick')?.includes('true')) {
+      b.classList.add('correct');
+    }
+  });
+  const fb = document.getElementById('fb' + qid);
+  fb.classList.add('show', isCorrect ? 'ok' : 'err');
+  fb.textContent = isCorrect ? '✅ Benar!' : '❌ Salah.';
+  updateFinal();
+}
+
+document.addEventListener('DOMContentLoaded', renderU3Text);
+setTimeout(renderU3Text, 500); // Fallback if already loaded
+
 function updateFinal(){
-  const u1=SC.ex1+SC.ex2, u2=SC.ex3+SC.ex4, u3=SC.ex5+SC.ex6;
-  const tot=u1+u2+u3, pct=Math.round(tot/29*100);
-  document.getElementById('fu1').textContent=u1+' / 10';
-  document.getElementById('fu2').textContent=u2+' / 9';
-  document.getElementById('fu3').textContent=u3+' / 10';
-  document.getElementById('ftotal').textContent=tot;
-  document.getElementById('fpct').textContent=pct+'% dari 29 poin';
+  const u1=SC.ex1+SC.ex2, u2=SC.ex3, u3=SC.u3;
+  const tot=u1+u2+u3, pct=Math.round(tot/31*100);
+  const elU1 = document.getElementById('fu1'); if(elU1) elU1.textContent=u1+' / 10';
+  const elU2 = document.getElementById('fu2'); if(elU2) elU2.textContent=u2+' / 5';
+  const elU3 = document.getElementById('fu3'); if(elU3) elU3.textContent=u3+' / 16';
+  const elTot = document.getElementById('ftotal'); if(elTot) elTot.textContent=tot;
+  const elPct = document.getElementById('fpct'); if(elPct) elPct.textContent=pct+'% dari 31 poin';
   let msg='Selesaikan semua latihan untuk melihat pesanmu di sini! 🌟';
   if(tot>0){
     if(pct>=90) msg='🌟 Luar biasa! Kamu menguasai materi dengan sangat baik. Terus semangat belajar!';
@@ -1083,7 +1855,7 @@ function updateFinal(){
     else if(pct>=50) msg='💪 Cukup baik! Yuk ulangi kembali materi di unit yang nilainya masih rendah.';
     else msg='🙏 Jangan menyerah! Coba baca kembali materinya dan kerjakan latihannya sekali lagi. Kamu pasti bisa!';
   }
-  document.getElementById('motiv').textContent=msg;
+  const elMot = document.getElementById('motiv'); if(elMot) elMot.textContent=msg;
 }
 
 function confetti(){
@@ -1109,19 +1881,217 @@ function resetAll(){
   SC.ex1d=SC.ex3d=false;
   matchWord=null; matchEl=null;
   document.querySelectorAll('.mb').forEach(b=>{ b.classList.remove('matched','selected','shake'); b.disabled=false; });
-  ['ex1-score','ex2-score','ex3-score','ex4-score','ex5-score','ex6-score'].forEach(id=>document.getElementById(id)?.classList.remove('show'));
+  ['ex1-score','ex2-score'].forEach(id=>document.getElementById(id)?.classList.remove('show'));
   document.querySelectorAll('.fo').forEach(b=>{ b.classList.remove('sc','sw','sh'); b.disabled=false; });
   [1,2,3,4,5].forEach(n=>{ const e=document.getElementById('f'+n); if(e){ e.textContent=''; e.className='qfb'; } });
-  arrSeq=[]; document.getElementById('arr-seq').innerHTML='<span style="font-size:.76rem;color:var(--text-sub);font-style:italic;" id="arr-ph">Klik kalimat di atas untuk menyusunnya di sini...</span>';
-  document.querySelectorAll('.arr-btn').forEach(b=>{ b.classList.remove('used'); b.disabled=false; });
-  const efb=document.getElementById('ex3-fb'); if(efb){ efb.textContent=''; efb.className='fb'; }
-  document.getElementById('cor-rev')?.classList.remove('show');
-  document.querySelectorAll('.dopt').forEach(b=>{ b.classList.remove('correct','wrong'); b.disabled=false; });
-  [1,2,3].forEach(n=>{ const e=document.getElementById('dfb'+n); if(e){ e.textContent=''; e.className='mfb'; } });
-  document.querySelectorAll('.mopt').forEach(b=>{ b.classList.remove('correct','wrong'); b.disabled=false; const m=b.querySelector('.opt-m'); if(m) m.textContent=''; });
-  ['m51','m52','m53','m54','m55','m61','m62','m63','m64','m65'].forEach(id=>{ const e=document.getElementById(id); if(e){ e.textContent=''; e.className='mfb'; } });
+  
+  // Unit 2 Reset
+  rpRound = 0; rpScore = 0;
+  startRP();
+  
+  // Unit 3 Reset
+  document.querySelectorAll('.u3-mcq .mopt').forEach(b => { b.disabled=false; b.classList.remove('correct','wrong'); });
+  document.querySelectorAll('.u3-fb').forEach(f => { f.classList.remove('show','ok','err'); f.textContent=''; });
+  document.querySelectorAll('.btn-tf').forEach(b => { b.disabled=false; b.classList.remove('correct','wrong'); });
+  document.querySelectorAll('.f-drop').forEach(d => { d.textContent='_____'; d.classList.remove('filled','correct','wrong'); });
+  document.querySelectorAll('.f-chip').forEach(c => { c.classList.remove('used'); c.style.borderColor='#cbd5e1'; });
+  u3mL = null; u3mEl = null; activeFChip = null;
+  document.querySelectorAll('.u3-mb').forEach(b => { b.classList.remove('matched','selected'); b.style.background=''; b.style.borderColor=''; });
+  
+  // Anagram Reset
+  curAngIndex = 0; angScore = 0;
+  document.getElementById('ex-ang-sn').textContent = '0/5';
+  document.getElementById('ex-ang-score')?.classList.remove('show');
+  initAnagram();
+  
   updateFinal();
   goTo(0, false);
+}
+
+/* ── ANAGRAM GAME ── */
+const angData = [
+  { word: "WORK", hint: "Pekerjaan / Bekerja" },
+  { word: "FAMILY", hint: "Keluarga" },
+  { word: "MARKET", hint: "Pasar" },
+  { word: "TIRED", hint: "Kelelahan / Capek" },
+  { word: "NEIGHBOR", hint: "Tetangga" }
+];
+let curAngIndex = 0;
+let angScore = 0;
+let curAngLetters = [];
+let curSlots = [];
+
+function initAnagram() {
+  const data = angData[curAngIndex];
+  document.getElementById('ang-hint').textContent = '"' + data.hint + '"';
+  document.getElementById('ang-next-btn').style.display = 'none';
+  
+  // Create slots
+  const slotsCont = document.getElementById('ang-slots');
+  slotsCont.innerHTML = '';
+  curSlots = new Array(data.word.length).fill('');
+  for(let i=0; i<data.word.length; i++) {
+    const s = document.createElement('div');
+    s.className = 'ang-slot';
+    s.id = 'slot-' + i;
+    // Click to remove letter from slot
+    s.onclick = () => removeAnagramLetter(i);
+    slotsCont.appendChild(s);
+  }
+  
+  // Create scrambled letters
+  const ltrsCont = document.getElementById('ang-letters');
+  ltrsCont.innerHTML = '';
+  // Scramble letters
+  let letters = data.word.split('');
+  for (let i = letters.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [letters[i], letters[j]] = [letters[j], letters[i]];
+  }
+  
+  curAngLetters = letters.map((l, idx) => ({ char: l, used: false, id: 'al-' + idx }));
+  
+  curAngLetters.forEach((item, idx) => {
+    const btn = document.createElement('button');
+    btn.className = 'ang-ltr';
+    btn.id = item.id;
+    btn.textContent = item.char;
+    btn.onclick = () => addAnagramLetter(idx);
+    ltrsCont.appendChild(btn);
+  });
+}
+
+function addAnagramLetter(idx) {
+  if (curAngLetters[idx].used) return;
+  const emptySlotIdx = curSlots.indexOf('');
+  if (emptySlotIdx === -1) return; // all slots full
+  
+  // Fill slot
+  curSlots[emptySlotIdx] = { char: curAngLetters[idx].char, originIdx: idx };
+  curAngLetters[idx].used = true;
+  
+  renderAnagramState();
+  checkAnagramWord();
+}
+
+function removeAnagramLetter(slotIdx) {
+  if (!curSlots[slotIdx]) return;
+  const originIdx = curSlots[slotIdx].originIdx;
+  curAngLetters[originIdx].used = false;
+  curSlots[slotIdx] = '';
+  
+  renderAnagramState();
+}
+
+function renderAnagramState() {
+  // Render slots
+  curSlots.forEach((val, i) => {
+    const s = document.getElementById('slot-' + i);
+    if (val) {
+      s.textContent = val.char;
+      s.classList.add('filled');
+    } else {
+      s.textContent = '';
+      s.classList.remove('filled');
+    }
+  });
+  
+  // Render letters
+  curAngLetters.forEach((item) => {
+    const btn = document.getElementById(item.id);
+    if (item.used) {
+      btn.classList.add('used');
+    } else {
+      btn.classList.remove('used');
+    }
+  });
+}
+
+function checkAnagramWord() {
+  if (curSlots.includes('')) return; // not fully filled
+  const formedWord = curSlots.map(s => s.char).join('');
+  if (formedWord === angData[curAngIndex].word) {
+    // Correct!
+    angScore++;
+    document.getElementById('ex-ang-sn').textContent = angScore + '/5';
+    document.getElementById('ex-ang-score').classList.add('show');
+    
+    // Disable all slots
+    curSlots.forEach((_, i) => {
+      document.getElementById('slot-' + i).onclick = null;
+      document.getElementById('slot-' + i).style.borderColor = 'var(--correct)';
+      document.getElementById('slot-' + i).style.color = 'var(--correct)';
+      document.getElementById('slot-' + i).style.background = 'var(--correct-light)';
+    });
+    
+    fireConfetti();
+    
+    if (curAngIndex < angData.length - 1) {
+      document.getElementById('ang-next-btn').style.display = 'inline-block';
+    } else {
+      SC.ang = true; updateFinal();
+    }
+  } else {
+    // Shake effect
+    const wrap = document.getElementById('ang-slots');
+    wrap.classList.add('shake');
+    setTimeout(() => wrap.classList.remove('shake'), 400);
+  }
+}
+
+function nextAnagramWord() {
+  if (curAngIndex < angData.length - 1) {
+    curAngIndex++;
+    initAnagram();
+  }
+}
+
+function resetAnagramWord() {
+  initAnagram();
+}
+
+// Confetti Engine
+function fireConfetti() {
+  const colors = ['#f4a423', '#22c55e', '#ef4444', '#3b82f6', '#ec4899'];
+  for (let i = 0; i < 40; i++) {
+    const c = document.createElement('div');
+    c.className = 'confetti';
+    c.style.left = Math.random() * 100 + 'vw';
+    c.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+    c.style.animationDuration = (Math.random() * 2 + 1) + 's';
+    c.style.animationDelay = (Math.random() * 0.5) + 's';
+    document.body.appendChild(c);
+    setTimeout(() => c.remove(), 3500);
+  }
+}
+
+// Initialize on load
+document.addEventListener('DOMContentLoaded', () => {
+  initAnagram();
+});
+
+/* ── SPEECH ── */
+function speakWord(text) {
+  if (!('speechSynthesis' in window)) {
+    alert("Maaf, browser kamu tidak mendukung fitur suara pelafalan.");
+    return;
+  }
+  const utterance = new SpeechSynthesisUtterance(text);
+  utterance.lang = 'en-US'; // Pelafalan bahasa Inggris Amerika
+  utterance.rate = 0.85; // Diperlambat sedikit agar lebih mudah dipahami pemula
+  window.speechSynthesis.speak(utterance);
+}
+
+function filterVocab(cat, btn) {
+  document.querySelectorAll('.f-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.vc-card').forEach(card => {
+    if (cat === 'all' || card.dataset.category === cat) {
+      card.style.display = 'flex';
+    } else {
+      card.style.display = 'none';
+    }
+  });
 }
 
 /* ── INIT ── */
